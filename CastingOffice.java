@@ -13,14 +13,14 @@ public class CastingOffice {
     ArrayList<String> neighbors = new ArrayList<String>();
     Player player;
 
-    public CastingOffice(){
+    //public CastingOffice(){
         // this.money = money;
         // this.fame = fame;
         // this.whichPlayer = whichPlayer;
         // this.rank = rank;
         // this.rehearseMarker = rehearseMarker;
         //this.player = new player(0,0,0,"","",false);
-    }
+    //}
 
     public boolean checkPlayerRank() {
         if(this.rank >=1 && this.rank <=6){
@@ -104,7 +104,7 @@ public class CastingOffice {
             case 6:
                 if(currentPlayer.getFame() >=25){
                     currentPlayer.setFame( currentPlayer.getFame() - 25 );
-                    currentPlayer.setRank(5);
+                    currentPlayer.setRank(6);
                     returnValue = true;
                 } else {
                     System.out.println("To rank up to 6, you need at least 25 fames");
@@ -121,7 +121,7 @@ public class CastingOffice {
             case 2:
                 if(currentPlayer.getMoney() >= 4){
                     currentPlayer.setMoney( currentPlayer.getMoney() - 4 );
-                    currentPlayer.setRank(4);
+                    currentPlayer.setRank(2);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 2, you need at least 4 dollars");
