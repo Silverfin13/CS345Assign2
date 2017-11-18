@@ -57,9 +57,9 @@ public class Act{
             if(askUpgrade) {
                 String fameOrDollar = castingOffice.howToUpgrade();
                 if(fameOrDollar.equals("f")) {
-                    castingOffice.upgradeRankWithFame();
+                    castingOffice.upgradeRankWithFame(currentPlayer,currentPlayer.getRank()+1);
                 } else if(fameOrDollar.equals("d")) {
-                    castingOffice.upgradeRankWithMoney();
+                    castingOffice.upgradeRankWithMoney(currentPlayer,currentPlayer.getRank()+1);
                 }
                 //user wants to move => find a adjacent room
             }
