@@ -31,7 +31,9 @@ public class Deadwood extends GameSetup {
                 // iterate through player turns
                 for(int a = 0; a < players.size(); a++) {
                     if(players.get(a).getTurn()) {
-                      startTurn(players.get(a));
+                        players.get(a).setPlayerPosition("Casting Office");
+                        players.get(a).setMoney(10);
+                        startTurn(players.get(a));
                         // make the next players turn be true
                         if (a+1 < players.size()){
                           players.get(a+1).setTurn(true);
@@ -84,20 +86,23 @@ public class Deadwood extends GameSetup {
                val = true;
                break;
              case "upgrade":
-               if ((inputArray[1] == "$") || (inputArray[1] == "cr")){
-                 try {
-                   String valueType = inputArray[1];
-                   int level = Integer.parseInt(inputArray[2]);
-                   playerUpgrade(currentPlayer,inputArray, level);
-                   castingOffice(currentPlayer, valueType, level);
-                 } catch (NumberFormatException e) {
-                     System.out.println("Invalid level. Try again.");
+
+                 if( (inputArray[1] != "$") && (inputArray[1] == "cr") ) {
+                     System.out.println("Not a valid input, try again.");
                      System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+                 } else {
+                     try {
+                       String valueType = inputArray[1];
+                       int level = Integer.parseInt(inputArray[2]);
+                       System.out.println("do we hit here? 1");
+                       playerUpgrade(currentPlayer,inputArray, level);
+                       //castingOffice(currentPlayer, valueType, level);
+                     } catch (NumberFormatException e) {
+                         System.out.println("Invalid level. Try again.");
+                         System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+                     }
                  }
-               } else {
-                 System.out.println("Not a valid input, try again.");
-                 System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-               }
+
                break;
              case "rehearse":
                playerRehearse(currentPlayer);
@@ -120,40 +125,18 @@ public class Deadwood extends GameSetup {
      }
 
     public static void playerUpgrade(Player currentPlayer, String[] inputArray, int level) {
-        //System.out.println("Current player is " + currentPlayer.getPlayer());
-        playerStatus(currentPlayer);
+        //System.out.println("Current player is " + currentPlayer.getPlayer() + inputArray[0] + " " + inputArray[1] + " " + inputArray[2] + " level " + level);
 
         /* Current player is in casting office */
         if(currentPlayer.getPlayerPosition().equals("Casting Office")) {
-            //ask first if player wants to upgrade
-            CastingOffice castingOffice = new CastingOffice();
-            boolean askUpgrade = castingOffice.askIfUpgrade();
-            //if(askUpgrade) {
-                //String fameOrDollar = castingOffice.howToUpgrade();
+
                 if(inputArray[1].equals("cr")) {
-                    castingOffice.upgradeRankWithFame(currentPlayer,level);
+                    CastingOffice.upgradeRankWithFame(currentPlayer,level);
                 } else if(inputArray[1].equals("$")) {
-                    castingOffice.upgradeRankWithMoney(currentPlayer,level);
+                    //System.out.println("(Before) Current player rank: " + currentPlayer.getRank() + " level: " + level);
+                    CastingOffice.upgradeRankWithMoney(currentPlayer,level);
+                    //System.out.println("(After) Current player rank: " + currentPlayer.getRank());
                 }
-                //user wants to move => find a adjacent room
-            // } else if(!askUpgrade) {
-            //     if(Move.askIfMoving()) {
-            //         //reset player position
-            //
-            //         // Move.adjacentSets also has String currentSet has 2nd parameter
-            //         //currentPlayer.setPlayerPosition(Move.adjacentSets(setNeighbors));
-            //         //create a act project and ask if he wants to act on the card or off the card
-            //         if(AskActOnorOff()){
-            //             //act on card
-            //             //roll dice
-            //
-            //         } else {
-            //
-            //         }
-            //     } else if(!Move.askIfMoving()) {
-            //         endTurn(currentPlayer);
-            //     }
-            // }
 
 
         /* Current player is in scene room */
@@ -162,7 +145,7 @@ public class Deadwood extends GameSetup {
     }
 
     }
-    
+
     public static void playerRehearse(Player currentPlayer) {
       String playerRole = currentPlayer.getRole();
       if (playerRole.equals("")) {
@@ -187,8 +170,8 @@ public class Deadwood extends GameSetup {
       currentPlayer.setTurn(false);
     }
 
-    
-    
+
+
     public static void playerStatus(Player player){
         //System.out.println("Player name: " + player.getName());
         System.out.println("Player's current rank: " + player.getRank());
