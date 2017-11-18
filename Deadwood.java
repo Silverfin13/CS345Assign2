@@ -88,6 +88,7 @@ public class Deadwood extends GameSetup {
                  try {
                    String valueType = inputArray[1];
                    int level = Integer.parseInt(inputArray[2]);
+                   playerUpgrade(currentPlayer,inputArray, level);
                    castingOffice(currentPlayer, valueType, level);
                  } catch (NumberFormatException e) {
                      System.out.println("Invalid level. Try again.");
@@ -118,6 +119,50 @@ public class Deadwood extends GameSetup {
        } while (val == false);
      }
 
+    public static void playerUpgrade(Player currentPlayer, String[] inputArray, int level) {
+        //System.out.println("Current player is " + currentPlayer.getPlayer());
+        playerStatus(currentPlayer);
+
+        /* Current player is in casting office */
+        if(currentPlayer.getPlayerPosition().equals("Casting Office")) {
+            //ask first if player wants to upgrade
+            CastingOffice castingOffice = new CastingOffice();
+            boolean askUpgrade = castingOffice.askIfUpgrade();
+            //if(askUpgrade) {
+                //String fameOrDollar = castingOffice.howToUpgrade();
+                if(inputArray[1].equals("cr")) {
+                    castingOffice.upgradeRankWithFame(currentPlayer,level);
+                } else if(inputArray[1].equals("$")) {
+                    castingOffice.upgradeRankWithMoney(currentPlayer,level);
+                }
+                //user wants to move => find a adjacent room
+            // } else if(!askUpgrade) {
+            //     if(Move.askIfMoving()) {
+            //         //reset player position
+            //
+            //         // Move.adjacentSets also has String currentSet has 2nd parameter
+            //         //currentPlayer.setPlayerPosition(Move.adjacentSets(setNeighbors));
+            //         //create a act project and ask if he wants to act on the card or off the card
+            //         if(AskActOnorOff()){
+            //             //act on card
+            //             //roll dice
+            //
+            //         } else {
+            //
+            //         }
+            //     } else if(!Move.askIfMoving()) {
+            //         endTurn(currentPlayer);
+            //     }
+            // }
+
+
+        /* Current player is in scene room */
+    } else {
+        System.out.println("You are not in the casting office");
+    }
+
+    }
+    
     public static void playerRehearse(Player currentPlayer) {
       String playerRole = currentPlayer.getRole();
       if (playerRole.equals("")) {
@@ -142,6 +187,8 @@ public class Deadwood extends GameSetup {
       currentPlayer.setTurn(false);
     }
 
+    
+    
     public static void playerStatus(Player player){
         //System.out.println("Player name: " + player.getName());
         System.out.println("Player's current rank: " + player.getRank());
