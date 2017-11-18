@@ -4,6 +4,7 @@ public class Player {
     public int money = 0;
     public int fame = 0;
     public String whichPlayer = "";
+    public boolean moved = false;
     // Player position: Trailers,CastingOffice,SceneRoom, or Role
     public String playerPosition = "trailer";
     public boolean turn = true;
@@ -19,6 +20,10 @@ public class Player {
 
     public void setRank(int playerRank){
         this.rank = playerRank;
+    }
+
+    public void setMoved(boolean val){
+      this.moved = val;
     }
 
     public void setMoney(int playerMoney){
@@ -43,6 +48,10 @@ public class Player {
 
     public int getRank(){
         return this.rank;
+    }
+
+    public boolean getMoved(){
+      return this.moved;
     }
 
     public int getMoney(){

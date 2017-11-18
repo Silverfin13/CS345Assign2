@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.Console;
 
 public class Deadwood extends GameSetup {
 
@@ -6,7 +7,8 @@ public class Deadwood extends GameSetup {
     public static LinkedList<Player> playersList;
     public static int numSceneLeft;
     public static HashMap<String,ArrayList> setNeighbors;
-    public static HashMap<String,Card> cards;
+    public static ArrayList<Card> cards;
+    public static int scenesLeft = 10;
 
     public static void main(String[] args) {
 
@@ -20,15 +22,13 @@ public class Deadwood extends GameSetup {
         GameSetup game = new GameSetup();
         game.GameSetup();
         numDays = game.getNumDays();
-        playersList = game.playersList;
-        numSceneLeft = 10; // get this value from board.java later on
         ArrayList<Player> players = game.players;
         //You can move, work or upgrade
         //playerAct();
         int i = 1;
         while(i < numDays+1) {
             System.out.println("There are " + numDays + " days left.");
-            while(numSceneLeft != 1) {
+            while(scenesLeft != 1) {
                 // iterate through player turns
                 for(int a = 0; a < players.size(); a++) {
                     if(players.get(a).getTurn()) {
@@ -51,13 +51,14 @@ public class Deadwood extends GameSetup {
     }
 
     public static void startTurn(Player currentPlayer) {
-       Scanner userInput = new Scanner(System.in);
+      //  Scanner userInput = new Scanner(System.in);
        boolean val = false;
        // user input for number of players
        do {
          System.out.printf("\nIt is now %s turn. What would you like to do? \n", currentPlayer.getPlayer());
          System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-         String input = userInput.next();
+         Console console = System.console();
+         String input = console.readLine();
          String[] inputArray;
          if (input.contains(" ")){
            inputArray = input.split(" ");
@@ -77,7 +78,7 @@ public class Deadwood extends GameSetup {
                break;
              case "move":
                  Move move = new Move();
-                 move.move(currentPlayer, inputArray[1]);
+                 move.move(currentPlayer, inputArray);
                break;
              case "work":
                work(currentPlayer, inputArray[1]);
@@ -105,7 +106,7 @@ public class Deadwood extends GameSetup {
                break;
              case "end":
                  currentPlayer.setTurn(false);
-                 val = false;
+                 val = true;
                break;
              default:
                System.out.println("Not a valid input, try again.");
@@ -118,7 +119,7 @@ public class Deadwood extends GameSetup {
     public static void playerRehearse(Player currentPlayer) {
     }
 
-    public static void castingOffice(Player currentPlayer, String valueType, int level) {
+    public static void  castingOffice(Player currentPlayer, String valueType, int level) {
     }
 
     public static void work(Player currentPlayer, String role) {

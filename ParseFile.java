@@ -15,7 +15,7 @@ import java.awt.Rectangle;
 
 public class ParseFile {
 
-  public static HashMap<String,Card> cards = new HashMap<String,Card>();
+  public static ArrayList<Card> cards = new ArrayList<Card>();
 
   public static void parseCards(){
     try {
@@ -36,12 +36,12 @@ public class ParseFile {
           Element element = (Element) node;
           Card currCard = new Card();
           String name = element.getAttribute("name");
+          // System.out.println(name);
           String sceneImage = element.getAttribute("img");
           int budget = Integer.parseInt(element.getAttribute("budget"));
           int sceneNumber = Integer.parseInt(((Element) element.getElementsByTagName("scene").item(0)).getAttribute("number"));
           String description = element.getElementsByTagName("scene").item(0).getTextContent();
           NodeList part = element.getElementsByTagName("part");
-
           ArrayList<part> parts = new ArrayList<part>();
           // System.out.println(part.getLength());
           for (int tempPart = 0; tempPart < part.getLength(); tempPart++) {
@@ -70,7 +70,7 @@ public class ParseFile {
 						}
 					}
           currCard.createCard(name, sceneImage, budget, sceneNumber, description, parts, "");
-          cards.put(name, currCard);
+          cards.add(currCard);
         }
       }
       // for (String key: cards.keySet()){
@@ -88,7 +88,7 @@ public class ParseFile {
   // public static HashMap<String,ArrayList> setNeighbors = new HashMap<String,ArrayList>();
   // private static HashMap<String,Rectangle> setArea = new HashMap<String,Rectangle>();
 
-  private static HashMap<String,Room> rooms = new HashMap<String,Room>();
+  public static HashMap<String,Room> rooms = new HashMap<String,Room>();
 
   public static void parseBoard(){
     try {
@@ -135,11 +135,13 @@ public class ParseFile {
               Element takeNum = (Element) boardTakes.item(0);
 
               int number = Integer.parseInt(takeNum.getAttribute("number"));
+
               // System.out.printf("number: %d \n", number);
               ArrayList<partExtra> extraParts = new ArrayList<partExtra>();
               for (int j = 0; j < boardParts.getLength(); j++) {
                   Element boardPart = (Element) boardParts.item(j);
                   String part = boardPart.getAttribute("name");
+
                   String line = boardPart.getTextContent().trim();
                   int level = Integer.parseInt(boardPart.getAttribute("level"));
                   NodeList partAreas = boardPart.getElementsByTagName("area");
@@ -196,7 +198,9 @@ public class ParseFile {
               currTake.createTake(setName, number, takeArea);
               takes.add(currTake);
               Room currRoom = new Room();
-              currRoom.createRoom(setName, extraParts, takes.size(), neighbors, setPosition, takes);
+
+              currRoom.createRoom(setName, extraParts, number, number, neighbors, setPosition, takes);
+              rooms.put(setName, currRoom);
     				}
           }
           // loop through trailer
@@ -226,7 +230,7 @@ public class ParseFile {
               ArrayList<take> takes = new ArrayList<take>();
               ArrayList<partExtra> extraParts = new ArrayList<partExtra>();
               Room currRoom = new Room();
-              currRoom.createRoom("trailer", extraParts, takes.size(), neighbors, trailerPosition, takes);
+              currRoom.createRoom("trailer", extraParts, takes.size(), takes.size(), neighbors, trailerPosition, takes);
               rooms.put("trailer", currRoom);
             }
           }
@@ -270,14 +274,24 @@ public class ParseFile {
       //
       // }
 
-    //   for (String key: rooms.keySet()){
-    //     System.out.println(key);
-    //     ArrayList curr = setNeighbors.get(key);
-    //     System.out.println(Arrays.toString(curr.toArray()));
-    //     // String value = example.get(name).toString();
-    //     // System.out.println(key + " " + value);
+      // for (String key: rooms.keySet()){
+      //   System.out.println(key);
+      //   Room currRoom = rooms.get(key);
+      //   System.out.println(currRoom.getNumofTakes());
+      //   ArrayList<partExtra> parts = new ArrayList<partExtra>();
+      //   parts = currRoom.getParts();
+      //   System.out.println(parts.size());
       //
-    //   }
+      // }
+
+      // for (String key: rooms.keySet()){
+      //   System.out.println(key);
+      //   Room currRoom = rooms.get(key);
+      //   ArrayList<String> neighbors = currRoom.getNeighbors();
+      //   System.out.println(neighbors.size());
+      //
+      //   System.out.println(Arrays.toString(neighbors.toArray()));
+      // }
 
 
     } catch (Exception e) {

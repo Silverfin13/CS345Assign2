@@ -2,21 +2,38 @@ import java.util.*;
 
 public class Move {
 
-  public static boolean move(Player currentPlayer, String destination) {
-    String currentPosition = currentPlayer.getPlayerPosition();
-    ParseFile parse = new ParseFile();
-    HashMap<String,ArrayList> neighbors = parse.setNeighbors;
-    if (neighbors.containsKey(currentPosition)){
-      ArrayList<String> neighborList = neighbors.get(currentPosition);
-      if (neighborList.contains(destination)){
-        currentPlayer.setPlayerPosition(destination);
-        return true;
+  public static boolean move(Player currentPlayer, String[] destination) {
+    if (currentPlayer.getMoved() == false) {
+      String currentPosition = currentPlayer.getPlayerPosition();
+      ParseFile parse = new ParseFile();
+      HashMap<String,Room> rooms = parse.rooms;
+      Room playerRoom = rooms.get(currentPosition);
+      ArrayList<String> neighbors = playerRoom.getNeighbors();
+      if (destination.length == 2) {
+        if (neighbors.contains(destination[1])){
+          currentPlayer.setPlayerPosition(destination[1]);
+          System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
+          currentPlayer.setMoved(true);
+          return true;
+        } else {
+          System.out.println("The destination you wish to move is not a neighbor");
+        }
       } else {
-        System.out.println("The destination you wish to move is not a neighbor");
+        String newDestination = "";
+        for (int l = 1; l < destination.length; l++) {
+          newDestination = newDestination + " " + destination[l];
+        }
+        newDestination = newDestination.trim();
+        if (neighbors.contains(newDestination)){
+          currentPlayer.setPlayerPosition(newDestination);
+          System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
+          return true;
+        } else {
+          System.out.println("The destination you wish to move is not a neighbor");
+        }
       }
     } else {
-      System.out.println("The destination you wish to move DNE.");
-      return false;
+      System.out.printf("player %s has already moved.\n", currentPlayer.getPlayer());
     }
     return false;
   }

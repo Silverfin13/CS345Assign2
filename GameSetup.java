@@ -14,8 +14,7 @@ public class GameSetup {
 
     public void GameSetup() {
         setNumPlayers();
-        setSceneShots(sceneShots);
-        setSceneCards(sceneCards);
+        setSceneCards();
     }
 
     public String findPlayerColor(){
@@ -46,35 +45,35 @@ public class GameSetup {
       if ((numPlayers == 2) || (numPlayers == 3)) {
         for (int i = 0; i < numPlayers; i++) {
           String color = findPlayerColor();
-          Player p = new Player(1,0,0,color,"Trailers",false);
+          Player p = new Player(1,0,0,color,"trailer",false);
           players.add(p);
           playersList.add(p);
         }
       } else if (numPlayers == 4){
         for (int i = 0; i < numPlayers; i++) {
           String color = findPlayerColor();
-          Player p = new Player(1,0,0,color,"Trailers",false);
+          Player p = new Player(1,0,0,color,"trailer",false);
           players.add(p);
           playersList.add(p);
         }
       } else if (numPlayers == 5){
         for (int i = 0; i < numPlayers; i++) {
             String color = findPlayerColor();
-            Player p = new Player(1,0,3,color,"Trailers",false);
+            Player p = new Player(1,0,3,color,"trailer",false);
             players.add(p);
             playersList.add(p);
         }
       } else if (numPlayers == 6){
         for (int i = 0; i < numPlayers; i++) {
             String color = findPlayerColor();
-            Player p = new Player(1,0,4,color,"Trailers",false);
+            Player p = new Player(1,0,4,color,"trailer",false);
             players.add(p);
             playersList.add(p);
         }
       } else {
         for (int i = 0; i < numPlayers; i++) {
             String color = findPlayerColor();
-            Player p = new Player(2,0,0,color,"Trailers",false);
+            Player p = new Player(2,0,0,color,"trailer",false);
             players.add(p);
             playersList.add(p);
         }
@@ -116,11 +115,9 @@ public class GameSetup {
         createPlayerList(this.numberPlayers);
     }
 
-    public void setSceneShots(int sceneshots) {
-        this.sceneShots = sceneshots;
-    }
-
-    public void setSceneCards(int sceneCards) {
-      this.sceneCards = sceneCards;
+    public void setSceneCards() {
+      Board board = new Board();
+      board.setBoard();
+      board.placeCards();
     }
 }

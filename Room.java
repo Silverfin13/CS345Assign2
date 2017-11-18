@@ -8,6 +8,7 @@ public class Room {
       public ArrayList<partExtra> parts = new ArrayList<partExtra>();
       /* number of shot markers */
       public int numOfTakes = 0;
+      public int currNumTakes = 0;
       /* for each day, new card comes in room */
       public Card card;
 
@@ -17,10 +18,11 @@ public class Room {
 
       public ArrayList<String> neighbors = new ArrayList<String>();
 
-      public void createRoom(String name, ArrayList<partExtra> parts, int numOfTakes, ArrayList<String> neighbors, Rectangle cardArea, ArrayList<take> takes) {
+      public void createRoom(String name, ArrayList<partExtra> parts, int numOfTakes, int currNumTakes, ArrayList<String> neighbors, Rectangle cardArea, ArrayList<take> takes) {
         this.name = name;
         this.parts = parts;
         this.numOfTakes = numOfTakes;
+        this.currNumTakes = currNumTakes;
         this.neighbors = neighbors;
         this.cardArea = cardArea;
         this.takes = takes;
@@ -34,7 +36,7 @@ public class Room {
           return this.card;
       }
 
-      public String getCardName() {
+      public String getName() {
           return this.name;
       }
 
