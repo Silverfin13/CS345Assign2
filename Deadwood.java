@@ -4,7 +4,6 @@ import java.io.Console;
 public class Deadwood extends GameSetup {
 
     //public static ArrayList<Player> players;
-    public static LinkedList<Player> playersList;
     public static int numSceneLeft;
     public static HashMap<String,ArrayList> setNeighbors;
     public static ArrayList<Card> cards;
@@ -81,7 +80,8 @@ public class Deadwood extends GameSetup {
                  move.move(currentPlayer, inputArray);
                break;
              case "work":
-               work(currentPlayer, inputArray[1]);
+               work(currentPlayer, inputArray);
+               val = true;
                break;
              case "upgrade":
                if ((inputArray[1] == "$") || (inputArray[1] == "cr")){
@@ -100,9 +100,11 @@ public class Deadwood extends GameSetup {
                break;
              case "rehearse":
                playerRehearse(currentPlayer);
+               val=true;
                break;
              case "act":
-               playerAct(currentPlayer);
+               Act act = new Act();
+               act.playerAct(currentPlayer);
                break;
              case "end":
                  currentPlayer.setTurn(false);
@@ -117,111 +119,27 @@ public class Deadwood extends GameSetup {
      }
 
     public static void playerRehearse(Player currentPlayer) {
+      String playerRole = currentPlayer.getRole();
+      if (playerRole.equals("")) {
+        System.out.println("Player not on a role");
+      } else {
+        ParseFile pf = new ParseFile();
+        ArrayList<Card> cards = pf.cards;
+        HashMap<String,Room> rooms = pf.rooms;
+        Act act = new Act();
+        Card card = act.findCard(cards, playerRole);
+        System.out.println("You succeeded in rehearsing. You have added one to role value.\n");
+        // role value = role value +1;
+      }
     }
 
     public static void  castingOffice(Player currentPlayer, String valueType, int level) {
     }
 
-    public static void work(Player currentPlayer, String role) {
-    }
-
-    public static void playerAct(Player currentPlayer) {
-        //Player currentPlayer = playersList.remove(0);
-        System.out.println("Current player is " + currentPlayer.getPlayer());
-
-        /*
-            player is not in a role or casting office: case 1
-                -> player is in  a scene room, then ask if they want to take a role
-            or currently in a role: case 2
-            or in the casting office: case 3
-        */
-
-        /* Current player is in casting office */
-        if(currentPlayer.getPlayerPosition().equals("CastingOffice")) {
-            //ask first if player wants to upgrade
-            CastingOffice castingOffice = new CastingOffice();
-            boolean askUpgrade = castingOffice.askIfUpgrade();
-            if(askUpgrade) {
-                String fameOrDollar = castingOffice.howToUpgrade();
-                if(fameOrDollar.equals("f")) {
-                    castingOffice.upgradeRankWithFame();
-                } else if(fameOrDollar.equals("d")) {
-                    castingOffice.upgradeRankWithMoney();
-                }
-                //user wants to move => find a adjacent room
-            } else if(!askUpgrade) {
-                if(Move.askIfMoving()) {
-                    //reset player position
-
-                    // Move.adjacentSets also has String currentSet has 2nd parameter
-                    //currentPlayer.setPlayerPosition(Move.adjacentSets(setNeighbors));
-                    //create a act project and ask if he wants to act on the card or off the card
-                    if(AskActOnorOff()){
-                        //act on card
-                        //roll dice
-
-                    } else {
-
-                    }
-                } else if(!Move.askIfMoving()) {
-                    endTurn(currentPlayer);
-                }
-            }
-
-
-        /* Current player is in scene room */
-        } else if(currentPlayer.getPlayerPosition().equals("SceneRoom")) {
-            //need to ask if he wants to take a role.
-            boolean getOutOfLoop = false;
-            String answer = "";
-            System.out.println("Do you want to take on a role?\n");
-            while(!getOutOfLoop){
-                Scanner input = new Scanner(System.in);
-                answer = input.next();
-                if(!answer.toLowerCase().equals("y") || !answer.toLowerCase().equals("n")){
-                    System.out.println("Type in y or n. I ain't got no time to mess with you");
-                } else {
-                    getOutOfLoop = true;
-                }
-            }
-            if(answer.equals("y")){
-                //scene.shootScene(playerRank);
-
-                String sceneAnswer = "";
-                System.out.println("would you like to rehearse for the film or act?");
-                System.out.println("Type rehearse or act");
-                Scanner input = new Scanner(System.in);
-                sceneAnswer = input.next();
-                if(!answer.toLowerCase().equals("y") || !answer.toLowerCase().equals("n")){
-                    System.out.println("Please use your hands on the keyboard");
-                } else {
-                    getOutOfLoop = true;
-                }
-
-                if(sceneAnswer.equals("rehearse")){
-                    //rehearse;
-
-                }else{
-                    AskActOnorOff();
-                }
-
-            }else if(answer.equals("n")){
-                System.out.println("would you like to skip your turn or move?");
-                System.out.println("Type skip or move");
-            }
-
-
-
-        } else if(currentPlayer.getPlayerPosition().equals("Role")) {
-            System.out.println("It is not possible to move until you have completed our role");
-            // act
-
-        }
-    }
-
-    public static void endTurn(Player player) {
-        player.setTurn(false);
-        playersList.add(player);
+    public static void work(Player currentPlayer, String[] role) {
+      Act act = new Act();
+      act.takeUpRole(currentPlayer, role);
+      currentPlayer.setTurn(false);
     }
 
     public static void playerStatus(Player player){
@@ -251,5 +169,9 @@ public class Deadwood extends GameSetup {
             return false;
         }
         return false;
+    }
+
+    public void setScenesLeft(int scenesLeft) {
+      this.scenesLeft = scenesLeft;
     }
 }

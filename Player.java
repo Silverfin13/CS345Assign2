@@ -8,6 +8,9 @@ public class Player {
     // Player position: Trailers,CastingOffice,SceneRoom, or Role
     public String playerPosition = "trailer";
     public boolean turn = true;
+    public String role = "";
+    public String roleValue = "";
+    public int roleLevel = 0;
 
     public Player(int rank, int money, int fame, String whichPlayer, String playerPosition, boolean turn){
         this.rank = rank;
@@ -22,8 +25,16 @@ public class Player {
         this.rank = playerRank;
     }
 
+    public void setRoleLevel(int roleLevel){
+        this.roleLevel = roleLevel;
+    }
+
     public void setMoved(boolean val){
       this.moved = val;
+    }
+
+    public void setRoleValue(String val){
+      this.roleValue = val;
     }
 
     public void setMoney(int playerMoney){
@@ -38,12 +49,24 @@ public class Player {
         this.turn = turn;
     }
 
+    public void setRole(String role){
+        this.role = role;
+    }
+
     public void setPlayer(String playerWhich) {
         this.whichPlayer = playerWhich;
     }
 
+    public int getRoleLevel(){
+        return this.roleLevel;
+    }
+
     public void setPlayerPosition(String playerPosition){
         this.playerPosition = playerPosition;
+    }
+
+    public String getRoleValue(){
+      return this.roleValue;
     }
 
     public int getRank(){
@@ -60,6 +83,10 @@ public class Player {
 
     public int getFame(){
         return this.fame;
+    }
+
+    public String getRole(){
+        return this.role;
     }
 
     public String getPlayer() {

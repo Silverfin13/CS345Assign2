@@ -3,6 +3,7 @@ import java.util.*;
 public class Move {
 
   public static boolean move(Player currentPlayer, String[] destination) {
+    // check to see if player already moved
     if (currentPlayer.getMoved() == false) {
       String currentPosition = currentPlayer.getPlayerPosition();
       ParseFile parse = new ParseFile();
@@ -12,6 +13,9 @@ public class Move {
       if (destination.length == 2) {
         if (neighbors.contains(destination[1])){
           currentPlayer.setPlayerPosition(destination[1]);
+          Room newRoom = rooms.get(destination[1]);
+          Card card = newRoom.getCard();
+          card.setFlipped(true);
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
           currentPlayer.setMoved(true);
           return true;
@@ -26,6 +30,9 @@ public class Move {
         newDestination = newDestination.trim();
         if (neighbors.contains(newDestination)){
           currentPlayer.setPlayerPosition(newDestination);
+          Room newRoom = rooms.get(newDestination);
+          Card card = newRoom.getCard();
+          card.setFlipped(true);
           System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
           return true;
         } else {

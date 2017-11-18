@@ -8,6 +8,7 @@ public class partExtra {
   private int level = 0;
   private Rectangle area;
   private String line = "";
+  private boolean taken = false;
 
   public void createPartExtra(String partName, String setName, int level, Rectangle area, String line) {
     this.partName = partName;
@@ -19,6 +20,14 @@ public class partExtra {
 
   public String getPartName(){
     return this.partName;
+  }
+
+  public boolean getTaken(){
+    return this.taken;
+  }
+
+  public void setTaken(boolean taken){
+    this.taken = taken;
   }
 
   public String getSetName(){

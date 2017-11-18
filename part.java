@@ -7,6 +7,7 @@ public class part {
   private int level = 0;
   private Rectangle area;
   private String line = "";
+  private boolean taken = false;
 
   public void createPart(String name, int level, Rectangle area, String line) {
     this.name = name;
@@ -17,6 +18,14 @@ public class part {
 
   public String getName(){
     return this.name;
+  }
+
+  public boolean getTaken(){
+    return this.taken;
+  }
+
+  public void setTaken(boolean taken){
+    this.taken = taken;
   }
 
   public int getLevel(){

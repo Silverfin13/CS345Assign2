@@ -60,4 +60,8 @@ public class Room {
           return this.takes;
       }
 
+      public void setNumofTakes(int numOfTakes) {
+          this.numOfTakes = numOfTakes;
+      }
+
  }
