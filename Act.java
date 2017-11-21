@@ -33,20 +33,22 @@ public class Act{
           ParseFile pf = new ParseFile();
           ArrayList<Card> cards = pf.cards;
           HashMap<String,Room> rooms = pf.rooms;
+          // find out if a player is working on a card
+          // if yes - return the card
+          // if no - return card with name fail
           Card card = findCard(cards, playerRole);
-          int movieBudget = card.getBudget();
           if (!(card.getCardName().equals("fail"))) {
-            if (currentPlayer.getRoleValue().equals("on")){
+              int movieBudget = card.getBudget();
               Dice dice = new Dice();
               int diceVal = dice.actRollDice();
               System.out.printf("You rolled %d", diceVal);
               actOnCard(currentPlayer, rooms, cards, currentPlayer.getPlayerPosition(), diceVal, movieBudget);
-            } else {
+          } else {
+              int movieBudget = rooms.get(currentPlayer.getPlayerPosition()).getCard().getBudget();
               Dice dice = new Dice();
               int diceVal = dice.actRollDice();
-              System.out.printf("You rolled %d", diceVal);
+              System.out.printf("You rolled %d.\n", diceVal);
               actOffCard(currentPlayer, rooms, cards, currentPlayer.getPlayerPosition(), diceVal, movieBudget);
-            }
           }
         }
         /* Current player is in casting office */
@@ -81,7 +83,57 @@ public class Act{
       return cardFailure;
     }
 
-    public void takeUpRole(Player currentPlayer, String[] destination){
+    public void actOnCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie) {
+        if(actOnorOff){
+            if(dieValue >= budgetMovie){
+                System.out.println("You succeeded in acting off card! You will get 2 fame");
+                int currFame = currentPlayer.getFame();
+                currFame += 2;
+                currentPlayer.setFame(currFame);
+                Room currRoom = rooms.get(room);
+                int take = currRoom.getNumofTakes();
+                take--;
+                currRoom.setNumofTakes(take);
+                if (take == 0){
+                  endScene(currRoom, cards, budgetMovie);
+                }
+                currentPlayer.setTurn(false);
+            } else {
+                System.out.println("You failed in acting on card! You earn nothing");
+                currentPlayer.setTurn(false);
+            }
+        }
+    }
+
+    public void actOffCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie){
+        if(!actOnorOff){
+            //System.out.printf("dieValue: %d, budgetMovie: %d\n", dieValue, budgetMovie);
+            if(dieValue >= budgetMovie){
+                System.out.println("You succeeded in acting off card!\nYou recieved $1 and 1 fame.");
+                Room currRoom = rooms.get(room);
+                int take = currRoom.getNumofTakes();
+                take--;
+                currRoom.setNumofTakes(take);
+
+                int currFame = currentPlayer.getFame();
+                currFame += 2;
+                currentPlayer.setFame(currFame);
+
+                int currMoney = currentPlayer.getMoney();
+                currMoney++;
+                currentPlayer.setMoney(currMoney);
+                currentPlayer.setTurn(false);
+            } else {
+                System.out.println("You failed in acting off card! You still earn 1 money");
+                int currMoney = currentPlayer.getMoney();
+                currMoney++;
+                currentPlayer.setMoney(currMoney);
+                currentPlayer.setTurn(false);
+            }
+        }
+    }
+
+    public boolean takeUpRole(Player currentPlayer, String[] destination){
       String currentPosition = currentPlayer.getPlayerPosition();
       ParseFile pf = new ParseFile();
       ArrayList<Card> cards = pf.cards;
@@ -92,10 +144,13 @@ public class Act{
           // check room
           Room currRoom = rooms.get(currentPosition);
           Card card = currRoom.getCard();
+          System.out.println(card.getCardName());
           ArrayList<partExtra> parts = currRoom.getParts();
           ArrayList<part> cardParts = card.getCardParts();
           if (checkRole(currentPlayer, parts, cardParts, destination[1])){
-            return;
+            return true;
+          } else {
+            return false;
           }
           // multiple words
         } else {
@@ -109,11 +164,14 @@ public class Act{
           ArrayList<partExtra> parts = currRoom.getParts();
           ArrayList<part> cardParts = card.getCardParts();
           if (checkRole(currentPlayer, parts, cardParts, newDestination)){
-            return;
+            return true;
+          } else {
+            return false;
           }
         }
       } else {
         System.out.println("Player already in a role.\n");
+        return false;
       }
     }
 
@@ -130,6 +188,7 @@ public class Act{
             currentPlayer.setRoleValue("off");
             currPart.setTaken(true);
             System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+            currentPlayer.setTurn(false);
             return true;
           }
         } else {
@@ -137,10 +196,11 @@ public class Act{
           check = true;
         }
       }
+      // make sure it hasn't already taken a part off the card
       if (check == false) {
-        for (int j = 0; j < parts.size(); j++) {
-          partExtra currPart = parts.get(j);
-          String currName = currPart.getPartName();
+        for (int j = 0; j < cardParts.size(); j++) {
+          part currPart = cardParts.get(j);
+          String currName = currPart.getName();
           boolean taken = currPart.getTaken();
           if (taken != true) {
             if (currName.equals(partName)) {
@@ -149,6 +209,7 @@ public class Act{
               currentPlayer.setRoleValue("on");
               currPart.setTaken(true);
               System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+              currentPlayer.setTurn(false);
               return true;
             }
           } else {
@@ -166,67 +227,21 @@ public class Act{
       return false;
     }
 
-    public void printPartList(ArrayList<part> cardParts){
-      System.out.println("Parts you can choose on the card: ");
-      for (int i = 0; i < cardParts.size(); i++) {
-        part part = cardParts.get(i);
+    public void printPartList(ArrayList<part> parts){
+      System.out.println("\nRoles you can choose on the card: ");
+      for (int i = 0; i < parts.size(); i++) {
+        part part = parts.get(i);
         System.out.println(part.getName());
       }
     }
 
     public void printExtraPartList(ArrayList<partExtra> cardParts){
-      System.out.println("Parts you can choose off the card: ");
+      System.out.println("\nRoles you can choose off the card: ");
       for (int i = 0; i < cardParts.size(); i++) {
         partExtra part = cardParts.get(i);
         System.out.println(part.getPartName());
       }
     }
-
-    public void actOnCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie) {
-        if(actOnorOff){
-            if(dieValue >= budgetMovie){
-                System.out.println("You succeeded in acting off card! You will get 2 fame");
-                int currFame = currentPlayer.getFame();
-                currFame += 2;
-                currentPlayer.setFame(currFame);
-                Room currRoom = rooms.get(room);
-                int take = currRoom.getNumofTakes();
-                take--;
-                currRoom.setNumofTakes(take);
-                if (take == 0){
-                  endScene(currRoom, cards, budgetMovie);
-                }
-            } else {
-                System.out.println("You failed in acting on card! You earn nothing");
-            }
-        }
-    }
-
-    public void actOffCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie){
-        if(!actOnorOff){
-            if(dieValue >= budgetMovie){
-                System.out.println("You succeeded in acting off card! You will get 1 money and 1 fame");
-                Room currRoom = rooms.get(room);
-                int take = currRoom.getNumofTakes();
-                take--;
-                currRoom.setNumofTakes(take);
-
-                int currFame = currentPlayer.getFame();
-                currFame += 2;
-                currentPlayer.setFame(currFame);
-
-                int currMoney = currentPlayer.getMoney();
-                currMoney++;
-                currentPlayer.setMoney(currMoney);
-            } else {
-                System.out.println("You failed in acting off card! You still earn 1 money");
-                int currMoney = currentPlayer.getMoney();
-                currMoney++;
-                currentPlayer.setMoney(currMoney);
-            }
-        }
-    }
-
 
     public void endScene(Room room, ArrayList<Card> cards, int budgetMovie){
       ArrayList<Player> onTheCardPlayers = new ArrayList<Player>();

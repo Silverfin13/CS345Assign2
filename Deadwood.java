@@ -80,8 +80,7 @@ public class Deadwood extends GameSetup {
                  move.move(currentPlayer, inputArray);
                break;
              case "work":
-               work(currentPlayer, inputArray);
-               val = true;
+               val = work(currentPlayer, inputArray);
                break;
              case "upgrade":
 
@@ -109,6 +108,9 @@ public class Deadwood extends GameSetup {
              case "act":
                Act act = new Act();
                act.playerAct(currentPlayer);
+               if (currentPlayer.getTurn() == false){
+                   val = true;
+               }
                break;
              case "end":
                  currentPlayer.setTurn(false);
@@ -162,10 +164,9 @@ public class Deadwood extends GameSetup {
     public static void  castingOffice(Player currentPlayer, String valueType, int level) {
     }
 
-    public static void work(Player currentPlayer, String[] role) {
+    public static boolean work(Player currentPlayer, String[] role) {
       Act act = new Act();
-      act.takeUpRole(currentPlayer, role);
-      currentPlayer.setTurn(false);
+      return act.takeUpRole(currentPlayer, role);
     }
 
 
