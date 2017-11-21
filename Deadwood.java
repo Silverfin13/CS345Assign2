@@ -13,7 +13,6 @@ public class Deadwood extends GameSetup {
 
         ParseFile.parseCards();
         ParseFile.parseBoard();
-
         cards = ParseFile.cards;
 
         int numDays = 0;
@@ -31,8 +30,6 @@ public class Deadwood extends GameSetup {
                 // iterate through player turns
                 for(int a = 0; a < players.size(); a++) {
                     if(players.get(a).getTurn()) {
-                        players.get(a).setPlayerPosition("Casting Office");
-                        players.get(a).setMoney(10);
                         startTurn(players.get(a));
                         // make the next players turn be true
                         if (a+1 < players.size()){
@@ -40,6 +37,7 @@ public class Deadwood extends GameSetup {
                         } else {
                           players.get(0).setTurn(true);
                         }
+                        players.get(a).setMoved(false);
                     }
                 }
                 numSceneLeft--;

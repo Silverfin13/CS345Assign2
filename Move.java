@@ -11,11 +11,14 @@ public class Move {
       Room playerRoom = rooms.get(currentPosition);
       ArrayList<String> neighbors = playerRoom.getNeighbors();
       if (destination.length == 2) {
-        if (neighbors.contains(destination[1])){
-          currentPlayer.setPlayerPosition(destination[1]);
-          Room newRoom = rooms.get(destination[1]);
-          Card card = newRoom.getCard();
-          card.setFlipped(true);
+        String dest = destination[1].trim();
+        if (neighbors.contains(dest)){
+          currentPlayer.setPlayerPosition(dest);
+          Room newRoom = rooms.get(dest);
+          if (!(dest.equals("trailer"))){
+              Card card = newRoom.getCard();
+              card.setFlipped(true);
+          }
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
           currentPlayer.setMoved(true);
           return true;
@@ -34,6 +37,7 @@ public class Move {
           Card card = newRoom.getCard();
           card.setFlipped(true);
           System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
+          currentPlayer.setMoved(true);
           return true;
         } else {
           System.out.println("The destination you wish to move is not a neighbor");
