@@ -11,6 +11,7 @@ public class Player {
     public String role = "";
     public String roleValue = "";
     public int roleLevel = 0;
+    public int addedDiceValue = 0;
 
     public Player(int rank, int money, int fame, String whichPlayer, String playerPosition, boolean turn){
         this.rank = rank;
@@ -57,6 +58,10 @@ public class Player {
         this.whichPlayer = playerWhich;
     }
 
+    public void setAddedDiceValue(){
+        this.addedDiceValue++;
+    }
+
     public int getRoleLevel(){
         return this.roleLevel;
     }
@@ -99,6 +104,10 @@ public class Player {
 
     public boolean getTurn(){
         return this.turn;
+    }
+
+    public int getAddedDiceValue(){
+        return this.addedDiceValue;
     }
 
     /*

@@ -157,7 +157,9 @@ public class Deadwood extends GameSetup {
         Act act = new Act();
         Card card = act.findCard(cards, playerRole);
         System.out.println("You succeeded in rehearsing. You have added one to role value.\n");
-        // role value = role value +1;
+        currentPlayer.setAddedDiceValue();
+        // before you rehearse you should check to see if the addedDiceValue > movieBudget to
+        // see if the player is garanteed to win
       }
     }
 
