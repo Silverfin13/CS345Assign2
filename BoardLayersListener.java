@@ -13,6 +13,8 @@ import javax.swing.*;
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
+import java.util.*;
+import java.awt.Rectangle;
 
 
 public class BoardLayersListener extends JFrame {
@@ -64,21 +66,13 @@ public class BoardLayersListener extends JFrame {
        // Set the size of the GUI
        setSize(icon.getIconWidth()+200,icon.getIconHeight());
 
-       // Add a scene card to this room
-       cardlabel = new JLabel();
-       ImageIcon cIcon =  new ImageIcon("images/01.png");
-       cardlabel.setIcon(cIcon);
-       cardlabel.setBounds(20,70,cIcon.getIconWidth(),cIcon.getIconHeight());
-       cardlabel.setOpaque(true);
+      addCards();
 
-       // Add the card to the lower layer
-       bPane.add(cardlabel, new Integer(1));
-
-       cardlabelJail = new JLabel();
-       ImageIcon cIconTest =  new ImageIcon("images/01.png");
-       cardlabelJail.setIcon(cIconTest);
-       cardlabelJail.setBounds(120,20,cIconTest.getIconWidth(),cIconTest.getIconHeight());
-       cardlabelJail.setOpaque(true);
+    //    cardlabelJail = new JLabel();
+    //    ImageIcon cIconTest =  new ImageIcon("images/01.png");
+    //    cardlabelJail.setIcon(cIconTest);
+    //    cardlabelJail.setBounds(120,20,cIconTest.getIconWidth(),cIconTest.getIconHeight());
+    //    cardlabelJail.setOpaque(true);
 
 
        // Add a dice to represent a player.
@@ -137,6 +131,30 @@ public class BoardLayersListener extends JFrame {
        bPane.add(bRankUp, new Integer(2));
        bPane.add(bEndTurn, new Integer(2));
 
+  }
+
+
+  public void addCards(){
+
+      ParseFile parse = new ParseFile();
+      HashMap<String,Room> rooms = parse.rooms;
+      for (String key: rooms.keySet()){
+        System.out.println(key);
+        Room currRoom = rooms.get(key);
+        Rectangle roomArea = currRoom.getCardArea();
+        System.out.printf("X: %f Y: %f", roomArea.getX(), roomArea.getY());
+      }
+
+      // Add a scene card to this room
+      cardlabel = new JLabel();
+      ImageIcon cIcon =  new ImageIcon("images/backOfCard.png");
+      cardlabel.setIcon(cIcon);
+      // x+4 and y-4
+      cardlabel.setBounds(25,65,cIcon.getIconWidth(),cIcon.getIconHeight());
+      cardlabel.setOpaque(true);
+
+      // Add the card to the lower layer
+      bPane.add(cardlabel, new Integer(1));
   }
 
   // This class implements Mouse Events

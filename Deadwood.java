@@ -14,16 +14,17 @@ public class Deadwood extends GameSetup {
         ParseFile.parseCards();
         ParseFile.parseBoard();
         cards = ParseFile.cards;
-        BoardLayersListener board = new BoardLayersListener();
-        board.setVisible(true);
+
         int numDays = 0;
         numSceneLeft = 0;
         GameSetup game = new GameSetup();
         game.GameSetup();
         numDays = game.getNumDays();
         ArrayList<Player> players = game.players;
-        //You can move, work or upgrade
-        //playerAct();
+
+        BoardLayersListener board = new BoardLayersListener();
+        board.setVisible(true);
+
         int i = 1;
         while(i < numDays+1) {
             System.out.println("There are " + numDays + " days left.");
