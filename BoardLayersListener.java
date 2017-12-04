@@ -54,7 +54,7 @@ public class BoardLayersListener extends JFrame {
 
        // Create the deadwood board
        boardlabel = new JLabel();
-       ImageIcon icon =  new ImageIcon("board.jpg");
+       ImageIcon icon =  new ImageIcon("images/board.jpg");
        boardlabel.setIcon(icon);
        boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
 
@@ -66,7 +66,7 @@ public class BoardLayersListener extends JFrame {
 
        // Add a scene card to this room
        cardlabel = new JLabel();
-       ImageIcon cIcon =  new ImageIcon("01.png");
+       ImageIcon cIcon =  new ImageIcon("images/01.png");
        cardlabel.setIcon(cIcon);
        cardlabel.setBounds(20,70,cIcon.getIconWidth(),cIcon.getIconHeight());
        cardlabel.setOpaque(true);
@@ -75,7 +75,7 @@ public class BoardLayersListener extends JFrame {
        bPane.add(cardlabel, new Integer(1));
 
        cardlabelJail = new JLabel();
-       ImageIcon cIconTest =  new ImageIcon("01.png");
+       ImageIcon cIconTest =  new ImageIcon("images/01.png");
        cardlabelJail.setIcon(cIconTest);
        cardlabelJail.setBounds(120,20,cIconTest.getIconWidth(),cIconTest.getIconHeight());
        cardlabelJail.setOpaque(true);
@@ -84,7 +84,7 @@ public class BoardLayersListener extends JFrame {
        // Add a dice to represent a player.
        // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
        playerlabel = new JLabel();
-       ImageIcon pIcon = new ImageIcon("r2.png");
+       ImageIcon pIcon = new ImageIcon("images/r2.png");
        playerlabel.setIcon(pIcon);
        //playerlabel.setBounds(114,227,pIcon.getIconWidth(),pIcon.getIconHeight());
        playerlabel.setBounds(114,227,46,46);
@@ -174,10 +174,4 @@ public class BoardLayersListener extends JFrame {
       public void mouseExited(MouseEvent e) {
       }
    }
-
-
-  public static void main(String[] args) {
-    BoardLayersListener board = new BoardLayersListener();
-    board.setVisible(true);
-  }
 }
