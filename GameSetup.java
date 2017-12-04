@@ -30,9 +30,9 @@ public class GameSetup {
       colors.add("Yellow");
       colors.add("Orange");
       colors.add("Green");
-      colors.add("Purple");
-      colors.add("Black");
-      colors.add("White");
+      colors.add("Pink");
+      colors.add("Cyan");
+      colors.add("Violet");
     }
 
     public int getNumDays(){
