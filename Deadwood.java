@@ -14,7 +14,8 @@ public class Deadwood extends GameSetup {
         ParseFile.parseCards();
         ParseFile.parseBoard();
         cards = ParseFile.cards;
-
+        BoardLayersListener boardLayer = new BoardLayersListener();
+        boardLayer.BoardLayersListener();
         int numDays = 0;
         numSceneLeft = 0;
         GameSetup game = new GameSetup();
