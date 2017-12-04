@@ -138,7 +138,7 @@ public class Act{
       ParseFile pf = new ParseFile();
       ArrayList<Card> cards = pf.cards;
       HashMap<String,Room> rooms = pf.rooms;
-      if (currentPlayer.getRole() == "") {
+      if (Objects.equals(currentPlayer.getRole(), "")) {
         // one word
         if (destination.length == 2) {
           // check room
