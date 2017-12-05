@@ -39,7 +39,7 @@ public class BoardLayersListener extends JFrame {
   // JLayered Pane
   JLayeredPane bPane;
   JPanel panelStatus;
-   
+
   // Constructor
 
   public BoardLayersListener() {
@@ -48,7 +48,6 @@ public class BoardLayersListener extends JFrame {
        super("Deadwood");
        // Set the exit option for the JFrame
        setDefaultCloseOperation(EXIT_ON_CLOSE);
-     
        //asks for number of players
        String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
        int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
@@ -59,7 +58,7 @@ public class BoardLayersListener extends JFrame {
            System.out.println(options[option]);
        } else {
            System.out.println("No option selected");
-       } 
+       }
 
        // Create the JLayeredPane to hold the display, cards, dice and buttons
 
@@ -78,7 +77,7 @@ public class BoardLayersListener extends JFrame {
 
        // Set the size of the GUI
        setSize(icon.getIconWidth()+200,icon.getIconHeight());
-     
+
      // Create the board for status of player
        panelStatus = new JPanel();
        panelStatus.setLayout(null);
@@ -86,13 +85,6 @@ public class BoardLayersListener extends JFrame {
        panelStatus.setBackground(Color.WHITE);
 
       addCards();
-
-    //    cardlabelJail = new JLabel();
-    //    ImageIcon cIconTest =  new ImageIcon("images/01.png");
-    //    cardlabelJail.setIcon(cIconTest);
-    //    cardlabelJail.setBounds(120,20,cIconTest.getIconWidth(),cIconTest.getIconHeight());
-    //    cardlabelJail.setOpaque(true);
-
 
        // Add a dice to represent a player.
        // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
@@ -140,8 +132,6 @@ public class BoardLayersListener extends JFrame {
        bEndTurn.addMouseListener(new boardMouseListener());
 
 
-
-
        // Place the action buttons in the top layer
        bPane.add(bAct, new Integer(2));
        bPane.add(bRehearse, new Integer(2));
@@ -158,12 +148,15 @@ public class BoardLayersListener extends JFrame {
       ParseFile parse = new ParseFile();
       HashMap<String,Room> rooms = parse.rooms;
       for (String key: rooms.keySet()){
-        System.out.println(key);
+        // System.out.println(key);
         Room currRoom = rooms.get(key);
-        Rectangle roomArea = currRoom.getCardArea();
-        System.out.printf("X: %f Y: %f", roomArea.getX(), roomArea.getY());
-        System.out.println(currRoom.getCardArea());
-        placeCardBacks(currRoom.getCardArea());
+        if (key != "trailer"){
+            Card currCard = currRoom.getCard();
+            // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
+            Rectangle roomArea = currRoom.getCardArea();
+            placeCards(currCard, currRoom.getCardArea());
+            placeCardBacks(currRoom.getCardArea());
+        }
       }
 /*
       // Add a scene card to this room
@@ -179,16 +172,29 @@ public class BoardLayersListener extends JFrame {
 
   }
 
+  public void placeCards(Card card, Rectangle cardArea){
+      // Add a scene card to this room
+      cardlabel = new JLabel();
+      ImageIcon cardImage =  new ImageIcon("images/" + card.getCardImg());
+      cardlabel.setIcon(cardImage);
+      // x+4 and y-4
+      cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
+      cardlabel.setOpaque(true);
+      // Add the card to the lower layer
+      bPane.add(cardlabel, new Integer(2));
+
+  }
+
   public void placeCardBacks(Rectangle cardArea){
       // Add a scene card to this room
       cardlabel = new JLabel();
       ImageIcon cardBack =  new ImageIcon("images/backOfCard.png");
       cardlabel.setIcon(cardBack);
       // x+4 and y-4
-      cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardBack.getIconWidth(),cardBack.getIconHeight());
+      cardlabel.setBounds((int)cardArea.getX()+4,(int)cardArea.getY()-4,cardBack.getIconWidth(),cardBack.getIconHeight());
       cardlabel.setOpaque(true);
       // Add the card to the lower layer
-      bPane.add(cardlabel, new Integer(2));
+      bPane.add(cardlabel, new Integer(3));
 
   }
 

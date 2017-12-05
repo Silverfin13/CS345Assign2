@@ -19,7 +19,7 @@ public class ParseFile {
 
   public static void parseCards(){
     try {
-      String cardFile = "cards.xml";
+      String cardFile = "xmlFiles/cards.xml";
       File inputFile = new File(cardFile);
 
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -92,7 +92,7 @@ public class ParseFile {
 
   public static void parseBoard(){
     try {
-      String boardFile = "board.xml";
+      String boardFile = "xmlFiles/board.xml";
       File inputFile = new File(boardFile);
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
