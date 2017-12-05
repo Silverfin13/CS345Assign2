@@ -55,10 +55,10 @@ public class BoardLayersListener extends JFrame {
     //    bPane.setBackground(Color.red);
 
        // Create the deadwood board
-       boardlabel = new JLabel();
-       ImageIcon icon =  new ImageIcon("images/board.jpg");
-       boardlabel.setIcon(icon);
-       boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
+        boardlabel = new JLabel();
+        ImageIcon icon =  new ImageIcon("images/board.jpg");
+        boardlabel.setIcon(icon);
+        boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
 
        // Add the board to the lowest layer
        bPane.add(boardlabel, new Integer(0));
@@ -105,17 +105,17 @@ public class BoardLayersListener extends JFrame {
        bMove.setBounds(icon.getIconWidth()+10,160,120, 40);
        bMove.addMouseListener(new boardMouseListener());
 
-       bTakeRole = new JButton("Take Role");
+       bTakeRole = new JButton("TAKE ROLE");
        bTakeRole.setBackground(Color.white);
        bTakeRole.setBounds(icon.getIconWidth()+10,220,120, 40);
        bTakeRole.addMouseListener(new boardMouseListener());
 
-       bRankUp = new JButton("Rank Up");
+       bRankUp = new JButton("RANK UP");
        bRankUp.setBackground(Color.white);
        bRankUp.setBounds(icon.getIconWidth()+10,280,120, 40);
        bRankUp.addMouseListener(new boardMouseListener());
 
-       bEndTurn = new JButton("End Turn");
+       bEndTurn = new JButton("END TURN");
        bEndTurn.setBackground(Color.white);
        bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
        bEndTurn.addMouseListener(new boardMouseListener());
@@ -143,18 +143,34 @@ public class BoardLayersListener extends JFrame {
         Room currRoom = rooms.get(key);
         Rectangle roomArea = currRoom.getCardArea();
         System.out.printf("X: %f Y: %f", roomArea.getX(), roomArea.getY());
+        System.out.println(currRoom.getCardArea());
+        placeCardBacks(currRoom.getCardArea());
       }
-
+/*
       // Add a scene card to this room
       cardlabel = new JLabel();
-      ImageIcon cIcon =  new ImageIcon("images/backOfCard.png");
-      cardlabel.setIcon(cIcon);
+      ImageIcon trainBack =  new ImageIcon("images/backOfCard.png");
+      cardlabel.setIcon(trainBack);
       // x+4 and y-4
-      cardlabel.setBounds(25,65,cIcon.getIconWidth(),cIcon.getIconHeight());
+      cardlabel.setBounds(21,69,trainBack.getIconWidth(),trainBack.getIconHeight());
       cardlabel.setOpaque(true);
-
       // Add the card to the lower layer
       bPane.add(cardlabel, new Integer(1));
+*/
+
+  }
+
+  public void placeCardBacks(Rectangle cardArea){
+      // Add a scene card to this room
+      cardlabel = new JLabel();
+      ImageIcon cardBack =  new ImageIcon("images/backOfCard.png");
+      cardlabel.setIcon(cardBack);
+      // x+4 and y-4
+      cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardBack.getIconWidth(),cardBack.getIconHeight());
+      cardlabel.setOpaque(true);
+      // Add the card to the lower layer
+      bPane.add(cardlabel, new Integer(2));
+
   }
 
   // This class implements Mouse Events
