@@ -38,7 +38,8 @@ public class BoardLayersListener extends JFrame {
 
   // JLayered Pane
   JLayeredPane bPane;
-
+  JPanel panelStatus;
+   
   // Constructor
 
   public BoardLayersListener() {
@@ -47,6 +48,18 @@ public class BoardLayersListener extends JFrame {
        super("Deadwood");
        // Set the exit option for the JFrame
        setDefaultCloseOperation(EXIT_ON_CLOSE);
+     
+       //asks for number of players
+       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
+       int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
+       JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+       null, options, options[0]);
+
+       if (option != JOptionPane.CLOSED_OPTION) {
+           System.out.println(options[option]);
+       } else {
+           System.out.println("No option selected");
+       } 
 
        // Create the JLayeredPane to hold the display, cards, dice and buttons
 
@@ -65,6 +78,12 @@ public class BoardLayersListener extends JFrame {
 
        // Set the size of the GUI
        setSize(icon.getIconWidth()+200,icon.getIconHeight());
+     
+     // Create the board for status of player
+       panelStatus = new JPanel();
+       panelStatus.setLayout(null);
+       panelStatus.setBounds(icon.getIconWidth()+10,390,450,500);
+       panelStatus.setBackground(Color.WHITE);
 
       addCards();
 
