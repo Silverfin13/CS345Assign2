@@ -27,6 +27,8 @@ public class BoardLayersListener extends JFrame {
   JLabel cardlabelJail;
   JLabel playerlabel;
   JLabel mLabel;
+  JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
+
 
   //JButtons
   JButton bAct;
@@ -39,6 +41,10 @@ public class BoardLayersListener extends JFrame {
   // JLayered Pane
   JLayeredPane bPane;
   JPanel panelStatus;
+  JPanel info;
+
+  Dimension boardSize = new Dimension(1170, 882);
+  Dimension paneSize = new Dimension(1300, 550);
 
   // Constructor
 
@@ -71,6 +77,8 @@ public class BoardLayersListener extends JFrame {
         ImageIcon icon =  new ImageIcon("images/board.jpg");
         boardlabel.setIcon(icon);
         boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
+     
+        info = new JPanel();
 
        // Add the board to the lowest layer
        bPane.add(boardlabel, new Integer(0));
@@ -186,6 +194,26 @@ public class BoardLayersListener extends JFrame {
       bPane.add(cardlabel, new Integer(3));
 
   }
+   
+  public void buildLowerPanel(/*get num player */){
+   int numPlayers = 6;
+   info = new JPanel();
+
+   info.setBounds(boardSize.width + 10, 400, 120, 40);
+   // info. add days remaining
+   for (int i = 0; i <= numPlayers; i++){
+       info.add(playerInfo[i]);
+       /*
+       playerInfo[i].setText("<html>Player " + (i + 1) +
+               "<br>You are " + Player.getPlayer();
+               "<br>It is your Turn!" +
+               "<br>Money: " + Player.getMoney() +
+               "<br>Rank: " + Player.getRank() + "</html>")
+       */
+   }
+   bPane.add(info, JLayeredPane.DEFAULT_LAYER);
+
+}
 
   // This class implements Mouse Events
 
