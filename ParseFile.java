@@ -170,9 +170,14 @@ public class ParseFile {
 
               ArrayList<String> neighbors = new ArrayList<String>();
               for (int j = 0; j < boardNeighbors.getLength(); j++) {
-
-                  Element boardNeighbor = (Element) boardNeighbors.item(j);
-                  neighbors.add(boardNeighbor.getAttribute("name"));
+                 Element boardNeighbor = (Element) boardNeighbors.item(j);
+                 String name = "";
+                 if (boardNeighbor.getAttribute("name").equals("office")) {
+                     name = "Casting Office";
+                 } else {
+                     name = boardNeighbor.getAttribute("name");
+                 }
+                 neighbors.add(name);
               }
 
               int xTake = 0;
@@ -225,7 +230,13 @@ public class ParseFile {
               for (int j = 0; j < trailerNeighbors.getLength(); j++) {
 
                   Element trailerNeighbor = (Element) trailerNeighbors.item(j);
-                  neighbors.add(trailerNeighbor.getAttribute("name"));
+                  String name = "";
+                 if (trailerNeighbor.getAttribute("name").equals("office")) {
+                     name = "Casting Office";
+                 } else {
+                     name = trailerNeighbor.getAttribute("name");
+                 }
+                neighbors.add(name);
               }
               ArrayList<take> takes = new ArrayList<take>();
               ArrayList<partExtra> extraParts = new ArrayList<partExtra>();
@@ -260,39 +271,23 @@ public class ParseFile {
               CastingOffice co = new CastingOffice();
               co.setArea(officePosition);
               co.setNeighbors(neighbors);
+              ArrayList<take> takes = new ArrayList<take>();
+              ArrayList<partExtra> extraParts = new ArrayList<partExtra>();
+              Room currRoom = new Room();
+              currRoom.createRoom("Casting Office", extraParts, takes.size(), takes.size(), neighbors, officePosition, takes);
+              rooms.put("Casting Office", currRoom);
             }
           }
         }
       }
-      // PRINT neighborSet
-      // for (String key: setNeighbors.keySet()){
-      //   System.out.println(key);
-      //   ArrayList curr = setNeighbors.get(key);
-      //   System.out.println(Arrays.toString(curr.toArray()));
-      //   // String value = example.get(name).toString();
-      //   // System.out.println(key + " " + value);
-      //
-      // }
 
-      // for (String key: rooms.keySet()){
-      //   System.out.println(key);
-      //   Room currRoom = rooms.get(key);
-      //   System.out.println(currRoom.getNumofTakes());
-      //   ArrayList<partExtra> parts = new ArrayList<partExtra>();
-      //   parts = currRoom.getParts();
-      //   System.out.println(parts.size());
+    //   for (String key: rooms.keySet()){
+    //     System.out.println(key);
+    //     Room currRoom = rooms.get(key);
+    //     ArrayList<String> neighbors = currRoom.getNeighbors();
       //
-      // }
-
-      // for (String key: rooms.keySet()){
-      //   System.out.println(key);
-      //   Room currRoom = rooms.get(key);
-      //   ArrayList<String> neighbors = currRoom.getNeighbors();
-      //   System.out.println(neighbors.size());
-      //
-      //   System.out.println(Arrays.toString(neighbors.toArray()));
-      // }
-
+    //     System.out.println(Arrays.toString(neighbors.toArray()));
+    //   }
 
     } catch (Exception e) {
       System.out.println("Error in parsing the board.");

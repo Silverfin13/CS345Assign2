@@ -46,6 +46,10 @@ public class CastingOffice {
       this.neighbors = neighbors;
     }
 
+    public ArrayList<String> getNeighbors(){
+      return this.neighbors;
+    }
+
     public void setRank(int rank){
         this.rank = rank;
     }

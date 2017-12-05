@@ -148,9 +148,9 @@ public class BoardLayersListener extends JFrame {
       ParseFile parse = new ParseFile();
       HashMap<String,Room> rooms = parse.rooms;
       for (String key: rooms.keySet()){
-        // System.out.println(key);
+        System.out.println(key);
         Room currRoom = rooms.get(key);
-        if (key != "trailer"){
+        if ((key != "trailer") && (key != "Casting Office")){
             Card currCard = currRoom.getCard();
             // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
             Rectangle roomArea = currRoom.getCardArea();
@@ -158,23 +158,12 @@ public class BoardLayersListener extends JFrame {
             placeCardBacks(currRoom.getCardArea());
         }
       }
-/*
-      // Add a scene card to this room
-      cardlabel = new JLabel();
-      ImageIcon trainBack =  new ImageIcon("images/backOfCard.png");
-      cardlabel.setIcon(trainBack);
-      // x+4 and y-4
-      cardlabel.setBounds(21,69,trainBack.getIconWidth(),trainBack.getIconHeight());
-      cardlabel.setOpaque(true);
-      // Add the card to the lower layer
-      bPane.add(cardlabel, new Integer(1));
-*/
-
   }
 
   public void placeCards(Card card, Rectangle cardArea){
       // Add a scene card to this room
       cardlabel = new JLabel();
+      //System.out.println(card.getCardName());
       ImageIcon cardImage =  new ImageIcon("images/" + card.getCardImg());
       cardlabel.setIcon(cardImage);
       // x+4 and y-4
