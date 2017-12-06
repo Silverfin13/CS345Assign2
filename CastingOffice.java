@@ -13,15 +13,6 @@ public class CastingOffice {
     ArrayList<String> neighbors = new ArrayList<String>();
     Player player;
 
-    //public CastingOffice(){
-        // this.money = money;
-        // this.fame = fame;
-        // this.whichPlayer = whichPlayer;
-        // this.rank = rank;
-        // this.rehearseMarker = rehearseMarker;
-        //this.player = new player(0,0,0,"","",false);
-    //}
-
     public boolean checkPlayerRank() {
         if(this.rank >=1 && this.rank <=6){
             return true;
