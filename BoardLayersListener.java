@@ -290,40 +290,42 @@ public class BoardLayersListener extends JFrame {
 
   // This class implements Mouse Events
 
-  class boardMouseListener implements MouseListener {
+    class boardMouseListener implements MouseListener {
 
-      // Code for the different button clicks
-      public void mouseClicked(MouseEvent e) {
+        // Code for the different button clicks
+        public void mouseClicked(MouseEvent e) {
 
-         if (e.getSource()== bAct){
-            System.out.println("Acting is Selected\n");
-         }
-         else if (e.getSource()== bRehearse){
-            System.out.println("Rehearse is Selected\n");
-         }
-         else if (e.getSource()== bMove){
-            System.out.println("Move is Selected\n");
-         }
-         else if (e.getSource()== bTakeRole){
-            System.out.println("TakingRole is Selected\n");
-         }
-         else if (e.getSource()== bRankUp){
-            System.out.println("Rank Up is Selected\n");
-         }
-         else if (e.getSource()== bEndTurn){
-            System.out.println("End Turn is Selected\n");
-            //endTurnButton();
-         }
-      }
-      public void mousePressed(MouseEvent e) {
-      }
-      public void mouseReleased(MouseEvent e) {
-      }
-      public void mouseEntered(MouseEvent e) {
-      }
-      public void mouseExited(MouseEvent e) {
-      }
-   }
+            if (e.getSource()== bAct){
+                System.out.println("Acting is Selected\n");
+            }
+            else if (e.getSource()== bRehearse){
+                System.out.println("Rehearse is Selected\n");
+            }
+            else if (e.getSource()== bMove){
+                System.out.println("Move is Selected\n");
+            }
+            else if (e.getSource()== bTakeRole){
+                System.out.println("Taking a Role is Selected\n");
+            }
+            else if (e.getSource()== bRankUp){
+                System.out.println("Rank Up is Selected\n");
+            }
+            else if (e.getSource()== bEndTurn){
+                System.out.println("End\n");
+                //endTurnButton();
+            }
+        }
+        public void mousePressed(MouseEvent e) {
+        }
+        public void mouseReleased(MouseEvent e) {
+        }
+        public void mouseEntered(MouseEvent e) {
+        }
+        public void mouseExited(MouseEvent e) {
+        }
+
+    }
+
     public void endTurnButton(){
         System.out.println("Ending Turn\n");
 
@@ -338,6 +340,7 @@ public class BoardLayersListener extends JFrame {
         Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "rehearse");
     }
 
+    // player moves by selecting possible adjacent rooms
     public void moveButton(){
 
         // show available movement positions
@@ -351,6 +354,7 @@ public class BoardLayersListener extends JFrame {
         Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + selectedMove);
     }
 
+    // user requests to increase rank by pressing rank button
     public void rankButton() {
         ParseFile parse = new ParseFile();
         HashMap<String, Room> rooms = parse.rooms;
@@ -366,6 +370,7 @@ public class BoardLayersListener extends JFrame {
         }
     }
 
+    // ask how the user wants to upgrade, return response to casting office
     public String askRankOrMoney(){
         String response = "";
         String[] options = new String[] {"Rank", "Money"};
@@ -375,8 +380,24 @@ public class BoardLayersListener extends JFrame {
         return response;
     }
 
+    // allow user to take a role by typing their selected role in pop up
     public void takeRoleButton(){
         String role = "";
         Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + role);
+    }
+
+    // ask if the user wants to act on or off the card, return response to main program
+    public String askActOnOrOff(){
+        String response = "";
+        String[] options = new String[] {"On", "Off"};
+        int option =  JOptionPane.showOptionDialog(null, "Would you like to work on or off the card?", "Message",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[0]);
+        return response;
+    }
+    
+    // display information to be shown to the user as a pop up menu
+    public void displayGenericMessage(String message){
+        
     }
 }
