@@ -26,6 +26,7 @@ public class Move {
           }
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
           newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
+          playerRoom.setPlayersOnCard((playerRoom.getPlayersOnCard()-1));
           currentPlayer.setMoved(true);
           return true;
         } else {
@@ -53,6 +54,7 @@ public class Move {
           }
           System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
           newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
+          playerRoom.setPlayersOnCard((playerRoom.getPlayersOnCard()-1));
           currentPlayer.setMoved(true);
           return true;
         } else {

@@ -159,6 +159,7 @@ public class Act{
             newDestination = newDestination + " " + destination[l];
           }
           newDestination = newDestination.trim();
+          System.out.println(newDestination);
           Room currRoom = rooms.get(currentPosition);
           Card card = currRoom.getCard();
           ArrayList<partExtra> parts = currRoom.getParts();
@@ -182,22 +183,26 @@ public class Act{
         String name = currPart.getPartName();
         boolean taken = currPart.getTaken();
         if (taken != true) {
-          if (name.equals(partName)) {
-            currentPlayer.setRole(partName);
-            currentPlayer.setRoleLevel(currPart.getLevel());
-            currentPlayer.setRoleValue("off");
-            currPart.setTaken(true);
-            System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
-            System.out.println(currPart.getArea());
-            BoardLayersListener.removePlayer(currentPlayer);
-            BoardLayersListener.movePlayer(currentPlayer, currPart.getArea(), room);
-            currentPlayer.setTurn(false);
-            return true;
-          }
-        } else {
-          System.out.println("This role is already taken. \n");
-          check = true;
-        }
+              if (name.equals(partName)) {
+                  if (currentPlayer.getRank() >= currPart.getLevel()) {
+                    currentPlayer.setRole(partName);
+                    currentPlayer.setRoleLevel(currPart.getLevel());
+                    currentPlayer.setRoleValue("off");
+                    currPart.setTaken(true);
+                    System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+                    System.out.println(currPart.getArea());
+                    room.setPlayersOnCard((room.getPlayersOnCard()-1));
+                    BoardLayersListener.removePlayer(currentPlayer);
+                    BoardLayersListener.movePlayer(currentPlayer, currPart.getArea(), room);
+                    currentPlayer.setTurn(false);
+                    return true;
+                }
+                System.out.println("You do not have a high enough rank for this role.");
+              }
+            } else {
+              System.out.println("This role is already taken. \n");
+              check = true;
+            }
       }
       // make sure it hasn't already taken a part off the card
       if (check == false) {
@@ -207,16 +212,20 @@ public class Act{
           boolean taken = currPart.getTaken();
           if (taken != true) {
             if (currName.equals(partName)) {
-              currentPlayer.setRole(partName);
-              currentPlayer.setRoleLevel(currPart.getLevel());
-              currentPlayer.setRoleValue("on");
-              currPart.setTaken(true);
-              System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
-              BoardLayersListener.removePlayer(currentPlayer);
-              System.out.println(currPart.getArea());
-              BoardLayersListener.onCardMove(currentPlayer, currPart.getArea(), room.getCardArea());
-              currentPlayer.setTurn(false);
-              return true;
+                 if (currentPlayer.getRank() >= currPart.getLevel()) {
+                  currentPlayer.setRole(partName);
+                  currentPlayer.setRoleLevel(currPart.getLevel());
+                  currentPlayer.setRoleValue("on");
+                  currPart.setTaken(true);
+                  System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+                  room.setPlayersOnCard((room.getPlayersOnCard()-1));
+                  BoardLayersListener.removePlayer(currentPlayer);
+                  BoardLayersListener.onCardMove(currentPlayer, currPart.getArea(), room.getCardArea());
+                  currentPlayer.setTurn(false);
+                  return true;
+              }
+              System.out.println("You do not have a high enough rank for this role.");
+              return false;
             }
           } else {
             System.out.println("This role is already taken. \n");
