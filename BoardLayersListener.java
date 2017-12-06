@@ -84,7 +84,7 @@ public class BoardLayersListener extends JFrame {
        bPane.add(boardlabel, new Integer(0));
 
        // Set the size of the GUI
-       setSize(icon.getIconWidth()+200,icon.getIconHeight());
+       setSize(icon.getIconWidth()+450,icon.getIconHeight());
 
      // Create the board for status of player
        panelStatus = new JPanel();
@@ -181,6 +181,9 @@ public class BoardLayersListener extends JFrame {
       bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
       bEndTurn.addMouseListener(new boardMouseListener());
 
+      JLabel testlable = new JLabel("this is test +'\n'+ dfdf");
+      testlable.setBounds(icon.getIconWidth()+10,400,300,20);
+      bPane.add(testlable,new Integer(2));
 
       // Place the action buttons in the top layer
       bPane.add(bAct, new Integer(2));
