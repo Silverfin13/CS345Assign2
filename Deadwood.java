@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.Console;
 
-public class Deadwood extends GameSetup {
+public class Deadwood {
 
     //public static ArrayList<Player> players;
     public static int numSceneLeft;
@@ -13,14 +13,14 @@ public class Deadwood extends GameSetup {
 
         ParseFile.parseCards();
         ParseFile.parseBoard();
-        cards = ParseFile.cards;
-
         int numDays = 0;
         numSceneLeft = 0;
         GameSetup game = new GameSetup();
-        game.GameSetup();
+        ArrayList<Player> players = game.GameSetup();
         numDays = game.getNumDays();
-        ArrayList<Player> players = game.players;
+
+        ParseFile.setPlayers(players);
+        cards = ParseFile.cards;
 
         BoardLayersListener board = new BoardLayersListener();
         board.setVisible(true);

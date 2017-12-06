@@ -19,11 +19,17 @@ public class Move {
               Card card = newRoom.getCard();
               card.setFlipped(true);
           }
+          BoardLayersListener.movePlayer(currentPlayer, newRoom);
+          BoardLayersListener.flipCard(newRoom);
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
           currentPlayer.setMoved(true);
           return true;
         } else {
           System.out.println("The destination you wish to move is not a neighbor");
+          System.out.println("\nYour neighbors are: ");
+          for (int i = 0; i < neighbors.size(); i++) {
+              System.out.println(neighbors.get(i));
+          }
         }
       } else {
         String newDestination = "";
@@ -41,6 +47,10 @@ public class Move {
           return true;
         } else {
           System.out.println("The destination you wish to move is not a neighbor");
+          System.out.println("\nYour neighbors are: ");
+          for (int i = 0; i < neighbors.size(); i++) {
+              System.out.println(neighbors.get(i));
+          }
         }
       }
     } else {
@@ -48,14 +58,6 @@ public class Move {
     }
     return false;
   }
-
-   public static void enterScene() {
-
-   }
-
-   public static void enterCastingOffice() {
-
-   }
 
    public static boolean askIfMoving() {
         boolean getOutOfLoop = false;

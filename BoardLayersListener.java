@@ -22,29 +22,29 @@ public class BoardLayersListener extends JFrame {
   // Private Attributes
 
   // JLabels
-  JLabel boardlabel;
-  JLabel cardlabel;
-  JLabel cardlabelJail;
-  JLabel playerlabel;
-  JLabel mLabel;
-  JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
+  static JLabel boardlabel;
+  static JLabel cardlabel;
+  static JLabel cardlabelJail;
+  static JLabel playerlabel;
+  static JLabel mLabel;
+  static JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
 
 
   //JButtons
-  JButton bAct;
-  JButton bRehearse;
-  JButton bMove;
-  JButton bTakeRole;
-  JButton bRankUp;
-  JButton bEndTurn;
+  static JButton bAct;
+  static JButton bRehearse;
+  static JButton bMove;
+  static JButton bTakeRole;
+  static JButton bRankUp;
+  static JButton bEndTurn;
 
   // JLayered Pane
-  JLayeredPane bPane;
-  JPanel panelStatus;
-  JPanel info;
+  static JLayeredPane bPane;
+  static JPanel panelStatus;
+  static JPanel info;
 
-  Dimension boardSize = new Dimension(1170, 882);
-  Dimension paneSize = new Dimension(1300, 550);
+  static Dimension boardSize = new Dimension(1170, 882);
+  static Dimension paneSize = new Dimension(1300, 550);
 
   // Constructor
 
@@ -77,7 +77,7 @@ public class BoardLayersListener extends JFrame {
         ImageIcon icon =  new ImageIcon("images/board.jpg");
         boardlabel.setIcon(icon);
         boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
-     
+
         info = new JPanel();
 
        // Add the board to the lowest layer
@@ -92,61 +92,9 @@ public class BoardLayersListener extends JFrame {
        panelStatus.setBounds(icon.getIconWidth()+10,390,450,500);
        panelStatus.setBackground(Color.WHITE);
 
+      addButtons(icon);
       addCards();
-
-       // Add a dice to represent a player.
-       // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
-       playerlabel = new JLabel();
-       ImageIcon pIcon = new ImageIcon("images/r2.png");
-       playerlabel.setIcon(pIcon);
-       //playerlabel.setBounds(114,227,pIcon.getIconWidth(),pIcon.getIconHeight());
-       playerlabel.setBounds(114,227,46,46);
-       bPane.add(playerlabel,new Integer(3));
-
-       // Create the Menu for action buttons
-       mLabel = new JLabel("MENU");
-       mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-       bPane.add(mLabel,new Integer(2));
-
-       // Create Action buttons
-       bAct = new JButton("ACT");
-       bAct.setBackground(Color.white);
-       bAct.setBounds(icon.getIconWidth()+10, 40,120, 40);
-       bAct.addMouseListener(new boardMouseListener());
-
-       bRehearse = new JButton("REHEARSE");
-       bRehearse.setBackground(Color.white);
-       bRehearse.setBounds(icon.getIconWidth()+10,100,120, 40);
-       bRehearse.addMouseListener(new boardMouseListener());
-
-       bMove = new JButton("MOVE");
-       bMove.setBackground(Color.white);
-       bMove.setBounds(icon.getIconWidth()+10,160,120, 40);
-       bMove.addMouseListener(new boardMouseListener());
-
-       bTakeRole = new JButton("TAKE ROLE");
-       bTakeRole.setBackground(Color.white);
-       bTakeRole.setBounds(icon.getIconWidth()+10,220,120, 40);
-       bTakeRole.addMouseListener(new boardMouseListener());
-
-       bRankUp = new JButton("RANK UP");
-       bRankUp.setBackground(Color.white);
-       bRankUp.setBounds(icon.getIconWidth()+10,280,120, 40);
-       bRankUp.addMouseListener(new boardMouseListener());
-
-       bEndTurn = new JButton("END TURN");
-       bEndTurn.setBackground(Color.white);
-       bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
-       bEndTurn.addMouseListener(new boardMouseListener());
-
-
-       // Place the action buttons in the top layer
-       bPane.add(bAct, new Integer(2));
-       bPane.add(bRehearse, new Integer(2));
-       bPane.add(bMove, new Integer(2));
-       bPane.add(bTakeRole, new Integer(2));
-       bPane.add(bRankUp, new Integer(2));
-       bPane.add(bEndTurn, new Integer(2));
+      addPlayers();
 
   }
 
@@ -156,7 +104,6 @@ public class BoardLayersListener extends JFrame {
       ParseFile parse = new ParseFile();
       HashMap<String,Room> rooms = parse.rooms;
       for (String key: rooms.keySet()){
-        System.out.println(key);
         Room currRoom = rooms.get(key);
         if ((key != "trailer") && (key != "Casting Office")){
             Card currCard = currRoom.getCard();
@@ -194,7 +141,98 @@ public class BoardLayersListener extends JFrame {
       bPane.add(cardlabel, new Integer(3));
 
   }
-   
+
+  public void addButtons(ImageIcon icon) {
+      // Create the Menu for action buttons
+      mLabel = new JLabel("MENU");
+      mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+      bPane.add(mLabel,new Integer(2));
+
+      // Create Action buttons
+      bAct = new JButton("ACT");
+      bAct.setBackground(Color.white);
+      bAct.setBounds(icon.getIconWidth()+10, 40,120, 40);
+      bAct.addMouseListener(new boardMouseListener());
+
+      bRehearse = new JButton("REHEARSE");
+      bRehearse.setBackground(Color.white);
+      bRehearse.setBounds(icon.getIconWidth()+10,100,120, 40);
+      bRehearse.addMouseListener(new boardMouseListener());
+
+      bMove = new JButton("MOVE");
+      bMove.setBackground(Color.white);
+      bMove.setBounds(icon.getIconWidth()+10,160,120, 40);
+      bMove.addMouseListener(new boardMouseListener());
+
+      bTakeRole = new JButton("TAKE ROLE");
+      bTakeRole.setBackground(Color.white);
+      bTakeRole.setBounds(icon.getIconWidth()+10,220,120, 40);
+      bTakeRole.addMouseListener(new boardMouseListener());
+
+      bRankUp = new JButton("RANK UP");
+      bRankUp.setBackground(Color.white);
+      bRankUp.setBounds(icon.getIconWidth()+10,280,120, 40);
+      bRankUp.addMouseListener(new boardMouseListener());
+
+      bEndTurn = new JButton("END TURN");
+      bEndTurn.setBackground(Color.white);
+      bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
+      bEndTurn.addMouseListener(new boardMouseListener());
+
+
+      // Place the action buttons in the top layer
+      bPane.add(bAct, new Integer(2));
+      bPane.add(bRehearse, new Integer(2));
+      bPane.add(bMove, new Integer(2));
+      bPane.add(bTakeRole, new Integer(2));
+      bPane.add(bRankUp, new Integer(2));
+      bPane.add(bEndTurn, new Integer(2));
+  }
+
+  public void addPlayers() {
+      ParseFile pf = new ParseFile();
+      ArrayList<Player> players = pf.players;
+      int widthOffset = 0;
+      int heightOffset = 0;
+      for (int i = 0; i < players.size(); i++) {
+        Player currPlayer = players.get(i);
+        String img = getPlayerImage(currPlayer.getPlayer(), currPlayer.getRank());
+        playerlabel = new JLabel();
+        ImageIcon pIcon = new ImageIcon(img);
+        playerlabel.setIcon(pIcon);
+        if (i == 5) {
+            heightOffset += pIcon.getIconHeight();
+            widthOffset = 0;
+        }
+        playerlabel.setBounds(991+widthOffset,248+heightOffset,pIcon.getIconWidth(),pIcon.getIconHeight());
+        bPane.add(playerlabel,new Integer(3));
+        widthOffset += pIcon.getIconWidth();
+      }
+  }
+
+  public static void movePlayer(Player player, Room room) {
+      // get the player image
+      String img = getPlayerImage(player.getPlayer(), player.getRank());
+      // get where to place it
+      Rectangle cardArea = room.getCardArea();
+      playerlabel = new JLabel();
+      ImageIcon pIcon = new ImageIcon(img);
+      playerlabel.setIcon(pIcon);
+      playerlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
+      bPane.add(playerlabel,new Integer(3));
+  }
+
+  public static String getPlayerImage(String playerName, int playerRank){
+      char color = Character.toLowerCase(playerName.charAt(0));
+      String img = "images/" + color + playerRank + ".png";
+      return img;
+  }
+
+  public static flipCard(Room room) {
+
+  }
+
+
   public void buildLowerPanel(/*get num player */){
    int numPlayers = 6;
    info = new JPanel();

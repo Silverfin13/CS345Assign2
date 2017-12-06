@@ -12,9 +12,10 @@ public class GameSetup {
     public ArrayList<String> colors = new ArrayList<String>();
     public LinkedList<Player> playersList = new LinkedList<Player>();
 
-    public void GameSetup() {
+    public ArrayList<Player> GameSetup() {
         setNumPlayers();
         setSceneCards();
+        return this.players;
     }
 
     public String findPlayerColor(){
@@ -82,7 +83,7 @@ public class GameSetup {
       Player firstPlayer = players.get(0);
       firstPlayer.setTurn(true);
       players.set(0, firstPlayer);
-      // playersList.set(0,firstPlayer);
+
     }
 
     public void setNumPlayers(){
@@ -111,7 +112,6 @@ public class GameSetup {
         } else {
           this.numDays = 4;
         }
-        //Player player = new Player();
         createPlayerList(this.numberPlayers);
     }
 
