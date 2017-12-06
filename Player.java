@@ -1,3 +1,11 @@
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
+import java.awt.event.*;
+import java.util.*;
+import java.awt.Rectangle;
+
 public class Player {
 
     public int rank = 0;
@@ -12,6 +20,7 @@ public class Player {
     public String roleValue = "";
     public int roleLevel = 0;
     public int addedDiceValue = 0;
+    public JLabel playerlabel;
 
     public Player(int rank, int money, int fame, String whichPlayer, String playerPosition, boolean turn){
         this.rank = rank;
@@ -20,6 +29,14 @@ public class Player {
         this.whichPlayer = whichPlayer;
         this.playerPosition = playerPosition;
         this.turn = turn;
+    }
+
+    public void setPlayerLabel(JLabel playerlabel) {
+        this.playerlabel = playerlabel;
+    }
+
+    public JLabel getPlayerLabel(){
+        return this.playerlabel;
     }
 
     public void setRank(int playerRank){

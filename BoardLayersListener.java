@@ -110,7 +110,7 @@ public class BoardLayersListener extends JFrame {
             // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
             Rectangle roomArea = currRoom.getCardArea();
             placeCards(currCard, currRoom.getCardArea());
-            placeCardBacks(currRoom.getCardArea());
+            placeCardBacks(currCard, currRoom.getCardArea());
         }
       }
   }
@@ -124,12 +124,13 @@ public class BoardLayersListener extends JFrame {
       // x+4 and y-4
       cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
       cardlabel.setOpaque(true);
+      card.setCardLabel(cardlabel);
       // Add the card to the lower layer
       bPane.add(cardlabel, new Integer(2));
 
   }
 
-  public void placeCardBacks(Rectangle cardArea){
+  public void placeCardBacks(Card card, Rectangle cardArea){
       // Add a scene card to this room
       cardlabel = new JLabel();
       ImageIcon cardBack =  new ImageIcon("images/backOfCard.png");
@@ -137,6 +138,7 @@ public class BoardLayersListener extends JFrame {
       // x+4 and y-4
       cardlabel.setBounds((int)cardArea.getX()+4,(int)cardArea.getY()-4,cardBack.getIconWidth(),cardBack.getIconHeight());
       cardlabel.setOpaque(true);
+      card.setBackCardLabel(cardlabel);
       // Add the card to the lower layer
       bPane.add(cardlabel, new Integer(3));
 
@@ -205,19 +207,24 @@ public class BoardLayersListener extends JFrame {
             widthOffset = 0;
         }
         playerlabel.setBounds(991+widthOffset,248+heightOffset,pIcon.getIconWidth(),pIcon.getIconHeight());
+        currPlayer.setPlayerLabel(playerlabel);
         bPane.add(playerlabel,new Integer(3));
         widthOffset += pIcon.getIconWidth();
       }
   }
 
+  public static void removePlayer(Player player) {
+      JLabel playerlabel = player.getPlayerLabel();
+      System.out.println(playerlabel);
+      bPane.remove(playerlabel);
+      bPane.revalidate();
+      bPane.repaint();
+  }
+
   public static void movePlayer(Player player, Room room) {
-      // get the player image
-      String img = getPlayerImage(player.getPlayer(), player.getRank());
-      // get where to place it
       Rectangle cardArea = room.getCardArea();
-      playerlabel = new JLabel();
-      ImageIcon pIcon = new ImageIcon(img);
-      playerlabel.setIcon(pIcon);
+      JLabel playerlabel = player.getPlayerLabel();
+      Icon pIcon = playerlabel.getIcon();
       playerlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
       bPane.add(playerlabel,new Integer(3));
   }
@@ -228,8 +235,12 @@ public class BoardLayersListener extends JFrame {
       return img;
   }
 
-  public static flipCard(Room room) {
-
+  public static void flipCard(Room room) {
+      Card card = room.getCard();
+      JLabel cardlabel = card.getBackCardLabel();
+      bPane.remove(cardlabel);
+      bPane.revalidate();
+      bPane.repaint();
   }
 
 

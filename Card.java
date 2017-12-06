@@ -1,4 +1,11 @@
 import java.util.*;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
+import java.awt.event.*;
+import java.util.*;
+import java.awt.Rectangle;
 
 public class Card {
 
@@ -11,6 +18,8 @@ public class Card {
     public String currentRoom = "";
     public boolean flipped = false;
     public boolean finished = false;
+    public JLabel backCardlabel;
+    public JLabel cardlabel;
 
     public void createCard(String cardName, String cardImg, int budget, int sceneNumber,  String sceneDescription, ArrayList<part> parts, String currentRoom) {
       this.cardName = cardName;
@@ -20,6 +29,22 @@ public class Card {
       this.sceneDescription = sceneDescription;
       this.parts = parts;
       this.currentRoom = currentRoom;
+    }
+
+    public void setCardLabel(JLabel cardlabel) {
+        this.cardlabel = cardlabel;
+    }
+
+    public JLabel getCardLabel(){
+        return this.cardlabel;
+    }
+
+    public void setBackCardLabel(JLabel backCardlabel) {
+        this.backCardlabel = backCardlabel;
+    }
+
+    public JLabel getBackCardLabel(){
+        return this.backCardlabel;
     }
 
     public String getCardName() {
