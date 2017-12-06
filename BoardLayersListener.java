@@ -312,6 +312,7 @@ public class BoardLayersListener extends JFrame {
          }
          else if (e.getSource()== bEndTurn){
             System.out.println("End Turn is Selected\n");
+            //endTurnButton();
          }
       }
       public void mousePressed(MouseEvent e) {
@@ -323,4 +324,59 @@ public class BoardLayersListener extends JFrame {
       public void mouseExited(MouseEvent e) {
       }
    }
+    public void endTurnButton(){
+        System.out.println("Ending Turn\n");
+
+        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "end");
+
+    }
+    public void actButton(){
+        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "act");
+    }
+
+    public void rehearseButton(){
+        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "rehearse");
+    }
+
+    public void moveButton(){
+
+        // show available movement positions
+        String selectedMove = "";
+        /*String[] options = new String[] {adjacentroom1, adjacentroom2};
+        int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[0]);
+                */
+
+        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + selectedMove);
+    }
+
+    public void rankButton() {
+        ParseFile parse = new ParseFile();
+        HashMap<String, Room> rooms = parse.rooms;
+        for (String key : rooms.keySet()) {
+            Room currRoom = rooms.get(key);
+            if ((!Objects.equals(key, "Casting Office"))) {
+                System.out.println("must be in casting office to increase rank");
+                // current room is currRoom
+            } else {
+                //playerUpgrade(currentPlayer,inputArray, level);
+                // goes castingOffice.java, select increase rank with fame or money
+            }
+        }
+    }
+
+    public String askRankOrMoney(){
+        String response = "";
+        String[] options = new String[] {"Rank", "Money"};
+        int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[0]);
+        return response;
+    }
+
+    public void takeRoleButton(){
+        String role = "";
+        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + role);
+    }
 }
