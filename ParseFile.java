@@ -50,32 +50,32 @@ public class ParseFile {
           String description = element.getElementsByTagName("scene").item(0).getTextContent();
           NodeList part = element.getElementsByTagName("part");
           ArrayList<part> parts = new ArrayList<part>();
-          // System.out.println(part.getLength());
+
           for (int tempPart = 0; tempPart < part.getLength(); tempPart++) {
 
-						Node partNode = part.item(tempPart);
-						if (partNode.getNodeType() == Node.ELEMENT_NODE) {
-							Element partElement = (Element) partNode;
+			Node partNode = part.item(tempPart);
+			if (partNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element partElement = (Element) partNode;
 
-							String partName = partElement.getAttribute("name");
-							String partDescription = partElement.getElementsByTagName("line").item(0).getTextContent();
-							int level = Integer.parseInt(partElement.getAttribute("level"));
-              // System.out.println(partName);
-							NodeList area = partElement.getElementsByTagName("area");
-							Node nodeHolder = area.item(0);
-							Element eHolder = (Element) nodeHolder;
+				String partName = partElement.getAttribute("name");
+				String partDescription = partElement.getElementsByTagName("line").item(0).getTextContent();
+				int level = Integer.parseInt(partElement.getAttribute("level"));
 
-							int x = Integer.parseInt(eHolder.getAttribute("x"));
-							int y = Integer.parseInt(eHolder.getAttribute("y"));
-							int height = Integer.parseInt(eHolder.getAttribute("h"));
-							int width = Integer.parseInt(eHolder.getAttribute("w"));
-              // System.out.println(x);
-              Rectangle cardPosition = new Rectangle(x,y,width,height);
-              part currPart = new part();
-              currPart.createPart(partName, level, cardPosition, partDescription);
-              parts.add(currPart);
-						}
-					}
+				NodeList area = partElement.getElementsByTagName("area");
+				Node nodeHolder = area.item(0);
+				Element eHolder = (Element) nodeHolder;
+
+				int x = Integer.parseInt(eHolder.getAttribute("x"));
+				int y = Integer.parseInt(eHolder.getAttribute("y"));
+				int height = Integer.parseInt(eHolder.getAttribute("h"));
+				int width = Integer.parseInt(eHolder.getAttribute("w"));
+                // System.out.println(x);
+                Rectangle cardPosition = new Rectangle(x,y,width,height);
+                part currPart = new part();
+                currPart.createPart(partName, level, cardPosition, partDescription);
+                parts.add(currPart);
+			}
+		}
           currCard.createCard(name, sceneImage, budget, sceneNumber, description, parts, "");
           cards.add(currCard);
         }
@@ -204,13 +204,12 @@ public class ParseFile {
                       hTake = Integer.parseInt(takeArea.getAttribute("h"));
                       wTake = Integer.parseInt(takeArea.getAttribute("w"));
                 }
+                Rectangle takeArea = new Rectangle(xTake,yTake,wTake,hTake);
+                take currTake = new take();
+                currTake.createTake(setName, number, takeArea);
+                takes.add(currTake);
               }
-              Rectangle takeArea = new Rectangle(xTake,yTake,wTake,hTake);
-              take currTake = new take();
-              currTake.createTake(setName, number, takeArea);
-              takes.add(currTake);
               Room currRoom = new Room();
-
               currRoom.createRoom(setName, extraParts, number, number, neighbors, setPosition, takes);
               rooms.put(setName, currRoom);
     				}

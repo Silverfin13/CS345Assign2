@@ -8,6 +8,7 @@ public class Room {
       public ArrayList<partExtra> parts = new ArrayList<partExtra>();
       /* number of shot markers */
       public int numOfTakes = 0;
+      // how many shot markers left
       public int currNumTakes = 0;
       /* for each day, new card comes in room */
       public Card card;

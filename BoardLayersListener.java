@@ -45,8 +45,6 @@ public class BoardLayersListener extends JFrame {
 
   static Dimension boardSize = new Dimension(1170, 882);
   static Dimension paneSize = new Dimension(1300, 550);
-   
-  static ImageIcon icon;
 
   // Constructor
 
@@ -73,7 +71,7 @@ public class BoardLayersListener extends JFrame {
 
        // Create the deadwood board
         boardlabel = new JLabel();
-        icon =  new ImageIcon("images/board.jpg");
+        ImageIcon icon =  new ImageIcon("images/board.jpg");
         boardlabel.setIcon(icon);
         boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
 
@@ -83,7 +81,7 @@ public class BoardLayersListener extends JFrame {
        bPane.add(boardlabel, new Integer(0));
 
        // Set the size of the GUI
-       setSize(icon.getIconWidth()+400,icon.getIconHeight());
+       setSize(icon.getIconWidth()+200,icon.getIconHeight());
 
      // Create the board for status of player
        panelStatus = new JPanel();
@@ -94,30 +92,34 @@ public class BoardLayersListener extends JFrame {
       addButtons(icon);
       addCards();
       addPlayers();
-
+      addTakes();
   }
 
-   public static void playerInformation(Player currentPlayer, int numDays) {
-    System.out.println("BoardLayersListener: playerInformation()");
-    JLabel numDayLable = new JLabel("Number of days left: " + Integer.toString(numDays) );
-    numDayLable.setBounds(icon.getIconWidth()+10,400,300,20);
-    bPane.add(numDayLable,new Integer(2));
-
-    JLabel playerLable1 = new JLabel("Current player: " + currentPlayer.getPlayer());
-    playerLable1.setBounds(icon.getIconWidth()+10,420,300,20);
-    bPane.add(playerLable1,new Integer(2));
-
-     JLabel playerLable2 = new JLabel("Player rank: " + Integer.toString(currentPlayer.getRank()) );
-    playerLable2.setBounds(icon.getIconWidth()+10,440,300,20);
-    bPane.add(playerLable2,new Integer(2));
-
-    JLabel playerLable3 = new JLabel("Player money: " + Integer.toString(currentPlayer.getMoney()) );
-    playerLable2.setBounds(icon.getIconWidth()+10,460,300,20);
-    bPane.add(playerLable3,new Integer(2));
-
-    JLabel playerLable4 = new JLabel("Current room: " + currentPlayer.getPlayerPosition());
-    playerLable4.setBounds(icon.getIconWidth()+10,480,300,20);
-    bPane.add(playerLable4,new Integer(2));
+  public void addTakes(){
+      ParseFile parse = new ParseFile();
+      HashMap<String,Room> rooms = parse.rooms;
+      for (String key: rooms.keySet()){
+        Room currRoom = rooms.get(key);
+        if ((key != "trailer") && (key != "Casting Office")){
+            ArrayList<take> takes = currRoom.getTakes();
+            Rectangle roomArea = currRoom.getCardArea();
+            System.out.println(takes.size());
+            for (int i = 0; i < takes.size(); i++) {
+                take t = takes.get(i);
+                Rectangle takeArea = t.getArea();
+                // Add a scene card to this room
+                cardlabel = new JLabel();
+                //System.out.println(card.getCardName());
+                ImageIcon cardImage =  new ImageIcon("images/shot.png");
+                cardlabel.setIcon(cardImage);
+                // x+4 and y-4
+                cardlabel.setBounds((int)takeArea.getX(),(int)takeArea.getY(), cardImage.getIconWidth(),cardImage.getIconHeight());
+                cardlabel.setOpaque(true);
+                // Add the card to the lower layer
+                bPane.add(cardlabel, new Integer(2));
+            }
+        }
+      }
   }
 
 
