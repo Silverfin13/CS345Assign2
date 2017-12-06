@@ -67,10 +67,7 @@ public class BoardLayersListener extends JFrame {
        }
 
        // Create the JLayeredPane to hold the display, cards, dice and buttons
-
        bPane = getLayeredPane();
-    //    bPane.setOpaque(true);
-    //    bPane.setBackground(Color.red);
 
        // Create the deadwood board
         boardlabel = new JLabel();
@@ -84,7 +81,7 @@ public class BoardLayersListener extends JFrame {
        bPane.add(boardlabel, new Integer(0));
 
        // Set the size of the GUI
-       setSize(icon.getIconWidth()+450,icon.getIconHeight());
+       setSize(icon.getIconWidth()+200,icon.getIconHeight());
 
      // Create the board for status of player
        panelStatus = new JPanel();
@@ -181,9 +178,6 @@ public class BoardLayersListener extends JFrame {
       bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
       bEndTurn.addMouseListener(new boardMouseListener());
 
-      JLabel testlable = new JLabel("this is test +'\n'+ dfdf");
-      testlable.setBounds(icon.getIconWidth()+10,400,300,20);
-      bPane.add(testlable,new Integer(2));
 
       // Place the action buttons in the top layer
       bPane.add(bAct, new Integer(2));
@@ -218,7 +212,6 @@ public class BoardLayersListener extends JFrame {
 
   public static void removePlayer(Player player) {
       JLabel playerlabel = player.getPlayerLabel();
-      System.out.println(playerlabel);
       bPane.remove(playerlabel);
       bPane.revalidate();
       bPane.repaint();
@@ -255,13 +248,6 @@ public class BoardLayersListener extends JFrame {
    // info. add days remaining
    for (int i = 0; i <= numPlayers; i++){
        info.add(playerInfo[i]);
-       /*
-       playerInfo[i].setText("<html>Player " + (i + 1) +
-               "<br>You are " + Player.getPlayer();
-               "<br>It is your Turn!" +
-               "<br>Money: " + Player.getMoney() +
-               "<br>Rank: " + Player.getRank() + "</html>")
-       */
    }
    bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
