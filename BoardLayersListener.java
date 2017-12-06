@@ -217,8 +217,7 @@ public class BoardLayersListener extends JFrame {
       bPane.repaint();
   }
 
-  public static void movePlayer(Player player, Room room) {
-      Rectangle cardArea = room.getCardArea();
+  public static void movePlayer(Player player, Rectangle cardArea) {
       JLabel playerlabel = player.getPlayerLabel();
       Icon pIcon = playerlabel.getIcon();
       playerlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());

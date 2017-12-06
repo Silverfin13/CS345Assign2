@@ -20,7 +20,7 @@ public class Move {
               card.setFlipped(true);
           }
           BoardLayersListener.removePlayer(currentPlayer);
-          BoardLayersListener.movePlayer(currentPlayer, newRoom);
+          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea());
           BoardLayersListener.flipCard(newRoom);
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
           currentPlayer.setMoved(true);
@@ -44,7 +44,7 @@ public class Move {
           Card card = newRoom.getCard();
           card.setFlipped(true);
           BoardLayersListener.removePlayer(currentPlayer);
-          BoardLayersListener.movePlayer(currentPlayer, newRoom);
+          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea());
           BoardLayersListener.flipCard(newRoom);
           System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
           currentPlayer.setMoved(true);
