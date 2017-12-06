@@ -46,9 +46,6 @@ public class Deadwood {
             }
             i++;
         }
-
-        //for loop for how many days left
-
     }
 
     public static void startTurn(Player currentPlayer) {

@@ -217,11 +217,20 @@ public class BoardLayersListener extends JFrame {
       bPane.repaint();
   }
 
-  public static void movePlayer(Player player, Rectangle cardArea) {
+  public static void onCardMove(Player player, Rectangle cardArea, Rectangle roomArea) {
       JLabel playerlabel = player.getPlayerLabel();
       Icon pIcon = playerlabel.getIcon();
-      playerlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
-      bPane.add(playerlabel,new Integer(3));
+      playerlabel.setBounds((int)cardArea.getX()+(int)roomArea.getX(),(int)cardArea.getY()+(int)roomArea.getY(),
+      pIcon.getIconWidth(),pIcon.getIconHeight());
+      bPane.add(playerlabel,new Integer(4));
+  }
+
+  public static void movePlayer(Player player, Rectangle cardArea, Room room) {
+      int players = room.getPlayersOnCard();
+      JLabel playerlabel = player.getPlayerLabel();
+      Icon pIcon = playerlabel.getIcon();
+      playerlabel.setBounds((int)cardArea.getX()+(players * pIcon.getIconWidth()),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
+      bPane.add(playerlabel,new Integer(4));
   }
 
   public static String getPlayerImage(String playerName, int playerRank){

@@ -11,12 +11,10 @@ public class Room {
       public int currNumTakes = 0;
       /* for each day, new card comes in room */
       public Card card;
-
       Rectangle cardArea;
-
       ArrayList<take> takes = new ArrayList<take>();
-
       public ArrayList<String> neighbors = new ArrayList<String>();
+      public int playersOnCard = 0;
 
       public void createRoom(String name, ArrayList<partExtra> parts, int numOfTakes, int currNumTakes, ArrayList<String> neighbors, Rectangle cardArea, ArrayList<take> takes) {
         this.name = name;
@@ -26,6 +24,14 @@ public class Room {
         this.neighbors = neighbors;
         this.cardArea = cardArea;
         this.takes = takes;
+      }
+
+      public void setPlayersOnCard(int playersOnCard) {
+          this.playersOnCard = playersOnCard;
+      }
+
+      public int getPlayersOnCard(){
+          return this.playersOnCard;
       }
 
       public void setCard(Card newCard){

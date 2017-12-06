@@ -20,9 +20,12 @@ public class Move {
               card.setFlipped(true);
           }
           BoardLayersListener.removePlayer(currentPlayer);
-          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea());
-          BoardLayersListener.flipCard(newRoom);
+          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea(), newRoom);
+          if (!(destination[1].equals("Casting Office")) && !(destination[1].equals("trailer"))) {
+              BoardLayersListener.flipCard(newRoom);
+          }
           System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
+          newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
           currentPlayer.setMoved(true);
           return true;
         } else {
@@ -44,9 +47,12 @@ public class Move {
           Card card = newRoom.getCard();
           card.setFlipped(true);
           BoardLayersListener.removePlayer(currentPlayer);
-          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea());
-          BoardLayersListener.flipCard(newRoom);
+          BoardLayersListener.movePlayer(currentPlayer, newRoom.getCardArea(), newRoom);
+          if (!(newDestination.equals("Casting Office")) && !(newDestination.equals("trailer"))) {
+              BoardLayersListener.flipCard(newRoom);
+          }
           System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
+          newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
           currentPlayer.setMoved(true);
           return true;
         } else {

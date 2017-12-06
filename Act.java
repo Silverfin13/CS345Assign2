@@ -147,7 +147,7 @@ public class Act{
           System.out.println(card.getCardName());
           ArrayList<partExtra> parts = currRoom.getParts();
           ArrayList<part> cardParts = card.getCardParts();
-          if (checkRole(currentPlayer, parts, cardParts, destination[1])){
+          if (checkRole(currentPlayer, parts, cardParts, destination[1], currRoom)){
             return true;
           } else {
             return false;
@@ -163,7 +163,7 @@ public class Act{
           Card card = currRoom.getCard();
           ArrayList<partExtra> parts = currRoom.getParts();
           ArrayList<part> cardParts = card.getCardParts();
-          if (checkRole(currentPlayer, parts, cardParts, newDestination)){
+          if (checkRole(currentPlayer, parts, cardParts, newDestination, currRoom)){
             return true;
           } else {
             return false;
@@ -175,7 +175,7 @@ public class Act{
       }
     }
 
-    public boolean checkRole(Player currentPlayer, ArrayList<partExtra> parts, ArrayList<part> cardParts, String partName){
+    public boolean checkRole(Player currentPlayer, ArrayList<partExtra> parts, ArrayList<part> cardParts, String partName, Room room){
       boolean check = false;
       for (int i = 0; i < parts.size(); i++) {
         partExtra currPart = parts.get(i);
@@ -188,6 +188,9 @@ public class Act{
             currentPlayer.setRoleValue("off");
             currPart.setTaken(true);
             System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+            System.out.println(currPart.getArea());
+            BoardLayersListener.removePlayer(currentPlayer);
+            BoardLayersListener.movePlayer(currentPlayer, currPart.getArea(), room);
             currentPlayer.setTurn(false);
             return true;
           }
@@ -209,6 +212,9 @@ public class Act{
               currentPlayer.setRoleValue("on");
               currPart.setTaken(true);
               System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
+              BoardLayersListener.removePlayer(currentPlayer);
+              System.out.println(currPart.getArea());
+              BoardLayersListener.onCardMove(currentPlayer, currPart.getArea(), room.getCardArea());
               currentPlayer.setTurn(false);
               return true;
             }
