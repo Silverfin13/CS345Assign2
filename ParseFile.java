@@ -16,6 +16,13 @@ import java.awt.Rectangle;
 public class ParseFile {
 
   public static ArrayList<Card> cards = new ArrayList<Card>();
+  public static ArrayList<Player> players = new ArrayList<Player>();
+
+  public static void setPlayers(ArrayList<Player> p) {
+      for (int i = 0; i < p.size(); i++) {
+          players.add(p.get(i));
+      }
+  }
 
   public static void parseCards(){
     try {
