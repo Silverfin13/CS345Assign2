@@ -293,19 +293,23 @@ public class BoardLayersListener extends JFrame {
         //moveOptions();
         String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
         Map<String,Room> map = ParseFile.rooms;
-        String[] sceneNeighbors;
+        //String[] sceneNeighbors;
+        ArrayList<String> obj = new ArrayList<String>();
 
         for(Map.Entry<String, Room> entry : map.entrySet()) {
             String key = entry.getKey();
             if( currentPlayer.getPlayerPosition().equals(key) ) {
                 Room room = entry.getValue();
-                sceneNeighbors = new String[room.neighbors.size()];
-                System.out.println("room: " + room.neighbors.get(0));
 
                 for(int i = 0; i < room.neighbors.size(); i++) {
-                    sceneNeighbors[i] = room.neighbors.get(i);
+                    obj.add(room.neighbors.get(i));
                 }
             }
+        }
+
+        String[] sceneNeighbors = new String[obj.size()];
+        for(int i = 0; i < obj.size(); i++) {
+            sceneNeighbors[i] = obj.get(i);
         }
 
         int option =  JOptionPane.showOptionDialog(null, "Choose which scene to move to", "Message",
@@ -314,6 +318,8 @@ public class BoardLayersListener extends JFrame {
 
         if (option != JOptionPane.CLOSED_OPTION) {
             System.out.println(sceneNeighbors[option]);
+            Move move = new Move();
+            move.move(currentPlayer, sceneNeighbors);
         } else {
             System.out.println("No option selected");
         }
@@ -335,6 +341,7 @@ public class BoardLayersListener extends JFrame {
             }
             else if (e.getSource()== bMove){
                 System.out.println("Move is Selected\n");
+               movetoAdjacentScene(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bTakeRole){
                 System.out.println("Taking a Role is Selected\n");
