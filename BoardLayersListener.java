@@ -287,11 +287,10 @@ public class BoardLayersListener extends JFrame {
    bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
 }
-   //guys I am inyoung and I am still working on this function. it will pop a baby box showing all options regarding adjacent
-   //places a player chooses to go to from where he is. isn't that cool?
-       public void movetoAdjacentScene(Player currentPlayer) {
+   
+   public void movetoAdjacentScene(Player currentPlayer) {
         //moveOptions();
-        String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
+        //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
         Map<String,Room> map = ParseFile.rooms;
         //String[] sceneNeighbors;
         ArrayList<String> obj = new ArrayList<String>();
@@ -318,8 +317,41 @@ public class BoardLayersListener extends JFrame {
 
         if (option != JOptionPane.CLOSED_OPTION) {
             System.out.println(sceneNeighbors[option]);
+
+            int lengthSceneArray = 0;
+            for(int i = 0; i < sceneNeighbors[option].length(); i++){
+                //this doesn't work
+                if(sceneNeighbors[option].contains(" ")) {
+                    //two words
+                    lengthSceneArray = 3;
+
+                } else {
+                    //one words
+                    lengthSceneArray = 2;
+                }
+            }
+            String[] result = sceneNeighbors[option].split("\\s+");
+            System.out.println("sceneNeighbors[option]: " + sceneNeighbors[option]);
+            System.out.println("lengthSceneArray: " + lengthSceneArray);
+            String[] destination = new String[lengthSceneArray];
+            if(lengthSceneArray == 2) {
+                destination[0] = "move";
+                destination[1] = result[0];
+            } else if(lengthSceneArray ==3 ){
+                System.out.println("Are we here?");
+                System.out.println("result[1]: " + result[1]);
+                destination[0] = "move";
+                destination[1] = result[0];
+                destination[2] = result[1];
+            }
+
+            for(int i = 0; i < destination.length; i++){
+                System.out.println(destination[i]);
+            }
+
             Move move = new Move();
-            move.move(currentPlayer, sceneNeighbors);
+            move.move(currentPlayer, destination);
+
         } else {
             System.out.println("No option selected");
         }
