@@ -287,7 +287,39 @@ public class BoardLayersListener extends JFrame {
    bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
 }
+   //guys I am inyoung and I am still working on this function. it will pop a baby box showing all options regarding adjacent
+   //places a player chooses to go to from where he is. isn't that cool?
+       public void movetoAdjacentScene(Player currentPlayer) {
+        //moveOptions();
+        String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
+        Map<String,Room> map = ParseFile.rooms;
+        String[] sceneNeighbors;
 
+        for(Map.Entry<String, Room> entry : map.entrySet()) {
+            String key = entry.getKey();
+            if( currentPlayer.getPlayerPosition().equals(key) ) {
+                Room room = entry.getValue();
+                sceneNeighbors = new String[room.neighbors.size()];
+                System.out.println("room: " + room.neighbors.get(0));
+
+                for(int i = 0; i < room.neighbors.size(); i++) {
+                    sceneNeighbors[i] = room.neighbors.get(i);
+                }
+            }
+        }
+
+        int option =  JOptionPane.showOptionDialog(null, "Choose which scene to move to", "Message",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, sceneNeighbors, sceneNeighbors[0]);
+
+        if (option != JOptionPane.CLOSED_OPTION) {
+            System.out.println(sceneNeighbors[option]);
+        } else {
+            System.out.println("No option selected");
+        }
+    }
+   
+   
   // This class implements Mouse Events
 
     class boardMouseListener implements MouseListener {
