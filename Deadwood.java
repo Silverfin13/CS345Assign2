@@ -8,6 +8,7 @@ public class Deadwood {
     public static HashMap<String,ArrayList> setNeighbors;
     public static ArrayList<Card> cards;
     public static int scenesLeft = 10;
+    public static Player globalPlayer;
 
     public static void main(String[] args) {
 
@@ -32,6 +33,7 @@ public class Deadwood {
                 // iterate through player turns
                 for(int a = 0; a < players.size(); a++) {
                     if(players.get(a).getTurn()) {
+                        globalPlayer = players.get(a);
                         startTurn(players.get(a));
                         // make the next players turn be true
                         if (a+1 < players.size()){
