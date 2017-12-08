@@ -396,34 +396,28 @@ public class BoardLayersListener extends JFrame {
         }
 
     }
-
-    public void endTurnButton(){
+    public void endTurnButton(Player currentPlayer){
         System.out.println("Ending Turn\n");
+        System.out.println(currentPlayer.getPlayer());
+//        Deadwood dw = new Deadwood();
+//        int currentPlayerNum = dw.getA();
+//        ArrayList<Player> player = dw.getCurrentPlayer();
+//        Player players = player.get(currentPlayerNum);
+        Deadwood.startTurn(currentPlayer, "end");
+        //Deadwood.startTurn(currentPlayer.get(currentPlayerNum), "end");
 
-        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "end");
+
 
     }
     public void actButton(){
-        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "act");
+        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "act");
+
     }
 
     public void rehearseButton(){
-        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "rehearse");
+        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "rehearse");
     }
 
-    // player moves by selecting possible adjacent rooms
-    public void moveButton(){
-
-        // show available movement positions
-        String selectedMove = "";
-        /*String[] options = new String[] {adjacentroom1, adjacentroom2};
-        int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
-                */
-
-        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + selectedMove);
-    }
 
     // user requests to increase rank by pressing rank button
     public void rankButton() {
@@ -454,7 +448,7 @@ public class BoardLayersListener extends JFrame {
     // allow user to take a role by typing their selected role in pop up
     public void takeRoleButton(){
         String role = "";
-        Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + role);
+        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + role);
     }
 
     // ask if the user wants to act on or off the card, return response to main program
@@ -466,9 +460,12 @@ public class BoardLayersListener extends JFrame {
                 null, options, options[0]);
         return response;
     }
-    
+
     // display information to be shown to the user as a pop up menu
     public void displayGenericMessage(String message){
-        
+        JOptionPane.showMessageDialog(null, message);
+
+
+
     }
 }

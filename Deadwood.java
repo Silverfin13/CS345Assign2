@@ -26,6 +26,7 @@ public class Deadwood {
         BoardLayersListener board = new BoardLayersListener();
         board.setVisible(true);
 
+        /*
         int i = 1;
         while(i < numDays+1) {
             System.out.println("There are " + numDays + " days left.");
@@ -48,9 +49,11 @@ public class Deadwood {
             }
             i++;
         }
+        */
     }
 
-    public static void startTurn(Player currentPlayer) {
+
+    public static void startTurn(Player currentPlayer, String command) {
       //  Scanner userInput = new Scanner(System.in);
        boolean val = false;
        // user input for number of players
