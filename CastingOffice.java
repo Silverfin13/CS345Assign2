@@ -12,6 +12,7 @@ public class CastingOffice {
     Rectangle officeArea;
     ArrayList<String> neighbors = new ArrayList<String>();
     Player player;
+    public static BoardLayersListener board;
 
     public boolean checkPlayerRank() {
         if(this.rank >=1 && this.rank <=6){
@@ -60,7 +61,9 @@ public class CastingOffice {
                 if(currentPlayer.getFame() >=5) {
                     currentPlayer.setFame( currentPlayer.getFame() - 5 );
                     currentPlayer.setRank(2);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
+
                 } else {
                     System.out.println("To rank up to 2, you need at least 5 fames");
                     returnValue = false;
@@ -70,6 +73,7 @@ public class CastingOffice {
                 if(currentPlayer.getFame() >=10){
                     currentPlayer.setFame( currentPlayer.getFame() - 10 );
                     currentPlayer.setRank(3);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 } else{
                     System.out.println("To rank up to 3, you need at least 10 fames");
@@ -80,6 +84,7 @@ public class CastingOffice {
                 if(currentPlayer.getFame() >=15){
                     currentPlayer.setFame( currentPlayer.getFame() - 15 );
                     currentPlayer.setRank(4);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 } else {
                     System.out.println("To rank up to 4, you need at least 15 fames");
@@ -90,6 +95,7 @@ public class CastingOffice {
                 if(currentPlayer.getFame() >=20){
                     currentPlayer.setFame( currentPlayer.getFame() - 20 );
                     currentPlayer.setRank(5);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 } else {
                     System.out.println("To rank up to 5, you need at least 20 fames");
@@ -100,6 +106,7 @@ public class CastingOffice {
                 if(currentPlayer.getFame() >=25){
                     currentPlayer.setFame( currentPlayer.getFame() - 25 );
                     currentPlayer.setRank(6);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 } else {
                     System.out.println("To rank up to 6, you need at least 25 fames");
@@ -117,6 +124,7 @@ public class CastingOffice {
                 if(currentPlayer.getMoney() >= 4){
                     currentPlayer.setMoney( currentPlayer.getMoney() - 4 );
                     currentPlayer.setRank(2);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 2, you need at least 4 dollars");
@@ -127,6 +135,7 @@ public class CastingOffice {
                 if(currentPlayer.getMoney() >= 10){
                     currentPlayer.setMoney( currentPlayer.getMoney() - 10 );
                     currentPlayer.setRank(3);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 3, you need at least 10 dollars");
@@ -137,6 +146,7 @@ public class CastingOffice {
                 if(currentPlayer.getMoney() >= 18){
                     currentPlayer.setMoney( currentPlayer.getMoney() - 18 );
                     currentPlayer.setRank(4);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 4, you need at least 18 dollars");
@@ -147,6 +157,7 @@ public class CastingOffice {
                 if(currentPlayer.getMoney() >= 28) {
                     currentPlayer.setMoney( currentPlayer.getMoney() - 28 );
                     currentPlayer.setRank(5);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 5, you need at least 28 dollars");
@@ -157,6 +168,7 @@ public class CastingOffice {
                 if(currentPlayer.getMoney() >= 40) {
                     currentPlayer.setMoney( currentPlayer.getMoney() - 40 );
                     currentPlayer.setRank(6);
+                    board.playerInformation(currentPlayer,Deadwood.numDays);
                     returnValue = true;
                 }else{
                     System.out.println("To rank up to 6, you need at least 40 dollars");
