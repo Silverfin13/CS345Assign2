@@ -37,82 +37,72 @@ public class Deadwood {
        boolean val = false;
        // user input for number of players
        do {
-         //Console console = System.console();
-         //String input = console.readLine();
-         String[] inputArray;
-         if (input.contains(" ")){
-           inputArray = input.split(" ");
-           input = inputArray[0];
-         } else {
-           inputArray = new String[3];
-         }
-         if (inputArray.length > 3) {
-           System.out.println("Not a valid input, try again.");
-         } else {
-           switch(input) {
-             case "who":
-                 System.out.println(currentPlayer.getPlayer());
-               break;
-             case "where":
-                 System.out.println(currentPlayer.getPlayerPosition());
-               break;
-             case "move":
-                 Move move = new Move();
-                 move.move(currentPlayer, inputArray);
-               break;
-             case "work":
-               val = work(currentPlayer, inputArray);
-               break;
-             case "upgrade":
+        //Console console = System.console();
+        //String input = console.readLine();
+        String[] inputArray;
+        inputArray = input.split(" ");
+        input = inputArray[0];
+        switch(input) {
+         case "move":
+             Move move = new Move();
+             move.move(currentPlayer, inputArray);
+           break;
+         case "work":
+        //    if (inputArray[1].equals("Cancel")) {
+           //
+        //    }
+           val = work(currentPlayer, inputArray);
+           break;
+         case "rank up":
 
-                 if( (inputArray[1] != "$") && (inputArray[1] == "cr") ) {
-                     System.out.println("Not a valid input, try again.");
+             if( (inputArray[1] != "$") && (inputArray[1] == "cr") ) {
+                 System.out.println("Not a valid input, try again.");
+                 System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+             } else {
+                 try {
+                   String valueType = inputArray[1];
+                   int level = Integer.parseInt(inputArray[2]);
+                   System.out.println("do we hit here? 1");
+                   playerUpgrade(currentPlayer,inputArray, level);
+                   //castingOffice(currentPlayer, valueType, level);
+                 } catch (NumberFormatException e) {
+                     System.out.println("Invalid level. Try again.");
                      System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-                 } else {
-                     try {
-                       String valueType = inputArray[1];
-                       int level = Integer.parseInt(inputArray[2]);
-                       System.out.println("do we hit here? 1");
-                       playerUpgrade(currentPlayer,inputArray, level);
-                       //castingOffice(currentPlayer, valueType, level);
-                     } catch (NumberFormatException e) {
-                         System.out.println("Invalid level. Try again.");
-                         System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-                     }
                  }
+             }
 
-               break;
-             case "rehearse":
-               playerRehearse(currentPlayer);
-               val=true;
-               break;
-             case "act":
-               Act act = new Act();
-               act.playerAct(currentPlayer);
-               if (currentPlayer.getTurn() == false){
-                   val = true;
-               }
-               break;
-             case "end":
-                 ParseFile pf = new ParseFile();
-                 ArrayList<Player> players = pf.players;
-                 currentPlayer.setTurn(false);
-                 if (turnsComplete == (players.size() - 1)) {
-                     turnsComplete = 0;
-                 } else {
-                     turnsComplete++;
-                 }
-                 System.out.println(turnsComplete);
-                 globalPlayer = players.get(turnsComplete);
-                 val = true;
-                 BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
-                 "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-               break;
-             default:
-               System.out.println("Not a valid input, try again.");
-               break;
+           break;
+         case "rehearse":
+           playerRehearse(currentPlayer);
+           val=true;
+           break;
+         case "act":
+           Act act = new Act();
+           act.playerAct(currentPlayer);
+           if (currentPlayer.getTurn() == false){
+               val = true;
            }
-         }
+           break;
+         case "end":
+             ParseFile pf = new ParseFile();
+             ArrayList<Player> players = pf.players;
+             currentPlayer.setTurn(false);
+             currentPlayer.setMoved(false);
+             if (turnsComplete == (players.size() - 1)) {
+                 turnsComplete = 0;
+             } else {
+                 turnsComplete++;
+             }
+             System.out.println(turnsComplete);
+             globalPlayer = players.get(turnsComplete);
+             val = true;
+             BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
+             "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+           break;
+         default:
+           System.out.println("Not a valid input, try again.");
+           break;
+        }
        } while (val == false);
      }
 
@@ -159,8 +149,8 @@ public class Deadwood {
     }
 
     public static boolean work(Player currentPlayer, String[] role) {
-      Act act = new Act();
-      return act.takeUpRole(currentPlayer, role);
+        Act act = new Act();
+        return act.takeUpRole(currentPlayer, role);
     }
 
 

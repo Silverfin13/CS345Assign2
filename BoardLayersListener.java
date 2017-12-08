@@ -376,7 +376,8 @@ public class BoardLayersListener extends JFrame {
                movetoAdjacentScene(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bTakeRole){
-                System.out.println("Taking a Role is Selected\n");
+                System.out.println(bTakeRole);
+                takeRoleButton(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bRankUp){
                 System.out.println("Rank Up is Selected\n");
@@ -446,9 +447,27 @@ public class BoardLayersListener extends JFrame {
     }
 
     // allow user to take a role by typing their selected role in pop up
-    public void takeRoleButton(){
-        String role = "";
-        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "move" + role);
+    public void takeRoleButton(Player player){
+        String position = player.getPlayerPosition();
+        HashMap<String,Room> rooms = ParseFile.rooms;
+        Room room = rooms.get(position);
+        ArrayList<partExtra> extraParts = room.getParts();
+        Card card = room.getCard();
+        ArrayList<part> parts = card.getCardParts();
+        String[] extraPartsArray = new String[(extraParts.size()+parts.size())];
+        for (int i = 0; i < extraParts.size(); i++) {
+            extraPartsArray[i] = extraParts.get(i).getPartName();
+            System.out.println(extraParts.get(i).getPartName());
+        }
+        for (int i = (extraParts.size()); i < (parts.size()+extraParts.size()); i++) {
+            extraPartsArray[i] = parts.get(i-extraParts.size()).getName();
+        }
+        Object selected = JOptionPane.showInputDialog(null, "What role would you like to take:", "Selection", JOptionPane.DEFAULT_OPTION, null,
+        extraPartsArray, extraPartsArray[0]);
+        if ( selected != null ){//null if the user cancels.
+            String selectedString = selected.toString();
+            Deadwood.startTurn(Deadwood.globalPlayer, "work " + selectedString);
+        }
     }
 
     // ask if the user wants to act on or off the card, return response to main program
