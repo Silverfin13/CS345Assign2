@@ -118,16 +118,19 @@ public class Act{
                 int currFame = currentPlayer.getFame();
                 currFame += 2;
                 currentPlayer.setFame(currFame);
+                BoardLayersListener.playerInformation(currentPlayer,Deadwood.numDays);
 
                 int currMoney = currentPlayer.getMoney();
                 currMoney++;
                 currentPlayer.setMoney(currMoney);
+                BoardLayersListener.playerInformation(currentPlayer,Deadwood.numDays);
                 currentPlayer.setTurn(false);
             } else {
                 BoardLayersListener.displayGenericMessage("You failed in acting off card! You still earn 1 money");
                 int currMoney = currentPlayer.getMoney();
                 currMoney++;
                 currentPlayer.setMoney(currMoney);
+                BoardLayersListener.playerInformation(currentPlayer,Deadwood.numDays);
                 currentPlayer.setTurn(false);
             }
         }
