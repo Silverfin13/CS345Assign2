@@ -9,12 +9,13 @@ public class Deadwood {
     public static int scenesLeft = 10;
     public static Player globalPlayer;
     public static int turnsComplete = 0;
-
+    public static int numDays;
+    
     public static void main(String[] args) {
 
         ParseFile.parseCards();
         ParseFile.parseBoard();
-        int numDays = 0;
+        numDays = 0;
         GameSetup game = new GameSetup();
         ArrayList<Player> players = game.GameSetup();
         numDays = game.getNumDays();
@@ -28,6 +29,7 @@ public class Deadwood {
         // System.out.println("There are " + numDays + " days left.");
         globalPlayer = players.get(0);
         BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
+        board.playerInformation(globalPlayer,numDays);
     }
 
 
@@ -61,6 +63,7 @@ public class Deadwood {
                    String valueType = inputArray[1];
                    int level = Integer.parseInt(inputArray[2]);
                    System.out.println("do we hit here? 1");
+                   playerUpgrade(currentPlayer,inputArray, level);
                    playerUpgrade(currentPlayer,inputArray, level);
                    //castingOffice(currentPlayer, valueType, level);
                  } catch (NumberFormatException e) {
@@ -129,6 +132,7 @@ public class Deadwood {
         System.out.println(turnsComplete);
         globalPlayer = players.get(turnsComplete);
         BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
+        board.playerInformation(globalPlayer,numDays);
     }
 
     public static void playerRehearse(Player currentPlayer) {
