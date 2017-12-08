@@ -46,6 +46,17 @@ public class BoardLayersListener extends JFrame {
   static Dimension boardSize = new Dimension(1170, 882);
   static Dimension paneSize = new Dimension(1300, 550);
 
+  static ImageIcon icon;
+   
+       // JPanel
+  static JLabel numDayLable = new JLabel();
+  static JLabel playerLable1 = new JLabel();
+  static JLabel playerLable2 = new JLabel();
+  static JLabel playerLable3 = new JLabel();
+  static JLabel playerLable4 = new JLabel();
+  static JLabel playerLable5 = new JLabel();
+
+  static ImageIcon icon;
   // Constructor
 
   public BoardLayersListener() {
@@ -60,7 +71,7 @@ public class BoardLayersListener extends JFrame {
 
        // Create the deadwood board
         boardlabel = new JLabel();
-        ImageIcon icon =  new ImageIcon("images/board.jpg");
+        icon =  new ImageIcon("images/board.jpg");
         boardlabel.setIcon(icon);
         boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
 
@@ -84,7 +95,39 @@ public class BoardLayersListener extends JFrame {
       addTakes();
   }
 
+   public static void playerInformation(Player currentPlayer, int numDays) {
+        System.out.println("BoardLayersListener: playerInformation()");
+        //JLabel numDayLable = new JLabel();
+        numDayLable.setText("Number of days left: " + Integer.toString(numDays));
+        numDayLable.setBounds(icon.getIconWidth()+10,400,300,20);
+        bPane.add(numDayLable,new Integer(2));
 
+        //JLabel playerLable1 = new JLabel();
+        playerLable1.setText("Current player: " + currentPlayer.getPlayer());
+        playerLable1.setBounds(icon.getIconWidth()+10,420,300,20);
+        bPane.add(playerLable1,new Integer(2));
+
+        //JLabel playerLable2 = new JLabel();
+        playerLable2.setText("Player rank: " + Integer.toString(currentPlayer.getRank()));
+        playerLable2.setBounds(icon.getIconWidth()+10,440,300,20);
+        bPane.add(playerLable2,new Integer(2));
+
+        //JLabel playerLable3 = new JLabel();
+        playerLable3.setText("Player money: " + Integer.toString(currentPlayer.getMoney()));
+        playerLable3.setBounds(icon.getIconWidth()+10,460,300,20);
+        bPane.add(playerLable3,new Integer(2));
+
+        //JLabel playerLable4 = new JLabel();
+        playerLable4.setText("Player fame: " + Integer.toString(currentPlayer.getFame()));
+        playerLable4.setBounds(icon.getIconWidth()+10,480,300,20);
+        bPane.add(playerLable4,new Integer(2));
+
+        //JLabel playerLable5 = new JLabel();
+        playerLable5.setText("Current room: " + currentPlayer.getPlayerPosition());
+        playerLable5.setBounds(icon.getIconWidth()+10,500,300,20);
+        bPane.add(playerLable5,new Integer(2));
+    }
+   
   public static int askNumPlayers() {
       int playerNumber = 0;
       //asks for number of players
@@ -355,7 +398,7 @@ public class BoardLayersListener extends JFrame {
 
             Move move = new Move();
             move.move(currentPlayer, destination);
-
+            playerInformation(currentPlayer,Deadwood.numDays);
         } else {
             System.out.println("No option selected");
         }
