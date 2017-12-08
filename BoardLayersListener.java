@@ -56,7 +56,6 @@ public class BoardLayersListener extends JFrame {
   static JLabel playerLable4 = new JLabel();
   static JLabel playerLable5 = new JLabel();
 
-  static ImageIcon icon;
   // Constructor
 
   public BoardLayersListener() {
