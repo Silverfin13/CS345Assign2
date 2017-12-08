@@ -10,6 +10,7 @@ public class Deadwood {
     public static Player globalPlayer;
     public static int turnsComplete = 0;
     public static int numDays;
+    public static BoardLayersListener board;
     
     public static void main(String[] args) {
 
@@ -23,7 +24,7 @@ public class Deadwood {
         ParseFile.setPlayers(players);
         cards = ParseFile.cards;
 
-        BoardLayersListener board = new BoardLayersListener();
+        board = new BoardLayersListener();
         board.setVisible(true);
 
         // System.out.println("There are " + numDays + " days left.");
