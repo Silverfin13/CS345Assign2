@@ -87,25 +87,8 @@ public class GameSetup {
     }
 
     public void setNumPlayers(){
-        Scanner userInput = new Scanner(System.in);
-        boolean val = false;
-        // user input for number of players
-        do {
-          System.out.print("Please enter number of players: ");
-          if (userInput.hasNextInt()) {
-            int numPlayers = userInput.nextInt();
-            if (numPlayers >= 2 && numPlayers <= 8) {
-              this.numberPlayers = numPlayers;
-              val = true;
-            } else {
-              System.out.println("Wrong number of players!\n");
-            }
-          } else if ((userInput.next().toLowerCase()) == "quit") {
-            return;
-          } else {
-            System.out.println("Not a valid integer!\n");
-          }
-        } while (val == false);
+        int numPlayers = BoardLayersListener.askNumPlayers();
+        this.numberPlayers = numPlayers;
         // set number of days
         if ((this.numberPlayers >= 2) && (this.numberPlayers <= 3)) {
           this.numDays = 3;

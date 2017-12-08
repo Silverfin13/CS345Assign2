@@ -27,6 +27,8 @@ public class Deadwood {
 
         System.out.println("There are " + numDays + " days left.");
         globalPlayer = players.get(0);
+        BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
+        "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
     }
 
 
@@ -35,8 +37,6 @@ public class Deadwood {
        boolean val = false;
        // user input for number of players
        do {
-         System.out.printf("\nIt is now %s turn. What would you like to do? \n", currentPlayer.getPlayer());
-         System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
          //Console console = System.console();
          //String input = console.readLine();
          String[] inputArray;
@@ -97,10 +97,16 @@ public class Deadwood {
                  ParseFile pf = new ParseFile();
                  ArrayList<Player> players = pf.players;
                  currentPlayer.setTurn(false);
-                 turnsComplete++;
+                 if (turnsComplete == (players.size() - 1)) {
+                     turnsComplete = 0;
+                 } else {
+                     turnsComplete++;
+                 }
                  System.out.println(turnsComplete);
                  globalPlayer = players.get(turnsComplete);
                  val = true;
+                 BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
+                 "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
                break;
              default:
                System.out.println("Not a valid input, try again.");

@@ -54,17 +54,6 @@ public class BoardLayersListener extends JFrame {
        super("Deadwood");
        // Set the exit option for the JFrame
        setDefaultCloseOperation(EXIT_ON_CLOSE);
-       //asks for number of players
-       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
-       int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
-       JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-       null, options, options[0]);
-
-       if (option != JOptionPane.CLOSED_OPTION) {
-           System.out.println(options[option]);
-       } else {
-           System.out.println("No option selected");
-       }
 
        // Create the JLayeredPane to hold the display, cards, dice and buttons
        bPane = getLayeredPane();
@@ -93,6 +82,17 @@ public class BoardLayersListener extends JFrame {
       addCards();
       addPlayers();
       addTakes();
+  }
+
+
+  public static int askNumPlayers() {
+      //asks for number of players
+      String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
+      int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
+      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+      null, options, options[0]);
+      System.out.println(options[0]);
+     return Integer.parseInt(options[0]);
   }
 
   public void addTakes(){
@@ -287,7 +287,7 @@ public class BoardLayersListener extends JFrame {
    bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
 }
-   
+
    public void movetoAdjacentScene(Player currentPlayer) {
         //moveOptions();
         //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
@@ -356,8 +356,8 @@ public class BoardLayersListener extends JFrame {
             System.out.println("No option selected");
         }
     }
-   
-   
+
+
   // This class implements Mouse Events
 
     class boardMouseListener implements MouseListener {
@@ -462,7 +462,7 @@ public class BoardLayersListener extends JFrame {
     }
 
     // display information to be shown to the user as a pop up menu
-    public void displayGenericMessage(String message){
+    public static void displayGenericMessage(String message){
         JOptionPane.showMessageDialog(null, message);
 
 
