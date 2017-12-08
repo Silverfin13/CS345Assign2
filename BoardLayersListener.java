@@ -1,10 +1,8 @@
 /*
-
-   Deadwood GUI helper file
-   Author: Moushumi Sharmin
-   This file shows how to create a simple GUI using Java Swing and Awt Library
-   Classes Used: JFrame, JLabel, JButton, JLayeredPane
-
+Deadwood GUI helper file
+Author: Moushumi Sharmin
+This file shows how to create a simple GUI using Java Swing and Awt Library
+Classes Used: JFrame, JLabel, JButton, JLayeredPane
 */
 
 
@@ -19,280 +17,320 @@ import java.awt.Rectangle;
 
 public class BoardLayersListener extends JFrame {
 
-  // Private Attributes
+    // Private Attributes
 
-  // JLabels
-  static JLabel boardlabel;
-  static JLabel cardlabel;
-  static JLabel cardlabelJail;
-  static JLabel playerlabel;
-  static JLabel mLabel;
-  static JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
+    // JLabels
+    static JLabel boardlabel;
+    static JLabel cardlabel;
+    static JLabel cardlabelJail;
+    static JLabel playerlabel;
+    static JLabel mLabel;
+    static JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
 
 
-  //JButtons
-  static JButton bAct;
-  static JButton bRehearse;
-  static JButton bMove;
-  static JButton bTakeRole;
-  static JButton bRankUp;
-  static JButton bEndTurn;
+    //JButtons
+    static JButton bAct;
+    static JButton bRehearse;
+    static JButton bMove;
+    static JButton bTakeRole;
+    static JButton bRankUp;
+    static JButton bEndTurn;
 
-  // JLayered Pane
-  static JLayeredPane bPane;
-  static JPanel panelStatus;
-  static JPanel info;
+    // JLayered Pane
+    static JLayeredPane bPane;
+    static JPanel panelStatus;
+    static JPanel info;
 
-  static Dimension boardSize = new Dimension(1170, 882);
-  static Dimension paneSize = new Dimension(1300, 550);
+    static Dimension boardSize = new Dimension(1170, 882);
+    static Dimension paneSize = new Dimension(1300, 550);
 
-  // Constructor
+    // JPanel
+    static JLabel numDayLable = new JLabel();
+    static JLabel playerLable1 = new JLabel();
+    static JLabel playerLable2 = new JLabel();
+    static JLabel playerLable3 = new JLabel();
+    static JLabel playerLable4 = new JLabel();
+    static JLabel playerLable5 = new JLabel();
 
-  public BoardLayersListener() {
+    static ImageIcon icon;
 
-       // Set the title of the JFrame
-       super("Deadwood");
-       // Set the exit option for the JFrame
-       setDefaultCloseOperation(EXIT_ON_CLOSE);
+    // Constructor
 
-       // Create the JLayeredPane to hold the display, cards, dice and buttons
-       bPane = getLayeredPane();
+    public BoardLayersListener() {
 
-       // Create the deadwood board
+        // Set the title of the JFrame
+        super("Deadwood");
+        // Set the exit option for the JFrame
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Create the JLayeredPane to hold the display, cards, dice and buttons
+        bPane = getLayeredPane();
+
+        // Create the deadwood board
         boardlabel = new JLabel();
-        ImageIcon icon =  new ImageIcon("images/board.jpg");
+        icon =  new ImageIcon("images/board.jpg");
         boardlabel.setIcon(icon);
         boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
 
         info = new JPanel();
 
-       // Add the board to the lowest layer
-       bPane.add(boardlabel, new Integer(0));
+        // Add the board to the lowest layer
+        bPane.add(boardlabel, new Integer(0));
 
-       // Set the size of the GUI
-       setSize(icon.getIconWidth()+200,icon.getIconHeight());
+        // Set the size of the GUI
+        setSize(icon.getIconWidth()+200,icon.getIconHeight());
 
-     // Create the board for status of player
-       panelStatus = new JPanel();
-       panelStatus.setLayout(null);
-       panelStatus.setBounds(icon.getIconWidth()+10,390,450,500);
-       panelStatus.setBackground(Color.WHITE);
+        // Create the board for status of player
+        panelStatus = new JPanel();
+        panelStatus.setLayout(null);
+        panelStatus.setBounds(icon.getIconWidth()+10,390,450,500);
+        panelStatus.setBackground(Color.WHITE);
 
-      addButtons(icon);
-      addCards();
-      addPlayers();
-      addTakes();
-  }
-
-
-  public static int askNumPlayers() {
-      int playerNumber = 0;
-      //asks for number of players
-      String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
-      int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
-      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-      System.out.println(options[0]);
-      System.out.println("user selected " + option + "players");
-      //buildLowerPanel(options[option]);
+        addButtons(icon);
+        addCards();
+        addPlayers();
+        addTakes();
+    }
 
 
-      return (Integer.parseInt(options[option]));
-  }
+    public static int askNumPlayers() {
+        int playerNumber = 0;
+        //asks for number of players
+        String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
+        int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
+        System.out.println(options[0]);
+        System.out.println("user selected " + option + "players");
 
-  public void addTakes(){
-      ParseFile parse = new ParseFile();
-      HashMap<String,Room> rooms = parse.rooms;
-      for (String key: rooms.keySet()){
-        Room currRoom = rooms.get(key);
-        if ((key != "trailer") && (key != "Casting Office")){
-            ArrayList<take> takes = currRoom.getTakes();
-            Rectangle roomArea = currRoom.getCardArea();
-            System.out.println(takes.size());
-            for (int i = 0; i < takes.size(); i++) {
-                take t = takes.get(i);
-                Rectangle takeArea = t.getArea();
-                // Add a scene card to this room
-                cardlabel = new JLabel();
-                //System.out.println(card.getCardName());
-                ImageIcon cardImage =  new ImageIcon("images/shot.png");
-                cardlabel.setIcon(cardImage);
-                // x+4 and y-4
-                cardlabel.setBounds((int)takeArea.getX(),(int)takeArea.getY(), cardImage.getIconWidth(),cardImage.getIconHeight());
-                cardlabel.setOpaque(true);
-                // Add the card to the lower layer
-                bPane.add(cardlabel, new Integer(2));
+        return (Integer.parseInt(options[option]));
+    }
+
+    public void addTakes(){
+        ParseFile parse = new ParseFile();
+        HashMap<String,Room> rooms = parse.rooms;
+        for (String key: rooms.keySet()){
+            Room currRoom = rooms.get(key);
+            if ((key != "trailer") && (key != "Casting Office")){
+                ArrayList<take> takes = currRoom.getTakes();
+                Rectangle roomArea = currRoom.getCardArea();
+                System.out.println(takes.size());
+                for (int i = 0; i < takes.size(); i++) {
+                    take t = takes.get(i);
+                    Rectangle takeArea = t.getArea();
+                    // Add a scene card to this room
+                    cardlabel = new JLabel();
+                    //System.out.println(card.getCardName());
+                    ImageIcon cardImage =  new ImageIcon("images/shot.png");
+                    cardlabel.setIcon(cardImage);
+                    // x+4 and y-4
+                    cardlabel.setBounds((int)takeArea.getX(),(int)takeArea.getY(), cardImage.getIconWidth(),cardImage.getIconHeight());
+                    cardlabel.setOpaque(true);
+                    // Add the card to the lower layer
+                    bPane.add(cardlabel, new Integer(2));
+                }
             }
         }
-      }
-  }
+    }
 
 
-  public void addCards(){
+    public void addCards(){
 
-      ParseFile parse = new ParseFile();
-      HashMap<String,Room> rooms = parse.rooms;
-      for (String key: rooms.keySet()){
-        Room currRoom = rooms.get(key);
-        if ((key != "trailer") && (key != "Casting Office")){
-            Card currCard = currRoom.getCard();
-            // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
-            Rectangle roomArea = currRoom.getCardArea();
-            placeCards(currCard, currRoom.getCardArea());
-            placeCardBacks(currCard, currRoom.getCardArea());
+        ParseFile parse = new ParseFile();
+        HashMap<String,Room> rooms = parse.rooms;
+        for (String key: rooms.keySet()){
+            Room currRoom = rooms.get(key);
+            if ((key != "trailer") && (key != "Casting Office")){
+                Card currCard = currRoom.getCard();
+                // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
+                Rectangle roomArea = currRoom.getCardArea();
+                placeCards(currCard, currRoom.getCardArea());
+                placeCardBacks(currCard, currRoom.getCardArea());
+            }
         }
-      }
-  }
+    }
 
-  public void placeCards(Card card, Rectangle cardArea){
-      // Add a scene card to this room
-      cardlabel = new JLabel();
-      //System.out.println(card.getCardName());
-      ImageIcon cardImage =  new ImageIcon("images/" + card.getCardImg());
-      cardlabel.setIcon(cardImage);
-      // x+4 and y-4
-      cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
-      cardlabel.setOpaque(true);
-      card.setCardLabel(cardlabel);
-      // Add the card to the lower layer
-      bPane.add(cardlabel, new Integer(2));
+    public void placeCards(Card card, Rectangle cardArea){
+        // Add a scene card to this room
+        cardlabel = new JLabel();
+        //System.out.println(card.getCardName());
+        ImageIcon cardImage =  new ImageIcon("images/" + card.getCardImg());
+        cardlabel.setIcon(cardImage);
+        // x+4 and y-4
+        cardlabel.setBounds((int)cardArea.getX(),(int)cardArea.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
+        cardlabel.setOpaque(true);
+        card.setCardLabel(cardlabel);
+        // Add the card to the lower layer
+        bPane.add(cardlabel, new Integer(2));
 
-  }
+    }
 
-  public void placeCardBacks(Card card, Rectangle cardArea){
-      // Add a scene card to this room
-      cardlabel = new JLabel();
-      ImageIcon cardBack =  new ImageIcon("images/backOfCard.png");
-      cardlabel.setIcon(cardBack);
-      // x+4 and y-4
-      cardlabel.setBounds((int)cardArea.getX()+4,(int)cardArea.getY()-4,cardBack.getIconWidth(),cardBack.getIconHeight());
-      cardlabel.setOpaque(true);
-      card.setBackCardLabel(cardlabel);
-      // Add the card to the lower layer
-      bPane.add(cardlabel, new Integer(3));
+    public void placeCardBacks(Card card, Rectangle cardArea){
+        // Add a scene card to this room
+        cardlabel = new JLabel();
+        ImageIcon cardBack =  new ImageIcon("images/backOfCard.png");
+        cardlabel.setIcon(cardBack);
+        // x+4 and y-4
+        cardlabel.setBounds((int)cardArea.getX()+4,(int)cardArea.getY()-4,cardBack.getIconWidth(),cardBack.getIconHeight());
+        cardlabel.setOpaque(true);
+        card.setBackCardLabel(cardlabel);
+        // Add the card to the lower layer
+        bPane.add(cardlabel, new Integer(3));
 
-  }
+    }
 
-  public void addButtons(ImageIcon icon) {
-      // Create the Menu for action buttons
-      mLabel = new JLabel("MENU");
-      mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-      bPane.add(mLabel,new Integer(2));
+    public void addButtons(ImageIcon icon) {
+        // Create the Menu for action buttons
+        mLabel = new JLabel("MENU");
+        mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        bPane.add(mLabel,new Integer(2));
 
-      // Create Action buttons
-      bAct = new JButton("ACT");
-      bAct.setBackground(Color.white);
-      bAct.setBounds(icon.getIconWidth()+10, 40,120, 40);
-      bAct.addMouseListener(new boardMouseListener());
+        // Create Action buttons
+        bAct = new JButton("ACT");
+        bAct.setBackground(Color.white);
+        bAct.setBounds(icon.getIconWidth()+10, 40,120, 40);
+        bAct.addMouseListener(new boardMouseListener());
 
-      bRehearse = new JButton("REHEARSE");
-      bRehearse.setBackground(Color.white);
-      bRehearse.setBounds(icon.getIconWidth()+10,100,120, 40);
-      bRehearse.addMouseListener(new boardMouseListener());
+        bRehearse = new JButton("REHEARSE");
+        bRehearse.setBackground(Color.white);
+        bRehearse.setBounds(icon.getIconWidth()+10,100,120, 40);
+        bRehearse.addMouseListener(new boardMouseListener());
 
-      bMove = new JButton("MOVE");
-      bMove.setBackground(Color.white);
-      bMove.setBounds(icon.getIconWidth()+10,160,120, 40);
-      bMove.addMouseListener(new boardMouseListener());
+        bMove = new JButton("MOVE");
+        bMove.setBackground(Color.white);
+        bMove.setBounds(icon.getIconWidth()+10,160,120, 40);
+        bMove.addMouseListener(new boardMouseListener());
 
-      bTakeRole = new JButton("TAKE ROLE");
-      bTakeRole.setBackground(Color.white);
-      bTakeRole.setBounds(icon.getIconWidth()+10,220,120, 40);
-      bTakeRole.addMouseListener(new boardMouseListener());
+        bTakeRole = new JButton("TAKE ROLE");
+        bTakeRole.setBackground(Color.white);
+        bTakeRole.setBounds(icon.getIconWidth()+10,220,120, 40);
+        bTakeRole.addMouseListener(new boardMouseListener());
 
-      bRankUp = new JButton("RANK UP");
-      bRankUp.setBackground(Color.white);
-      bRankUp.setBounds(icon.getIconWidth()+10,280,120, 40);
-      bRankUp.addMouseListener(new boardMouseListener());
+        bRankUp = new JButton("RANK UP");
+        bRankUp.setBackground(Color.white);
+        bRankUp.setBounds(icon.getIconWidth()+10,280,120, 40);
+        bRankUp.addMouseListener(new boardMouseListener());
 
-      bEndTurn = new JButton("END TURN");
-      bEndTurn.setBackground(Color.white);
-      bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
-      bEndTurn.addMouseListener(new boardMouseListener());
+        bEndTurn = new JButton("END TURN");
+        bEndTurn.setBackground(Color.white);
+        bEndTurn.setBounds(icon.getIconWidth()+10,340,120, 40);
+        bEndTurn.addMouseListener(new boardMouseListener());
 
 
-      // Place the action buttons in the top layer
-      bPane.add(bAct, new Integer(2));
-      bPane.add(bRehearse, new Integer(2));
-      bPane.add(bMove, new Integer(2));
-      bPane.add(bTakeRole, new Integer(2));
-      bPane.add(bRankUp, new Integer(2));
-      bPane.add(bEndTurn, new Integer(2));
-  }
+        // Place the action buttons in the top layer
+        bPane.add(bAct, new Integer(2));
+        bPane.add(bRehearse, new Integer(2));
+        bPane.add(bMove, new Integer(2));
+        bPane.add(bTakeRole, new Integer(2));
+        bPane.add(bRankUp, new Integer(2));
+        bPane.add(bEndTurn, new Integer(2));
+    }
 
-  public void addPlayers() {
-      ParseFile pf = new ParseFile();
-      ArrayList<Player> players = pf.players;
-      int widthOffset = 0;
-      int heightOffset = 0;
-      for (int i = 0; i < players.size(); i++) {
-        Player currPlayer = players.get(i);
-        String img = getPlayerImage(currPlayer.getPlayer(), currPlayer.getRank());
-        playerlabel = new JLabel();
-        ImageIcon pIcon = new ImageIcon(img);
-        playerlabel.setIcon(pIcon);
-        if (i == 5) {
-            heightOffset += pIcon.getIconHeight();
-            widthOffset = 0;
+    public void addPlayers() {
+        ParseFile pf = new ParseFile();
+        ArrayList<Player> players = pf.players;
+        int widthOffset = 0;
+        int heightOffset = 0;
+        for (int i = 0; i < players.size(); i++) {
+            Player currPlayer = players.get(i);
+            String img = getPlayerImage(currPlayer.getPlayer(), currPlayer.getRank());
+            playerlabel = new JLabel();
+            ImageIcon pIcon = new ImageIcon(img);
+            playerlabel.setIcon(pIcon);
+            if (i == 5) {
+                heightOffset += pIcon.getIconHeight();
+                widthOffset = 0;
+            }
+            playerlabel.setBounds(991+widthOffset,248+heightOffset,pIcon.getIconWidth(),pIcon.getIconHeight());
+            currPlayer.setPlayerLabel(playerlabel);
+            bPane.add(playerlabel,new Integer(3));
+            widthOffset += pIcon.getIconWidth();
         }
-        playerlabel.setBounds(991+widthOffset,248+heightOffset,pIcon.getIconWidth(),pIcon.getIconHeight());
-        currPlayer.setPlayerLabel(playerlabel);
-        bPane.add(playerlabel,new Integer(3));
-        widthOffset += pIcon.getIconWidth();
-      }
-  }
+    }
 
-  public static void removePlayer(Player player) {
-      JLabel playerlabel = player.getPlayerLabel();
-      bPane.remove(playerlabel);
-      bPane.revalidate();
-      bPane.repaint();
-  }
+    public static void removePlayer(Player player) {
+        JLabel playerlabel = player.getPlayerLabel();
+        bPane.remove(playerlabel);
+        bPane.revalidate();
+        bPane.repaint();
+    }
 
-  public static void onCardMove(Player player, Rectangle cardArea, Rectangle roomArea) {
-      JLabel playerlabel = player.getPlayerLabel();
-      Icon pIcon = playerlabel.getIcon();
-      playerlabel.setBounds((int)cardArea.getX()+(int)roomArea.getX(),(int)cardArea.getY()+(int)roomArea.getY(),
-      pIcon.getIconWidth(),pIcon.getIconHeight());
-      bPane.add(playerlabel,new Integer(4));
-  }
+    public static void onCardMove(Player player, Rectangle cardArea, Rectangle roomArea) {
+        JLabel playerlabel = player.getPlayerLabel();
+        Icon pIcon = playerlabel.getIcon();
+        playerlabel.setBounds((int)cardArea.getX()+(int)roomArea.getX(),(int)cardArea.getY()+(int)roomArea.getY(),
+        pIcon.getIconWidth(),pIcon.getIconHeight());
+        bPane.add(playerlabel,new Integer(4));
+    }
 
-  public static void movePlayer(Player player, Rectangle cardArea, Room room) {
-      int players = room.getPlayersOnCard();
-      JLabel playerlabel = player.getPlayerLabel();
-      Icon pIcon = playerlabel.getIcon();
-      playerlabel.setBounds((int)cardArea.getX()+(players * pIcon.getIconWidth()),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
-      bPane.add(playerlabel,new Integer(4));
-  }
+    public static void movePlayer(Player player, Rectangle cardArea, Room room) {
+        int players = room.getPlayersOnCard();
+        JLabel playerlabel = player.getPlayerLabel();
+        Icon pIcon = playerlabel.getIcon();
+        playerlabel.setBounds((int)cardArea.getX()+(players * pIcon.getIconWidth()),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
+        bPane.add(playerlabel,new Integer(4));
+    }
 
-  public static String getPlayerImage(String playerName, int playerRank){
-      char color = Character.toLowerCase(playerName.charAt(0));
-      String img = "images/" + color + playerRank + ".png";
-      return img;
-  }
+    public static String getPlayerImage(String playerName, int playerRank){
+        char color = Character.toLowerCase(playerName.charAt(0));
+        String img = "images/" + color + playerRank + ".png";
+        return img;
+    }
 
-  public static void flipCard(Room room) {
-      Card card = room.getCard();
-      JLabel cardlabel = card.getBackCardLabel();
-      bPane.remove(cardlabel);
-      bPane.revalidate();
-      bPane.repaint();
-  }
+    public static void flipCard(Room room) {
+        Card card = room.getCard();
+        JLabel cardlabel = card.getBackCardLabel();
+        bPane.remove(cardlabel);
+        bPane.revalidate();
+        bPane.repaint();
+    }
 
 
-  public static void buildLowerPanel(String option){
-   int numPlayers = Integer.parseInt(option);
-   info = new JPanel();
+    public void buildLowerPanel(/*get num player */){
+        int numPlayers = 6;
+        info = new JPanel();
 
-   info.setBounds(boardSize.width + 10, 400, 120, 40);
-   // info. add days remaining
-   for (int i = 0; i <= numPlayers; i++){
-       info.add(playerInfo[i]);
-   }
-   bPane.add(info, JLayeredPane.DEFAULT_LAYER);
+        info.setBounds(boardSize.width + 10, 400, 120, 40);
+        // info. add days remaining
+        for (int i = 0; i <= numPlayers; i++){
+            info.add(playerInfo[i]);
+        }
+        bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
-}
+    }
+    public static void playerInformation(Player currentPlayer, int numDays) {
+        System.out.println("BoardLayersListener: playerInformation()");
+        //JLabel numDayLable = new JLabel();
+        numDayLable.setText("Number of days left: " + Integer.toString(numDays));
+        numDayLable.setBounds(icon.getIconWidth()+10,400,300,20);
+        bPane.add(numDayLable,new Integer(2));
 
-   public void movetoAdjacentScene(Player currentPlayer) {
+        //JLabel playerLable1 = new JLabel();
+        playerLable1.setText("Current player: " + currentPlayer.getPlayer());
+        playerLable1.setBounds(icon.getIconWidth()+10,420,300,20);
+        bPane.add(playerLable1,new Integer(2));
+
+        //JLabel playerLable2 = new JLabel();
+        playerLable2.setText("Player rank: " + Integer.toString(currentPlayer.getRank()));
+        playerLable2.setBounds(icon.getIconWidth()+10,440,300,20);
+        bPane.add(playerLable2,new Integer(2));
+
+        //JLabel playerLable3 = new JLabel();
+        playerLable3.setText("Player money: " + Integer.toString(currentPlayer.getMoney()));
+        playerLable3.setBounds(icon.getIconWidth()+10,460,300,20);
+        bPane.add(playerLable3,new Integer(2));
+
+        //JLabel playerLable4 = new JLabel();
+        playerLable4.setText("Player fame: " + Integer.toString(currentPlayer.getFame()));
+        playerLable4.setBounds(icon.getIconWidth()+10,480,300,20);
+        bPane.add(playerLable4,new Integer(2));
+
+        //JLabel playerLable5 = new JLabel();
+        playerLable5.setText("Current room: " + currentPlayer.getPlayerPosition());
+        playerLable5.setBounds(icon.getIconWidth()+10,500,300,20);
+        bPane.add(playerLable5,new Integer(2));
+    }
+
+    public void movetoAdjacentScene(Player currentPlayer) {
         //moveOptions();
         //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
         Map<String,Room> map = ParseFile.rooms;
@@ -355,6 +393,7 @@ public class BoardLayersListener extends JFrame {
 
             Move move = new Move();
             move.move(currentPlayer, destination);
+            playerInformation(currentPlayer,Deadwood.numDays);
 
         } else {
             System.out.println("No option selected");
@@ -362,7 +401,7 @@ public class BoardLayersListener extends JFrame {
     }
 
 
-  // This class implements Mouse Events
+    // This class implements Mouse Events
 
     class boardMouseListener implements MouseListener {
 
@@ -371,15 +410,13 @@ public class BoardLayersListener extends JFrame {
 
             if (e.getSource()== bAct){
                 System.out.println("Acting is Selected\n");
-                Deadwood.startTurn(Deadwood.globalPlayer, "act");
             }
             else if (e.getSource()== bRehearse){
                 System.out.println("Rehearse is Selected\n");
-                Deadwood.startTurn(Deadwood.globalPlayer, "rehearse");
             }
             else if (e.getSource()== bMove){
                 System.out.println("Move is Selected\n");
-               movetoAdjacentScene(Deadwood.globalPlayer);
+                movetoAdjacentScene(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bTakeRole){
                 System.out.println(bTakeRole);
@@ -407,16 +444,17 @@ public class BoardLayersListener extends JFrame {
     public void endTurnButton(Player currentPlayer){
         System.out.println("Ending Turn\n");
         System.out.println(currentPlayer.getPlayer());
-//        Deadwood dw = new Deadwood();
-//        int currentPlayerNum = dw.getA();
-//        ArrayList<Player> player = dw.getCurrentPlayer();
-//        Player players = player.get(currentPlayerNum);
+        //        Deadwood dw = new Deadwood();
+        //        int currentPlayerNum = dw.getA();
+        //        ArrayList<Player> player = dw.getCurrentPlayer();
+        //        Player players = player.get(currentPlayerNum);
         Deadwood.startTurn(currentPlayer, "end");
         //Deadwood.startTurn(currentPlayer.get(currentPlayerNum), "end");
 
 
 
     }
+
     public void actButton(){
         //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "act");
 
@@ -453,7 +491,7 @@ public class BoardLayersListener extends JFrame {
         //asks for desired level
         String[] options = new String[] {"2", "3", "4", "5", "6"};
         int option =  JOptionPane.showOptionDialog(null, "Choose level to upgrade too", "Message",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
         System.out.println(options[0]);
         System.out.println("user selected " + option + "level");
         return (Integer.parseInt(options[option]));
@@ -463,8 +501,8 @@ public class BoardLayersListener extends JFrame {
     public String askRankOrMoney(){
         String[] options = new String[] {"Money", "Credits"};
         int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, options, options[0]);
         System.out.println(option);
         return (options[option]);
     }
@@ -481,16 +519,16 @@ public class BoardLayersListener extends JFrame {
         for (int i = 0; i < extraParts.size(); i++) {
             extraPartsArray[i] = extraParts.get(i).getPartName();
             System.out.println(extraParts.get(i).getPartName());
-            }
+        }
         for (int i = (extraParts.size()); i < (parts.size()+extraParts.size()); i++) {
             extraPartsArray[i] = parts.get(i-extraParts.size()).getName();
-            }
+        }
         Object selected = JOptionPane.showInputDialog(null, "What role would you like to take:", "Selection",
-                JOptionPane.DEFAULT_OPTION, null, extraPartsArray, extraPartsArray[0]);
+        JOptionPane.DEFAULT_OPTION, null, extraPartsArray, extraPartsArray[0]);
         if ( selected != null ){//null if the user cancels.
             String selectedString = selected.toString();
             Deadwood.startTurn(Deadwood.globalPlayer, "work " + selectedString);
-            }
+        }
     }
 
     // ask if the user wants to act on or off the card, return response to main program
@@ -498,9 +536,9 @@ public class BoardLayersListener extends JFrame {
         String response = "";
         String[] options = new String[] {"On", "Off"};
         int option =  JOptionPane.showOptionDialog(null, "Would you like to work on or off the card?", "Message",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
-        return response;
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, options, options[0]);
+        return options[option];
     }
 
     // display information to be shown to the user as a pop up menu
@@ -511,3 +549,4 @@ public class BoardLayersListener extends JFrame {
 
     }
 }
+
