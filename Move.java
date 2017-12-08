@@ -24,13 +24,13 @@ public class Move {
           if (!(destination[1].equals("Casting Office")) && !(destination[1].equals("trailer"))) {
               BoardLayersListener.flipCard(newRoom);
           }
-          System.out.printf("\nPlayer %s is now in %s. \n", currentPlayer.getPlayer(), destination[1]);
+          BoardLayersListener.displayGenericMessage("\nPlayer " + currentPlayer.getPlayer() + " is now in " + destination[1] + ". \n");
           newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
           playerRoom.setPlayersOnCard((playerRoom.getPlayersOnCard()-1));
           currentPlayer.setMoved(true);
           return true;
         } else {
-          System.out.println("The destination you wish to move is not a neighbor");
+          BoardLayersListener.displayGenericMessage("The destination you wish to move is not a neighbor");
           System.out.println("\nYour neighbors are: ");
           for (int i = 0; i < neighbors.size(); i++) {
               System.out.println(neighbors.get(i));
@@ -52,13 +52,13 @@ public class Move {
           if (!(newDestination.equals("Casting Office")) && !(newDestination.equals("trailer"))) {
               BoardLayersListener.flipCard(newRoom);
           }
-          System.out.printf("\nPlayer %s is now in %s.\n", currentPlayer.getPlayer(), newDestination);
+          BoardLayersListener.displayGenericMessage("\nPlayer " + currentPlayer.getPlayer() + " is now in " + newDestination + ". \n");
           newRoom.setPlayersOnCard((newRoom.getPlayersOnCard()+1));
           playerRoom.setPlayersOnCard((playerRoom.getPlayersOnCard()-1));
           currentPlayer.setMoved(true);
           return true;
         } else {
-          System.out.println("The destination you wish to move is not a neighbor");
+          BoardLayersListener.displayGenericMessage("The destination you wish to move is not a neighbor");
           System.out.println("\nYour neighbors are: ");
           for (int i = 0; i < neighbors.size(); i++) {
               System.out.println(neighbors.get(i));
