@@ -383,7 +383,7 @@ public class BoardLayersListener extends JFrame {
             }
             else if (e.getSource()== bEndTurn){
                 System.out.println("End\n");
-                //endTurnButton();
+                endTurnButton(Deadwood.globalPlayer);
             }
         }
         public void mousePressed(MouseEvent e) {

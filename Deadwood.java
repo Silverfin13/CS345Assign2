@@ -3,19 +3,18 @@ import java.io.Console;
 
 public class Deadwood {
 
-    //public static ArrayList<Player> players;
-    public static int numSceneLeft;
+//    public static ArrayList<Player> players;
     public static HashMap<String,ArrayList> setNeighbors;
     public static ArrayList<Card> cards;
     public static int scenesLeft = 10;
     public static Player globalPlayer;
+    public static int turnsComplete = 0;
 
     public static void main(String[] args) {
 
         ParseFile.parseCards();
         ParseFile.parseBoard();
         int numDays = 0;
-        numSceneLeft = 0;
         GameSetup game = new GameSetup();
         ArrayList<Player> players = game.GameSetup();
         numDays = game.getNumDays();
@@ -26,42 +25,20 @@ public class Deadwood {
         BoardLayersListener board = new BoardLayersListener();
         board.setVisible(true);
 
-        /*
-        int i = 1;
-        while(i < numDays+1) {
-            System.out.println("There are " + numDays + " days left.");
-            while(scenesLeft != 1) {
-                // iterate through player turns
-                for(int a = 0; a < players.size(); a++) {
-                    if(players.get(a).getTurn()) {
-                        globalPlayer = players.get(a);
-                        startTurn(players.get(a));
-                        // make the next players turn be true
-                        if (a+1 < players.size()){
-                          players.get(a+1).setTurn(true);
-                        } else {
-                          players.get(0).setTurn(true);
-                        }
-                        players.get(a).setMoved(false);
-                    }
-                }
-                numSceneLeft--;
-            }
-            i++;
-        }
-        */
+        System.out.println("There are " + numDays + " days left.");
+        globalPlayer = players.get(0);
     }
 
 
-    public static void startTurn(Player currentPlayer, String command) {
+    public static void startTurn(Player currentPlayer, String input) {
       //  Scanner userInput = new Scanner(System.in);
        boolean val = false;
        // user input for number of players
        do {
          System.out.printf("\nIt is now %s turn. What would you like to do? \n", currentPlayer.getPlayer());
          System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-         Console console = System.console();
-         String input = console.readLine();
+         //Console console = System.console();
+         //String input = console.readLine();
          String[] inputArray;
          if (input.contains(" ")){
            inputArray = input.split(" ");
@@ -117,7 +94,12 @@ public class Deadwood {
                }
                break;
              case "end":
+                 ParseFile pf = new ParseFile();
+                 ArrayList<Player> players = pf.players;
                  currentPlayer.setTurn(false);
+                 turnsComplete++;
+                 System.out.println(turnsComplete);
+                 globalPlayer = players.get(turnsComplete);
                  val = true;
                break;
              default:
