@@ -86,15 +86,13 @@ public class BoardLayersListener extends JFrame {
 
 
   public static int askNumPlayers() {
-      int playerNumber = 0;
       //asks for number of players
       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
       int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
-      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
+      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+      null, options, options[0]);
       System.out.println(options[0]);
-      System.out.println("user selected " + option + "players");
-
-      return (Integer.parseInt(options[option]));
+     return Integer.parseInt(options[0]);
   }
 
   public void addTakes(){
@@ -369,9 +367,11 @@ public class BoardLayersListener extends JFrame {
 
             if (e.getSource()== bAct){
                 System.out.println("Acting is Selected\n");
+                Deadwood.startTurn(Deadwood.globalPlayer, "act");
             }
             else if (e.getSource()== bRehearse){
                 System.out.println("Rehearse is Selected\n");
+                Deadwood.startTurn(Deadwood.globalPlayer, "rehearse");
             }
             else if (e.getSource()== bMove){
                 System.out.println("Move is Selected\n");
@@ -383,7 +383,6 @@ public class BoardLayersListener extends JFrame {
             }
             else if (e.getSource()== bRankUp){
                 System.out.println("Rank Up is Selected\n");
-                rankButton(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bEndTurn){
                 System.out.println("End\n");
@@ -424,45 +423,29 @@ public class BoardLayersListener extends JFrame {
 
 
     // user requests to increase rank by pressing rank button
-    public void rankButton(Player currentPlayer) {
-        // check how they would like to increase rank
-        String[] rankIncrease;
-        String rankMethod = askRankOrMoney();
-        System.out.println("rank method" + rankMethod);
-        int level = askRanklevel();
-        if(rankMethod.equals("Money")){
-            rankIncrease = "upgrade $".split(" ");
-            //System.out.println(rankIncrease);
-
-        }else{
-            rankIncrease = "upgrade cr".split("");
-            //.out.println(rankIncrease);
+    public void rankButton() {
+        ParseFile parse = new ParseFile();
+        HashMap<String, Room> rooms = parse.rooms;
+        for (String key : rooms.keySet()) {
+            Room currRoom = rooms.get(key);
+            if ((!Objects.equals(key, "Casting Office"))) {
+                System.out.println("must be in casting office to increase rank");
+                // current room is currRoom
+            } else {
+                //playerUpgrade(currentPlayer,inputArray, level);
+                // goes castingOffice.java, select increase rank with fame or money
+            }
         }
-        Deadwood.playerUpgrade(currentPlayer, rankIncrease, level);
-
-
-    }
-
-    private int askRanklevel() {
-
-        int playerNumber = 0;
-        //asks for desired level
-        String[] options = new String[] {"2", "3", "4", "5", "6"};
-        int option =  JOptionPane.showOptionDialog(null, "Choose level to upgrade too", "Message",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-        System.out.println(options[0]);
-        System.out.println("user selected " + option + "level");
-        return (Integer.parseInt(options[option]));
     }
 
     // ask how the user wants to upgrade, return response to casting office
     public String askRankOrMoney(){
-        String[] options = new String[] {"Money", "Credits"};
+        String response = "";
+        String[] options = new String[] {"Rank", "Money"};
         int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[0]);
-        System.out.println(option);
-        return (options[option]);
+        return response;
     }
 
     // allow user to take a role by typing their selected role in pop up
@@ -475,18 +458,16 @@ public class BoardLayersListener extends JFrame {
         ArrayList<part> parts = card.getCardParts();
         String[] extraPartsArray = new String[(extraParts.size()+parts.size())];
         for (int i = 0; i < extraParts.size(); i++) {
-            extraPartsArray[i] = extraParts.get(i).getPartName();
-            System.out.println(extraParts.get(i).getPartName());
-            }
+            extraPartsArray[i] = extraParts.get(i).getPartName();        }
         for (int i = (extraParts.size()); i < (parts.size()+extraParts.size()); i++) {
             extraPartsArray[i] = parts.get(i-extraParts.size()).getName();
-            }
-        Object selected = JOptionPane.showInputDialog(null, "What role would you like to take:", "Selection",
-                JOptionPane.DEFAULT_OPTION, null, extraPartsArray, extraPartsArray[0]);
+        }
+        Object selected = JOptionPane.showInputDialog(null, "What role would you like to take:", "Selection", JOptionPane.DEFAULT_OPTION, null,
+        extraPartsArray, extraPartsArray[0]);
         if ( selected != null ){//null if the user cancels.
             String selectedString = selected.toString();
             Deadwood.startTurn(Deadwood.globalPlayer, "work " + selectedString);
-            }
+        }
     }
 
     // ask if the user wants to act on or off the card, return response to main program
@@ -496,7 +477,7 @@ public class BoardLayersListener extends JFrame {
         int option =  JOptionPane.showOptionDialog(null, "Would you like to work on or off the card?", "Message",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[0]);
-        return options[option];
+        return response;
     }
 
     // display information to be shown to the user as a pop up menu

@@ -3,7 +3,7 @@ import java.io.Console;
 
 public class Deadwood {
 
-    //    public static ArrayList<Player> players;
+//    public static ArrayList<Player> players;
     public static HashMap<String,ArrayList> setNeighbors;
     public static ArrayList<Card> cards;
     public static int scenesLeft = 10;
@@ -27,84 +27,71 @@ public class Deadwood {
 
         System.out.println("There are " + numDays + " days left.");
         globalPlayer = players.get(0);
-        BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
-                "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+        BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
     }
 
 
     public static void startTurn(Player currentPlayer, String input) {
-        //  Scanner userInput = new Scanner(System.in);
-        boolean val = false;
-        // user input for number of players
-        do {
-            //Console console = System.console();
-            //String input = console.readLine();
-            String[] inputArray;
-            inputArray = input.split(" ");
-            input = inputArray[0];
-            switch(input) {
-                case "move":
-                    Move move = new Move();
-                    move.move(currentPlayer, inputArray);
-                    break;
-                case "work":
-                    //    if (inputArray[1].equals("Cancel")) {
-                    //
-                    //    }
-                    val = work(currentPlayer, inputArray);
-                    break;
-                case "rank up":
+      //  Scanner userInput = new Scanner(System.in);
+       boolean val = false;
+       // user input for number of players
+       do {
+        //Console console = System.console();
+        //String input = console.readLine();
+        String[] inputArray;
+        inputArray = input.split(" ");
+        input = inputArray[0];
+        switch(input) {
+         case "move":
+             Move move = new Move();
+             move.move(currentPlayer, inputArray);
+           break;
+         case "work":
+           work(currentPlayer, inputArray);
+           val = true;
+           break;
+         case "rank up":
 
-                    if( (inputArray[1] != "$") && (inputArray[1] == "cr") ) {
-                        System.out.println("Not a valid input, try again.");
-                        System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-                    } else {
-                        try {
-                            String valueType = inputArray[1];
-                            int level = Integer.parseInt(inputArray[2]);
-                            System.out.println("do we hit here? 1");
-                            playerUpgrade(currentPlayer,inputArray, level);
-                            //castingOffice(currentPlayer, valueType, level);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid level. Try again.");
-                            System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-                        }
-                    }
+             if( (inputArray[1] != "$") && (inputArray[1] == "cr") ) {
+                 System.out.println("Not a valid input, try again.");
+                 System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+             } else {
+                 try {
+                   String valueType = inputArray[1];
+                   int level = Integer.parseInt(inputArray[2]);
+                   System.out.println("do we hit here? 1");
+                   playerUpgrade(currentPlayer,inputArray, level);
+                   //castingOffice(currentPlayer, valueType, level);
+                 } catch (NumberFormatException e) {
+                     System.out.println("Invalid level. Try again.");
+                     System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
+                 }
+             }
 
-                    break;
-                case "rehearse":
-                    playerRehearse(currentPlayer);
-                    val=true;
-                    break;
-                case "act":
-                    Act act = new Act();
-                    act.playerAct(currentPlayer);
-                    if (currentPlayer.getTurn() == false){
-                        val = true;
-                    }
-                    break;
-                case "end":
-                    ParseFile pf = new ParseFile();
-                    ArrayList<Player> players = pf.players;
-                    currentPlayer.setTurn(false);
-                    currentPlayer.setMoved(false);
-                    if (turnsComplete == (players.size() - 1)) {
-                        turnsComplete = 0;
-                    } else {
-                        turnsComplete++;
-                    }
-                    System.out.println(turnsComplete);
-                    globalPlayer = players.get(turnsComplete);
-                    val = true;
-                    BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + " turn. What would you like to do? \n" +
-                            "Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
-                    break;
-                default:
-                    System.out.println("Not a valid input, try again.");
-                    break;
-            }
-        } while (val == false);
-    }
+           break;
+         case "rehearse":
+           playerRehearse(currentPlayer);
+           val=true;
+           endTurn(currentPlayer);
+           break;
+         case "act":
+           Act act = new Act();
+           act.playerAct(currentPlayer);
+           if (currentPlayer.getTurn() == false){
+               val = true;
+           }
+           endTurn(currentPlayer);
+           break;
+         case "end":
+            endTurn(currentPlayer);
+            val = true;
+           break;
+         default:
+           System.out.println("Not a valid input, try again.");
+           break;
+        }
+       } while (val == false);
+     }
 
     public static void playerUpgrade(Player currentPlayer, String[] inputArray, int level) {
         //System.out.println("Current player is " + currentPlayer.getPlayer() + inputArray[0] + " " + inputArray[1] + " " + inputArray[2] + " level " + level);
@@ -112,37 +99,50 @@ public class Deadwood {
         /* Current player is in casting office */
         if(currentPlayer.getPlayerPosition().equals("Casting Office")) {
 
-            if(inputArray[1].equals("cr")) {
-                CastingOffice.upgradeRankWithFame(currentPlayer,level);
-            } else if(inputArray[1].equals("$")) {
-                //System.out.println("(Before) Current player rank: " + currentPlayer.getRank() + " level: " + level);
-                CastingOffice.upgradeRankWithMoney(currentPlayer,level);
-                //System.out.println("(After) Current player rank: " + currentPlayer.getRank());
-            }
+                if(inputArray[1].equals("cr")) {
+                    CastingOffice.upgradeRankWithFame(currentPlayer,level);
+                } else if(inputArray[1].equals("$")) {
+                    //System.out.println("(Before) Current player rank: " + currentPlayer.getRank() + " level: " + level);
+                    CastingOffice.upgradeRankWithMoney(currentPlayer,level);
+                    //System.out.println("(After) Current player rank: " + currentPlayer.getRank());
+                }
 
 
         /* Current player is in scene room */
-        } else {
-            System.out.println("You are not in the casting office");
-        }
+    } else {
+        System.out.println("You are not in the casting office");
+    }
 
     }
 
-    public static void playerRehearse(Player currentPlayer) {
-        String playerRole = currentPlayer.getRole();
-        if (playerRole.equals("")) {
-            System.out.println("Player not on a role");
+    public static void endTurn(Player currentPlayer){
+        ParseFile pf = new ParseFile();
+        ArrayList<Player> players = pf.players;
+        currentPlayer.setTurn(false);
+        currentPlayer.setMoved(false);
+        if (turnsComplete == (players.size() - 1)) {
+            turnsComplete = 0;
         } else {
-            ParseFile pf = new ParseFile();
-            ArrayList<Card> cards = pf.cards;
-            HashMap<String,Room> rooms = pf.rooms;
-            Act act = new Act();
-            Card card = act.findCard(cards, playerRole);
-            System.out.println("You succeeded in rehearsing. You have added one to role value.\n");
-            currentPlayer.setAddedDiceValue();
-            // before you rehearse you should check to see if the addedDiceValue > movieBudget to
-            // see if the player is garanteed to win
+            turnsComplete++;
         }
+        System.out.println(turnsComplete);
+        globalPlayer = players.get(turnsComplete);
+        BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
+    }
+
+    public static void playerRehearse(Player currentPlayer) {
+      String playerRole = currentPlayer.getRole();
+      if (playerRole.equals("")) {
+        BoardLayersListener.displayGenericMessage("Player not on a role");
+      } else {
+        ParseFile pf = new ParseFile();
+        ArrayList<Card> cards = pf.cards;
+        HashMap<String,Room> rooms = pf.rooms;
+        Act act = new Act();
+        Card card = act.findCard(cards, playerRole);
+        BoardLayersListener.displayGenericMessage("You succeeded in rehearsing. You have added one to role value.\n");
+        currentPlayer.setAddedDiceValue();
+      }
     }
 
     public static void  castingOffice(Player currentPlayer, String valueType, int level) {
@@ -185,6 +185,6 @@ public class Deadwood {
     }
 
     public void setScenesLeft(int scenesLeft) {
-        this.scenesLeft = scenesLeft;
+      this.scenesLeft = scenesLeft;
     }
 }

@@ -28,7 +28,7 @@ public class Act{
         */
         String playerRole = currentPlayer.getRole();
         if (playerRole.equals("")) {
-          System.out.println("Player not on a role");
+          BoardLayersListener.displayGenericMessage("Player not on a role");
         } else {
           ParseFile pf = new ParseFile();
           ArrayList<Card> cards = pf.cards;
@@ -86,7 +86,7 @@ public class Act{
     public void actOnCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie) {
         if(actOnorOff){
             if(dieValue >= budgetMovie){
-                System.out.println("You succeeded in acting off card! You will get 2 fame");
+                BoardLayersListener.displayGenericMessage("You succeeded in acting off card! You will get 2 fame");
                 int currFame = currentPlayer.getFame();
                 currFame += 2;
                 currentPlayer.setFame(currFame);
@@ -99,7 +99,7 @@ public class Act{
                 }
                 currentPlayer.setTurn(false);
             } else {
-                System.out.println("You failed in acting on card! You earn nothing");
+                BoardLayersListener.displayGenericMessage("You failed in acting on card! You earn nothing");
                 currentPlayer.setTurn(false);
             }
         }
@@ -109,7 +109,7 @@ public class Act{
         if(!actOnorOff){
             //System.out.printf("dieValue: %d, budgetMovie: %d\n", dieValue, budgetMovie);
             if(dieValue >= budgetMovie){
-                System.out.println("You succeeded in acting off card!\nYou recieved $1 and 1 fame.");
+                BoardLayersListener.displayGenericMessage("You succeeded in acting off card!\nYou recieved $1 and 1 fame.");
                 Room currRoom = rooms.get(room);
                 int take = currRoom.getNumofTakes();
                 take--;
@@ -124,7 +124,7 @@ public class Act{
                 currentPlayer.setMoney(currMoney);
                 currentPlayer.setTurn(false);
             } else {
-                System.out.println("You failed in acting off card! You still earn 1 money");
+                BoardLayersListener.displayGenericMessage("You failed in acting off card! You still earn 1 money");
                 int currMoney = currentPlayer.getMoney();
                 currMoney++;
                 currentPlayer.setMoney(currMoney);
@@ -159,7 +159,7 @@ public class Act{
             newDestination = newDestination + " " + destination[l];
           }
           newDestination = newDestination.trim();
-          System.out.println(newDestination);
+          System.out.printf("newDestination: ", newDestination);
           Room currRoom = rooms.get(currentPosition);
           Card card = currRoom.getCard();
           ArrayList<partExtra> parts = currRoom.getParts();
@@ -171,7 +171,7 @@ public class Act{
           }
         }
       } else {
-        System.out.println("Player already in a role.\n");
+        BoardLayersListener.displayGenericMessage("Player already in a role.\n");
         return false;
       }
     }
@@ -197,10 +197,10 @@ public class Act{
                     currentPlayer.setTurn(false);
                     return true;
                 }
-                System.out.println("You do not have a high enough rank for this role.");
+                BoardLayersListener.displayGenericMessage("You do not have a high enough rank for this role.");
               }
             } else {
-              System.out.println("This role is already taken. \n");
+              BoardLayersListener.displayGenericMessage("This role is already taken. \n");
               check = true;
             }
       }
