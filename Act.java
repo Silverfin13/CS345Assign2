@@ -70,7 +70,8 @@ public class Act{
         /* Current player is in scene room */
         }
     }
-
+    
+    // Find card within card arraylist
     public Card findCard(ArrayList<Card> cards, String cardName){
       for (int i = 0; i < cards.size(); i++) {
         Card currCard = cards.get(i);
@@ -82,7 +83,8 @@ public class Act{
       cardFailure.setCardName("fail");
       return cardFailure;
     }
-
+    
+    // acting on the card
     public void actOnCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie) {
         if(actOnorOff){
             if(dieValue >= budgetMovie){
@@ -110,10 +112,10 @@ public class Act{
             }
         }
     }
-
+    
+    // acting off the card
     public void actOffCard(Player currentPlayer, HashMap<String,Room> rooms, ArrayList<Card> cards, String room, int dieValue, int budgetMovie){
         if(!actOnorOff){
-            //System.out.printf("dieValue: %d, budgetMovie: %d\n", dieValue, budgetMovie);
             if(dieValue >= budgetMovie){
                 BoardLayersListener.displayGenericMessage("You succeeded in acting off card!\nYou recieved $1 and 1 fame.");
                 Room currRoom = rooms.get(room);
@@ -150,7 +152,8 @@ public class Act{
             }
         }
     }
-
+    
+    // have a player take a role or work
     public boolean takeUpRole(Player currentPlayer, String[] destination){
       String currentPosition = currentPlayer.getPlayerPosition();
       ParseFile pf = new ParseFile();
@@ -176,7 +179,6 @@ public class Act{
             newDestination = newDestination + " " + destination[l];
           }
           newDestination = newDestination.trim();
-          System.out.printf("newDestination: ", newDestination);
           Room currRoom = rooms.get(currentPosition);
           Card card = currRoom.getCard();
           ArrayList<partExtra> parts = currRoom.getParts();
@@ -192,7 +194,8 @@ public class Act{
         return false;
       }
     }
-
+    
+    // check to see if the role they want to take is valid
     public boolean checkRole(Player currentPlayer, ArrayList<partExtra> parts, ArrayList<part> cardParts, String partName, Room room){
       boolean check = false;
       for (int i = 0; i < parts.size(); i++) {
@@ -251,7 +254,8 @@ public class Act{
      }
       return false;
     }
-
+    
+    // end the scene logic
     public void endScene(Room room, ArrayList<Card> cards, int budgetMovie){
       BoardLayersListener.displayGenericMessage("End of Scene!");
       BoardLayersListener.removeCard(room.getCard());
@@ -287,9 +291,9 @@ public class Act{
         return;
       }
     }
-
+    
+    // distribute earnings for players on the card acting
     public static void distributeEarnings(ArrayList<Player> onTheCardPlayers, ArrayList<Integer> diceValue) {
-
       boolean playersPaid = false;
       while(playersPaid = false){
         int dicePosition = 0;
@@ -306,7 +310,8 @@ public class Act{
         playersPaid = true;
       }
     }
-
+    
+    // sort players for distributing money
     public ArrayList<Player> sortPlayers(ArrayList<Player> players, ArrayList<part> parts){
       for (int i = 0; i < players.size(); i++) {
         if (i + 1 < players.size()) {
