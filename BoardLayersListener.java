@@ -57,7 +57,6 @@ public class BoardLayersListener extends JFrame {
   static JLabel playerLable5 = new JLabel();
 
   // Constructor
-
   public BoardLayersListener() {
 
        // Set the title of the JFrame
@@ -93,9 +92,9 @@ public class BoardLayersListener extends JFrame {
       addPlayers();
       addTakes();
   }
-
+   
+   // print the current players information to the board
    public static void playerInformation(Player currentPlayer, int numDays) {
-        // System.out.println("BoardLayersListener: playerInformation()");
         //JLabel numDayLable = new JLabel();
         numDayLable.setText("Number of days left: " + Integer.toString(numDays));
         numDayLable.setBounds(icon.getIconWidth()+10,400,300,20);
@@ -126,21 +125,18 @@ public class BoardLayersListener extends JFrame {
         playerLable5.setBounds(icon.getIconWidth()+10,500,300,20);
         bPane.add(playerLable5,new Integer(2));
     }
-
+   
+  // intital box that asks for how many players
   public static int askNumPlayers() {
       int playerNumber = 0;
       //asks for number of players
       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
       int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
       JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-    //   System.out.println(options[0]);
-    //   System.out.println("user selected " + option + "players");
-      //buildLowerPanel(options[option]);
-
-
       return (Integer.parseInt(options[option]));
   }
-
+   
+  // add the takes to the board
   public void addTakes(){
       ParseFile parse = new ParseFile();
       HashMap<String,Room> rooms = parse.rooms;
@@ -155,7 +151,6 @@ public class BoardLayersListener extends JFrame {
                 // Add a scene card to this room
                 cardlabel = new JLabel();
                 t.setTake(cardlabel);
-                //System.out.println(card.getCardName());
                 ImageIcon cardImage =  new ImageIcon("images/shot.png");
                 cardlabel.setIcon(cardImage);
                 // x+4 and y-4
@@ -167,7 +162,8 @@ public class BoardLayersListener extends JFrame {
         }
       }
   }
-
+   
+   // remove a take
   public static void removeTake(take currTake) {
       JLabel takelabel = currTake.getTake();
       bPane.remove(takelabel);
@@ -175,27 +171,24 @@ public class BoardLayersListener extends JFrame {
       bPane.repaint();
   }
 
-
+  // add cards to the board
   public void addCards(){
-
       ParseFile parse = new ParseFile();
       HashMap<String,Room> rooms = parse.rooms;
       for (String key: rooms.keySet()){
         Room currRoom = rooms.get(key);
         if ((key != "trailer") && (key != "Casting Office")){
             Card currCard = currRoom.getCard();
-            // System.out.printf("RoomName: %s \nCardName: %s\n",currRoom.getName(), currCard.getCardName());
             Rectangle roomArea = currRoom.getCardArea();
             placeCards(currCard, currRoom.getCardArea());
             placeCardBacks(currCard, currRoom.getCardArea());
         }
       }
   }
-
+  
   public void placeCards(Card card, Rectangle cardArea){
       // Add a scene card to this room
       cardlabel = new JLabel();
-      //System.out.println(card.getCardName());
       ImageIcon cardImage =  new ImageIcon("images/" + card.getCardImg());
       cardlabel.setIcon(cardImage);
       // x+4 and y-4
@@ -204,9 +197,9 @@ public class BoardLayersListener extends JFrame {
       card.setCardLabel(cardlabel);
       // Add the card to the lower layer
       bPane.add(cardlabel, new Integer(2));
-
   }
-
+   
+  // add the back of the cards to the board
   public void placeCardBacks(Card card, Rectangle cardArea){
       // Add a scene card to this room
       cardlabel = new JLabel();
@@ -220,7 +213,8 @@ public class BoardLayersListener extends JFrame {
       bPane.add(cardlabel, new Integer(3));
 
   }
-
+   
+   // add the buttons to the board
   public void addButtons(ImageIcon icon) {
       // Create the Menu for action buttons
       mLabel = new JLabel("MENU");
@@ -267,7 +261,8 @@ public class BoardLayersListener extends JFrame {
       bPane.add(bRankUp, new Integer(2));
       bPane.add(bEndTurn, new Integer(2));
   }
-
+   
+  // add the players to trailer intially
   public void addPlayers() {
       ParseFile pf = new ParseFile();
       ArrayList<Player> players = pf.players;
@@ -289,21 +284,24 @@ public class BoardLayersListener extends JFrame {
         widthOffset += pIcon.getIconWidth();
       }
   }
-
+   
+  // remove a player from its current position
   public static void removePlayer(Player player) {
       JLabel playerlabel = player.getPlayerLabel();
       bPane.remove(playerlabel);
       bPane.revalidate();
       bPane.repaint();
   }
-
+   
+  // remove a card from its current position
   public static void removeCard(Card card) {
       JLabel cardlabel = card.getCardLabel();
       bPane.remove(cardlabel);
       bPane.revalidate();
       bPane.repaint();
   }
-
+   
+  // add a player to a on card part
   public static void onCardMove(Player player, Rectangle cardArea, Rectangle roomArea) {
       JLabel playerlabel = player.getPlayerLabel();
       Icon pIcon = playerlabel.getIcon();
@@ -311,7 +309,8 @@ public class BoardLayersListener extends JFrame {
       pIcon.getIconWidth(),pIcon.getIconHeight());
       bPane.add(playerlabel,new Integer(4));
   }
-
+   
+  // move a player
   public static void movePlayer(Player player, Rectangle cardArea, Room room) {
       int players = room.getPlayersOnCard();
       JLabel playerlabel = player.getPlayerLabel();
@@ -319,13 +318,15 @@ public class BoardLayersListener extends JFrame {
       playerlabel.setBounds((int)cardArea.getX()+(players * pIcon.getIconWidth()),(int)cardArea.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
       bPane.add(playerlabel,new Integer(4));
   }
-
+  
+  // get the image for the player
   public static String getPlayerImage(String playerName, int playerRank){
       char color = Character.toLowerCase(playerName.charAt(0));
       String img = "images/" + color + playerRank + ".png";
       return img;
   }
-
+  
+  // flip a card
   public static void flipCard(Room room) {
       Card card = room.getCard();
       JLabel cardlabel = card.getBackCardLabel();
@@ -333,8 +334,8 @@ public class BoardLayersListener extends JFrame {
       bPane.revalidate();
       bPane.repaint();
   }
-
-
+   
+  // build lower panel
   public static void buildLowerPanel(String option){
    int numPlayers = Integer.parseInt(option);
    info = new JPanel();
@@ -346,13 +347,11 @@ public class BoardLayersListener extends JFrame {
    }
    bPane.add(info, JLayeredPane.DEFAULT_LAYER);
 
-}
-
+   }
+   
+   // if move button is called
    public void movetoAdjacentScene(Player currentPlayer) {
-        //moveOptions();
-        //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
         Map<String,Room> map = ParseFile.rooms;
-        //String[] sceneNeighbors;
         ArrayList<String> obj = new ArrayList<String>();
 
         for(Map.Entry<String, Room> entry : map.entrySet()) {
@@ -391,15 +390,11 @@ public class BoardLayersListener extends JFrame {
                 }
             }
             String[] result = sceneNeighbors[option].split("\\s+");
-            // System.out.println("sceneNeighbors[option]: " + sceneNeighbors[option]);
-            // System.out.println("lengthSceneArray: " + lengthSceneArray);
             String[] destination = new String[lengthSceneArray];
             if(lengthSceneArray == 2) {
                 destination[0] = "move";
                 destination[1] = result[0];
             } else if(lengthSceneArray ==3 ){
-                System.out.println("Are we here?");
-                System.out.println("result[1]: " + result[1]);
                 destination[0] = "move";
                 destination[1] = result[0];
                 destination[2] = result[1];
@@ -419,7 +414,6 @@ public class BoardLayersListener extends JFrame {
 
 
   // This class implements Mouse Events
-
     class boardMouseListener implements MouseListener {
 
         // Code for the different button clicks
@@ -454,18 +448,10 @@ public class BoardLayersListener extends JFrame {
         }
 
     }
-    public void endTurnButton(Player currentPlayer){
-        System.out.println("Ending Turn\n");
-        System.out.println(currentPlayer.getPlayer());
-//        Deadwood dw = new Deadwood();
-//        int currentPlayerNum = dw.getA();
-//        ArrayList<Player> player = dw.getCurrentPlayer();
-//        Player players = player.get(currentPlayerNum);
+   
+   // if the end turn button is pressed
+    public void endTurnButton(Player currentPlayer){    
         Deadwood.startTurn(currentPlayer, "end");
-        //Deadwood.startTurn(currentPlayer.get(currentPlayerNum), "end");
-
-
-
     }
 
 
@@ -478,17 +464,14 @@ public class BoardLayersListener extends JFrame {
         int level = askRanklevel();
         if(rankMethod.equals("Money")){
             rankIncrease = "upgrade $".split(" ");
-            //System.out.println(rankIncrease);
-
         }else{
             rankIncrease = "upgrade cr".split("");
-            //.out.println(rankIncrease);
         }
         Deadwood.playerUpgrade(currentPlayer, rankIncrease, level);
 
 
     }
-
+    // ask what level you would like to upgrade to
     private int askRanklevel() {
 
         int playerNumber = 0;
@@ -496,8 +479,6 @@ public class BoardLayersListener extends JFrame {
         String[] options = new String[] {"2", "3", "4", "5", "6"};
         int option =  JOptionPane.showOptionDialog(null, "Choose level to upgrade too", "Message",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-        System.out.println(options[0]);
-        System.out.println("user selected " + option + "level");
         return (Integer.parseInt(options[option]));
     }
 
@@ -507,7 +488,6 @@ public class BoardLayersListener extends JFrame {
         int option =  JOptionPane.showOptionDialog(null, "Select a method for rank increase", "Message",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[0]);
-        System.out.println(option);
         return (options[option]);
     }
 
@@ -522,7 +502,6 @@ public class BoardLayersListener extends JFrame {
         String[] extraPartsArray = new String[(extraParts.size()+parts.size())];
         for (int i = 0; i < extraParts.size(); i++) {
             extraPartsArray[i] = extraParts.get(i).getPartName();
-            System.out.println(extraParts.get(i).getPartName());
             }
         for (int i = (extraParts.size()); i < (parts.size()+extraParts.size()); i++) {
             extraPartsArray[i] = parts.get(i-extraParts.size()).getName();
@@ -531,7 +510,6 @@ public class BoardLayersListener extends JFrame {
                 JOptionPane.DEFAULT_OPTION, null, extraPartsArray, extraPartsArray[0]);
         if ( selected != null ){//null if the user cancels.
             String selectedString = selected.toString();
-            System.out.printf("selected: %s", selectedString);
             Deadwood.startTurn(Deadwood.globalPlayer, "work " + selectedString);
             }
     }
