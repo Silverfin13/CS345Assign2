@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.awt.Rectangle;
 
+/*Player is an object that is created for each player. It contains all each player should keep track of to play game*/
 public class Player {
 
     public int rank = 0;
@@ -21,7 +22,8 @@ public class Player {
     public int roleLevel = 0;
     public int addedDiceValue = 0;
     public JLabel playerlabel;
-
+    
+    /*Player is an consructor that stores what he should have. */
     public Player(int rank, int money, int fame, String whichPlayer, String playerPosition, boolean turn){
         this.rank = rank;
         this.money = money;
