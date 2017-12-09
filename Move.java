@@ -1,7 +1,9 @@
 import java.util.*;
 
+/*Move is an object that is responsible for player to move to his desired scene*/
 public class Move {
 
+  /*The boolean function,move takes currentplayer and his desired place and lets him to move to the destination from his current location*/
   public static boolean move(Player currentPlayer, String[] destination) {
     // check to see if player already moved
     if (currentPlayer.getMoved() == false) {
@@ -71,6 +73,7 @@ public class Move {
     return false;
   }
 
+  /*The function checks if the current player has already moved or not.*/
    public static boolean askIfMoving() {
         boolean getOutOfLoop = false;
         String answer = "";
@@ -93,7 +96,7 @@ public class Move {
         return false;
 
    }
-
+  /*The function adjacentSets displays all adjacent sets from current set and takes which scene the user wishes to move to.*/
     public static String adjacentSets(HashMap<String,ArrayList> setNeighbors, String currentSet) {
         boolean getOutOfLoop = false;
         String answer = "";
