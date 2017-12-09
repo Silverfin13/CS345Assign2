@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.*;
 import java.awt.Rectangle;
 
+/*ParseFile is an java file that reads xml files and save all necessary data into multiple data structure to build basic settings for the game*/
 public class ParseFile {
 
   public static ArrayList<Card> cards = new ArrayList<Card>();
@@ -23,7 +24,7 @@ public class ParseFile {
           players.add(p.get(i));
       }
   }
-
+/*parseCard parses all cards from cards.xml and save them to data structures for future use.*/
   public static void parseCards(){
     try {
       String cardFile = "xmlFiles/cards.xml";
@@ -89,6 +90,7 @@ public class ParseFile {
 
   public static HashMap<String,Room> rooms = new HashMap<String,Room>();
 
+/*parseBoard reads board.xml and it is essential part of the program to make board, scene and so on*/
   public static void parseBoard(){
     try {
       String boardFile = "xmlFiles/board.xml";
