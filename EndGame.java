@@ -7,12 +7,6 @@ public class EndGame {
   int numDays = 0;
   ArrayList<Player> players = new ArrayList<Player>();
 
-  // public EndGame(int numPlayers, int numDays, ArrayList<Player> players) {
-  //     this.numPlayers = numPlayers;
-  //     this.numDays = numDays;
-  //     this.players = players;
-  // }
-
   private boolean checkNumberDays() {
       if(this.numPlayers == 2 || this.numPlayers == 3){
           if(numDays == 3){
@@ -25,7 +19,7 @@ public class EndGame {
       }
       return false;
   }
-
+/*
   private static void determineWinner(HashMap<Player, Integer> playersPoint) {
       Set set = playersPoint.entrySet();
       Iterator iterator = set.iterator;
@@ -38,6 +32,7 @@ public class EndGame {
       }
       return;
   }
+  */
 
   private HashMap<Player, Integer> calculatePlayerPoints() {
       HashMap<Player, Integer> playersPoint = new HashMap<Player, Integer>();

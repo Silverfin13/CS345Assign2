@@ -227,20 +227,22 @@ public class Act{
                   currentPlayer.setTurn(false);
                   return true;
               }
-              System.out.println("You do not have a high enough rank for this role.");
+              BoardLayersListener.displayGenericMessage("You do not have a high enough rank for this role.");
               return false;
             }
           } else {
-            System.out.println("This role is already taken. \n");
+              BoardLayersListener.displayGenericMessage("This role is already taken.\n");
+
           }
         }
       }
       if (check == false) {
-        System.out.println("The role you want to act in is not on the card or board.\n");
+          BoardLayersListener.displayGenericMessage("The role you want to act in is not on the card or board.\n");
       }
       System.out.println("The roles you can take is: ");
       printPartList(cardParts);
       printExtraPartList(parts);
+
 
       return false;
     }

@@ -115,7 +115,7 @@ public class Deadwood {
 
         /* Current player is in scene room */
     } else {
-        System.out.println("You are not in the casting office");
+         BoardLayersListener.displayGenericMessage("You are not in the casting office");
     }
 
     }
@@ -139,7 +139,7 @@ public class Deadwood {
     public static void playerRehearse(Player currentPlayer) {
       String playerRole = currentPlayer.getRole();
       if (playerRole.equals("")) {
-        BoardLayersListener.displayGenericMessage("Player not on a role");
+        BoardLayersListener.displayGenericMessage("You are not on a role");
       } else {
         ParseFile pf = new ParseFile();
         ArrayList<Card> cards = pf.cards;
@@ -155,37 +155,6 @@ public class Deadwood {
     public static boolean work(Player currentPlayer, String[] role) {
         Act act = new Act();
         return act.takeUpRole(currentPlayer, role);
-    }
-
-
-
-    public static void playerStatus(Player player){
-        //System.out.println("Player name: " + player.getName());
-        System.out.println("Player's current rank: " + player.getRank());
-        System.out.println("Player money: " + player.getMoney());
-        System.out.println("Player fame: " + player.getFame());
-    }
-
-    public static boolean AskActOnorOff() {
-        boolean getOutOfLoop = false;
-        String answer = "";
-        System.out.println("If you want to act on card, type in y. Otherwise, if you want to act off card, type in n\n");
-        while(!getOutOfLoop){
-            Scanner input = new Scanner(System.in);
-            answer = input.next();
-            if(!answer.toLowerCase().equals("y") || !answer.toLowerCase().equals("n")){
-                System.out.println("Type in y or n. I ain't got no time to mess with you");
-            } else {
-                getOutOfLoop = true;
-            }
-        }
-
-        if(answer.toLowerCase().equals("y")){
-            return true;
-        } else if(answer.toLowerCase().equals("n")){
-            return false;
-        }
-        return false;
     }
 
     public void setScenesLeft(int scenesLeft) {
