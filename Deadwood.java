@@ -13,34 +13,33 @@ public class Deadwood {
     public static BoardLayersListener board;
     
     public static void main(String[] args) {
-
+        // parse the file
         ParseFile.parseCards();
         ParseFile.parseBoard();
+        // set days
         numDays = 0;
+        // set up game
         GameSetup game = new GameSetup();
         ArrayList<Player> players = game.GameSetup();
         numDays = game.getNumDays();
-
+        // set the players 
         ParseFile.setPlayers(players);
         cards = ParseFile.cards;
-
+        // set up the visuals
         board = new BoardLayersListener();
         board.setVisible(true);
-
-        // System.out.println("There are " + numDays + " days left.");
+        // set first global player
         globalPlayer = players.get(0);
+        // start the first turn
         BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
         board.playerInformation(globalPlayer,numDays);
     }
 
-
+    // What a player want to do with their turn
     public static void startTurn(Player currentPlayer, String input) {
-      //  Scanner userInput = new Scanner(System.in);
        boolean val = false;
        // user input for number of players
        do {
-        //Console console = System.console();
-        //String input = console.readLine();
         String[] inputArray;
         inputArray = input.split(" ");
         input = inputArray[0];
@@ -97,9 +96,9 @@ public class Deadwood {
         }
        } while (val == false);
      }
-
+    
+    // if a player wants to upgrade
     public static void playerUpgrade(Player currentPlayer, String[] inputArray, int level) {
-        //System.out.println("Current player is " + currentPlayer.getPlayer() + inputArray[0] + " " + inputArray[1] + " " + inputArray[2] + " level " + level);
 
         /* Current player is in casting office */
         if(currentPlayer.getPlayerPosition().equals("Casting Office")) {
@@ -107,9 +106,7 @@ public class Deadwood {
                 if(inputArray[1].equals("cr")) {
                     CastingOffice.upgradeRankWithFame(currentPlayer,level);
                 } else if(inputArray[1].equals("$")) {
-                    //System.out.println("(Before) Current player rank: " + currentPlayer.getRank() + " level: " + level);
                     CastingOffice.upgradeRankWithMoney(currentPlayer,level);
-                    //System.out.println("(After) Current player rank: " + currentPlayer.getRank());
                 }
 
 
@@ -119,7 +116,8 @@ public class Deadwood {
     }
 
     }
-
+    
+    // If a player wants to end turn
     public static void endTurn(Player currentPlayer){
         ParseFile pf = new ParseFile();
         ArrayList<Player> players = pf.players;
@@ -135,7 +133,8 @@ public class Deadwood {
         BoardLayersListener.displayGenericMessage("\nIt is now " + globalPlayer.getPlayer() + "'s turn.");
         board.playerInformation(globalPlayer,numDays);
     }
-
+    
+    // if a player wants to rehearse
     public static void playerRehearse(Player currentPlayer) {
       String playerRole = currentPlayer.getRole();
       if (playerRole.equals("")) {
@@ -151,12 +150,13 @@ public class Deadwood {
       }
     }
 
-
+    // if a player wants to work or take a role
     public static boolean work(Player currentPlayer, String[] role) {
         Act act = new Act();
         return act.takeUpRole(currentPlayer, role);
     }
-
+    
+    // set the number of scenes left
     public void setScenesLeft(int scenesLeft) {
       this.scenesLeft = scenesLeft;
     }
