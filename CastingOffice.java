@@ -53,7 +53,8 @@ public class CastingOffice {
     public int getFame(){
         return this.fame;
     }
-
+    
+    // upgrade rank with fame
     public static boolean upgradeRankWithFame(Player currentPlayer, int level) {
         boolean returnValue = false;
         switch(level) {
@@ -116,7 +117,8 @@ public class CastingOffice {
         }
         return returnValue;
     }
-
+    
+    // upgrade rank with money
     public static boolean upgradeRankWithMoney(Player currentPlayer, int level) {
         boolean returnValue = false;
         switch(level){
@@ -178,21 +180,25 @@ public class CastingOffice {
         }
         return returnValue;
     }
-
+    
+    // take a player money
     public void takeMoney(int subtractMoney) {
         this.money = this.money - subtractMoney;
     }
-
+    
+    // take a players fame
     public void takeFame(int subtractFame) {
         this.fame = this.fame - subtractFame;
     }
-
+    
+    // upgrade by Reharse Marker
     public void upgradeByRehearseMarker() {
         if(this.rehearseMarker){
             this.rank = this.rank+1;
         }
     }
-
+    
+    // ask player how they want to upgrade
     public boolean askIfUpgrade() {
         boolean getOutOfLoop = false;
         String answer = "";
@@ -216,7 +222,8 @@ public class CastingOffice {
         }
         return false;
     }
-
+    
+    // how to upgrade
     public String howToUpgrade() {
         boolean getOutOfLoop = false;
         String fameOrDollar = "";
@@ -232,7 +239,8 @@ public class CastingOffice {
         }
         return fameOrDollar;
     }
-
+    
+    // figure out a players rank
     public int whatRank(){
         boolean getOutOfLoop = false;
         int whatRank = 0;
