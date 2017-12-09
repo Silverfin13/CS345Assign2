@@ -27,6 +27,10 @@ public class Room {
         this.takes = takes;
       }
 
+      public void setTakesList(ArrayList<take> takes){
+          this.takes = takes;
+      }
+
       public void setPlayersOnCard(int playersOnCard) {
           this.playersOnCard = playersOnCard;
       }
