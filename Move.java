@@ -112,9 +112,7 @@ public class Move {
                     if(!answer.equals("1") || !answer.equals("2") || !answer.equals("3") || !answer.equals("4")){
                         System.out.println("You may not put anything but a single digit");
                     } else {
-                        //Integer.parseInt(answer)-1
 
-                        // incompatible java.string for destination and java.object, added .toString for compilation
                         destination = setNeighbors.get(key).get(Integer.parseInt(answer)-1).toString();
                         getOutOfLoop = true;
                     }

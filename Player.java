@@ -127,12 +127,4 @@ public class Player {
         return this.addedDiceValue;
     }
 
-    /*
-    choose movement()
-    choose role()
-    act or rehearse()
-    endturn()
-    */
-
-
 }

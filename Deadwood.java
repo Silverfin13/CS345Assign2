@@ -61,12 +61,12 @@ public class Deadwood {
                  System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
              } else {
                  try {
-                   String valueType = inputArray[1];
+
                    int level = Integer.parseInt(inputArray[2]);
                    System.out.println("do we hit here? 1");
                    playerUpgrade(currentPlayer,inputArray, level);
                    playerUpgrade(currentPlayer,inputArray, level);
-                   //castingOffice(currentPlayer, valueType, level);
+
                  } catch (NumberFormatException e) {
                      System.out.println("Invalid level. Try again.");
                      System.out.println("Your options are: who, where, move (room), work (part), upgrade $ level, upgrade cr level, rehearse, act, and end");
@@ -151,8 +151,6 @@ public class Deadwood {
       }
     }
 
-    public static void  castingOffice(Player currentPlayer, String valueType, int level) {
-    }
 
     public static boolean work(Player currentPlayer, String[] role) {
         Act act = new Act();

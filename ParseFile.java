@@ -80,20 +80,12 @@ public class ParseFile {
           cards.add(currCard);
         }
       }
-      // for (String key: cards.keySet()){
-      //   // System.out.println(key);
-      //   Card curr = new Card();
-      //   curr = cards.get(key);
-      //   System.out.println(curr.getCardName());
-      // }
+
     } catch (Exception e) {
       System.out.print("Error for parsing the cards.");
     }
   }
 
-
-  // public static HashMap<String,ArrayList> setNeighbors = new HashMap<String,ArrayList>();
-  // private static HashMap<String,Rectangle> setArea = new HashMap<String,Rectangle>();
 
   public static HashMap<String,Room> rooms = new HashMap<String,Room>();
 
@@ -286,15 +278,6 @@ public class ParseFile {
           }
         }
       }
-
-    //   for (String key: rooms.keySet()){
-    //     System.out.println(key);
-    //     Room currRoom = rooms.get(key);
-    //     ArrayList<String> neighbors = currRoom.getNeighbors();
-      //
-    //     System.out.println(Arrays.toString(neighbors.toArray()));
-    //   }
-
     } catch (Exception e) {
       System.out.println("Error in parsing the board.");
     }

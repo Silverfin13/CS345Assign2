@@ -335,10 +335,9 @@ public class BoardLayersListener extends JFrame {
 }
 
    public void movetoAdjacentScene(Player currentPlayer) {
-        //moveOptions();
-        //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
+
         Map<String,Room> map = ParseFile.rooms;
-        //String[] sceneNeighbors;
+
         ArrayList<String> obj = new ArrayList<String>();
 
         for(Map.Entry<String, Room> entry : map.entrySet()) {
@@ -366,7 +365,7 @@ public class BoardLayersListener extends JFrame {
 
             int lengthSceneArray = 0;
             for(int i = 0; i < sceneNeighbors[option].length(); i++){
-                //this doesn't work
+
                 if(sceneNeighbors[option].contains(" ")) {
                     //two words
                     lengthSceneArray = 3;
@@ -446,26 +445,11 @@ public class BoardLayersListener extends JFrame {
         }
 
     }
-    public void endTurnButton(Player currentPlayer){
+    public void endTurnButton(Player currentPlayer) {
         System.out.println("Ending Turn\n");
         System.out.println(currentPlayer.getPlayer());
-//        Deadwood dw = new Deadwood();
-//        int currentPlayerNum = dw.getA();
-//        ArrayList<Player> player = dw.getCurrentPlayer();
-//        Player players = player.get(currentPlayerNum);
+
         Deadwood.startTurn(currentPlayer, "end");
-        //Deadwood.startTurn(currentPlayer.get(currentPlayerNum), "end");
-
-
-
-    }
-    public void actButton(){
-        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "act");
-
-    }
-
-    public void rehearseButton(){
-        //Deadwood.startTurn(Deadwood.players.get(Deadwood.a), "rehearse");
     }
 
 
@@ -548,8 +532,5 @@ public class BoardLayersListener extends JFrame {
     // display information to be shown to the user as a pop up menu
     public static void displayGenericMessage(String message){
         JOptionPane.showMessageDialog(null, message);
-
-
-
     }
 }
