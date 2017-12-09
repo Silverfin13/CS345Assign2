@@ -1,6 +1,7 @@
 import java.util.*;
 import java.awt.Rectangle;
 
+/*part is an object that creates part for all scenes*/
 public class part {
 
   private String name = "";
@@ -9,6 +10,7 @@ public class part {
   private String line = "";
   private boolean taken = false;
 
+  /*createPart is an constructor that has all attributes of part. For each attribute, there is getter and setter function for it */
   public void createPart(String name, int level, Rectangle area, String line) {
     this.name = name;
     this.level = level;
