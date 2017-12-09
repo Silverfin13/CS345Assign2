@@ -6,7 +6,8 @@ public class EndGame {
   int numPlayers = 0;
   int numDays = 0;
   ArrayList<Player> players = new ArrayList<Player>();
-
+  
+  // check how many days left
   private boolean checkNumberDays() {
       if(this.numPlayers == 2 || this.numPlayers == 3){
           if(numDays == 3){
@@ -19,7 +20,7 @@ public class EndGame {
       }
       return false;
   }
-/*
+/* Determine the winner, but function doesn't work
   private static void determineWinner(HashMap<Player, Integer> playersPoint) {
       Set set = playersPoint.entrySet();
       Iterator iterator = set.iterator;
@@ -33,7 +34,8 @@ public class EndGame {
       return;
   }
   */
-
+  
+  // calculate the players points
   private HashMap<Player, Integer> calculatePlayerPoints() {
       HashMap<Player, Integer> playersPoint = new HashMap<Player, Integer>();
       //hash table;
