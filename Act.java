@@ -41,13 +41,13 @@ public class Act{
               int movieBudget = card.getBudget();
               Dice dice = new Dice();
               int diceVal = dice.actRollDice();
-              System.out.printf("You rolled %d", diceVal);
+              BoardLayersListener.displayGenericMessage("You rolled " +  diceVal + ".\n");
               actOnCard(currentPlayer, rooms, cards, currentPlayer.getPlayerPosition(), diceVal, movieBudget);
           } else {
               int movieBudget = rooms.get(currentPlayer.getPlayerPosition()).getCard().getBudget();
               Dice dice = new Dice();
               int diceVal = dice.actRollDice();
-              System.out.printf("You rolled %d.\n", diceVal);
+              BoardLayersListener.displayGenericMessage("You rolled " +  diceVal + ".\n");
               actOffCard(currentPlayer, rooms, cards, currentPlayer.getPlayerPosition(), diceVal, movieBudget);
           }
         }
@@ -94,7 +94,13 @@ public class Act{
                 int take = currRoom.getNumofTakes();
                 take--;
                 currRoom.setNumofTakes(take);
+                ArrayList<take> takes = currRoom.getTakes();
+                take currTake = takes.get(takes.size()-1);
+                BoardLayersListener.removeTake(currTake);
+                takes.remove(currTake);
+                currRoom.setTakesList(takes);
                 if (take == 0){
+                  currentPlayer.setRole("");
                   endScene(currRoom, cards, budgetMovie);
                 }
                 currentPlayer.setTurn(false);
@@ -114,12 +120,21 @@ public class Act{
                 int take = currRoom.getNumofTakes();
                 take--;
                 currRoom.setNumofTakes(take);
-
+                if (take >= 0) {
+                    ArrayList<take> takes = currRoom.getTakes();
+                    take currTake = takes.get(takes.size()-1);
+                    BoardLayersListener.removeTake(currTake);
+                    takes.remove(currTake);
+                    currRoom.setTakesList(takes);
+                }
+                if (take == 0){
+                    currentPlayer.setRole("");
+                    endScene(currRoom, cards, budgetMovie);
+                }
                 int currFame = currentPlayer.getFame();
                 currFame += 2;
                 currentPlayer.setFame(currFame);
                 BoardLayersListener.playerInformation(currentPlayer,Deadwood.numDays);
-
                 int currMoney = currentPlayer.getMoney();
                 currMoney++;
                 currentPlayer.setMoney(currMoney);
@@ -147,7 +162,6 @@ public class Act{
           // check room
           Room currRoom = rooms.get(currentPosition);
           Card card = currRoom.getCard();
-          System.out.println(card.getCardName());
           ArrayList<partExtra> parts = currRoom.getParts();
           ArrayList<part> cardParts = card.getCardParts();
           if (checkRole(currentPlayer, parts, cardParts, destination[1], currRoom)){
@@ -192,8 +206,6 @@ public class Act{
                     currentPlayer.setRoleLevel(currPart.getLevel());
                     currentPlayer.setRoleValue("off");
                     currPart.setTaken(true);
-                    System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
-                    System.out.println(currPart.getArea());
                     room.setPlayersOnCard((room.getPlayersOnCard()-1));
                     BoardLayersListener.removePlayer(currentPlayer);
                     BoardLayersListener.movePlayer(currentPlayer, currPart.getArea(), room);
@@ -220,7 +232,6 @@ public class Act{
                   currentPlayer.setRoleLevel(currPart.getLevel());
                   currentPlayer.setRoleValue("on");
                   currPart.setTaken(true);
-                  System.out.printf("\nPlayer %s is now acting in %s. \n", currentPlayer.getPlayer(), partName);
                   room.setPlayersOnCard((room.getPlayersOnCard()-1));
                   BoardLayersListener.removePlayer(currentPlayer);
                   BoardLayersListener.onCardMove(currentPlayer, currPart.getArea(), room.getCardArea());
@@ -231,39 +242,19 @@ public class Act{
               return false;
             }
           } else {
-              BoardLayersListener.displayGenericMessage("This role is already taken.\n");
-
+             BoardLayersListener.displayGenericMessage("This role is already taken. \n");
           }
         }
       }
       if (check == false) {
-          BoardLayersListener.displayGenericMessage("The role you want to act in is not on the card or board.\n");
-      }
-      System.out.println("The roles you can take is: ");
-      printPartList(cardParts);
-      printExtraPartList(parts);
-
-
+         BoardLayersListener.displayGenericMessage("The role you want to act in is not on the card or board.\n");
+     }
       return false;
     }
 
-    public void printPartList(ArrayList<part> parts){
-      System.out.println("\nRoles you can choose on the card: ");
-      for (int i = 0; i < parts.size(); i++) {
-        part part = parts.get(i);
-        System.out.println(part.getName());
-      }
-    }
-
-    public void printExtraPartList(ArrayList<partExtra> cardParts){
-      System.out.println("\nRoles you can choose off the card: ");
-      for (int i = 0; i < cardParts.size(); i++) {
-        partExtra part = cardParts.get(i);
-        System.out.println(part.getPartName());
-      }
-    }
-
     public void endScene(Room room, ArrayList<Card> cards, int budgetMovie){
+      BoardLayersListener.displayGenericMessage("End of Scene!");
+      BoardLayersListener.removeCard(room.getCard());
       ArrayList<Player> onTheCardPlayers = new ArrayList<Player>();
       Deadwood d = new Deadwood();
       int scenesLeft = d.scenesLeft;
@@ -277,7 +268,9 @@ public class Act{
       for (int i=0; i< players.size() ;i++) {
         Player currPlayer = players.get(i);
         if (parts.contains(currPlayer.getRole())){
-          onTheCardPlayers.add(currPlayer);
+            BoardLayersListener.removePlayer(currPlayer);
+            BoardLayersListener.movePlayer(currPlayer, room.getCardArea(), room);
+            onTheCardPlayers.add(currPlayer);
         }
       }
       if (onTheCardPlayers.size() > 0){

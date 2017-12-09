@@ -47,7 +47,7 @@ public class BoardLayersListener extends JFrame {
   static Dimension paneSize = new Dimension(1300, 550);
 
   static ImageIcon icon;
-   
+
        // JPanel
   static JLabel numDayLable = new JLabel();
   static JLabel playerLable1 = new JLabel();
@@ -95,7 +95,7 @@ public class BoardLayersListener extends JFrame {
   }
 
    public static void playerInformation(Player currentPlayer, int numDays) {
-        System.out.println("BoardLayersListener: playerInformation()");
+        // System.out.println("BoardLayersListener: playerInformation()");
         //JLabel numDayLable = new JLabel();
         numDayLable.setText("Number of days left: " + Integer.toString(numDays));
         numDayLable.setBounds(icon.getIconWidth()+10,400,300,20);
@@ -126,15 +126,15 @@ public class BoardLayersListener extends JFrame {
         playerLable5.setBounds(icon.getIconWidth()+10,500,300,20);
         bPane.add(playerLable5,new Integer(2));
     }
-   
+
   public static int askNumPlayers() {
       int playerNumber = 0;
       //asks for number of players
       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
       int option =  JOptionPane.showOptionDialog(null, "Choose a number of players", "Message",
       JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-      System.out.println(options[0]);
-      System.out.println("user selected " + option + "players");
+    //   System.out.println(options[0]);
+    //   System.out.println("user selected " + option + "players");
       //buildLowerPanel(options[option]);
 
 
@@ -149,12 +149,12 @@ public class BoardLayersListener extends JFrame {
         if ((key != "trailer") && (key != "Casting Office")){
             ArrayList<take> takes = currRoom.getTakes();
             Rectangle roomArea = currRoom.getCardArea();
-            System.out.println(takes.size());
             for (int i = 0; i < takes.size(); i++) {
                 take t = takes.get(i);
                 Rectangle takeArea = t.getArea();
                 // Add a scene card to this room
                 cardlabel = new JLabel();
+                t.setTake(cardlabel);
                 //System.out.println(card.getCardName());
                 ImageIcon cardImage =  new ImageIcon("images/shot.png");
                 cardlabel.setIcon(cardImage);
@@ -166,6 +166,13 @@ public class BoardLayersListener extends JFrame {
             }
         }
       }
+  }
+
+  public static void removeTake(take currTake) {
+      JLabel takelabel = currTake.getTake();
+      bPane.remove(takelabel);
+      bPane.revalidate();
+      bPane.repaint();
   }
 
 
@@ -290,6 +297,13 @@ public class BoardLayersListener extends JFrame {
       bPane.repaint();
   }
 
+  public static void removeCard(Card card) {
+      JLabel cardlabel = card.getCardLabel();
+      bPane.remove(cardlabel);
+      bPane.revalidate();
+      bPane.repaint();
+  }
+
   public static void onCardMove(Player player, Rectangle cardArea, Rectangle roomArea) {
       JLabel playerlabel = player.getPlayerLabel();
       Icon pIcon = playerlabel.getIcon();
@@ -335,9 +349,10 @@ public class BoardLayersListener extends JFrame {
 }
 
    public void movetoAdjacentScene(Player currentPlayer) {
-
+        //moveOptions();
+        //String[] options = new String[] {"Main Street", "Hotel", "Saloon", "Casting Office"};
         Map<String,Room> map = ParseFile.rooms;
-
+        //String[] sceneNeighbors;
         ArrayList<String> obj = new ArrayList<String>();
 
         for(Map.Entry<String, Room> entry : map.entrySet()) {
@@ -361,11 +376,11 @@ public class BoardLayersListener extends JFrame {
         null, sceneNeighbors, sceneNeighbors[0]);
 
         if (option != JOptionPane.CLOSED_OPTION) {
-            System.out.println(sceneNeighbors[option]);
+            // System.out.println(sceneNeighbors[option]);
 
             int lengthSceneArray = 0;
             for(int i = 0; i < sceneNeighbors[option].length(); i++){
-
+                //this doesn't work
                 if(sceneNeighbors[option].contains(" ")) {
                     //two words
                     lengthSceneArray = 3;
@@ -376,8 +391,8 @@ public class BoardLayersListener extends JFrame {
                 }
             }
             String[] result = sceneNeighbors[option].split("\\s+");
-            System.out.println("sceneNeighbors[option]: " + sceneNeighbors[option]);
-            System.out.println("lengthSceneArray: " + lengthSceneArray);
+            // System.out.println("sceneNeighbors[option]: " + sceneNeighbors[option]);
+            // System.out.println("lengthSceneArray: " + lengthSceneArray);
             String[] destination = new String[lengthSceneArray];
             if(lengthSceneArray == 2) {
                 destination[0] = "move";
@@ -411,27 +426,21 @@ public class BoardLayersListener extends JFrame {
         public void mouseClicked(MouseEvent e) {
 
             if (e.getSource()== bAct){
-                System.out.println("Acting is Selected\n");
                 Deadwood.startTurn(Deadwood.globalPlayer, "act");
             }
             else if (e.getSource()== bRehearse){
-                System.out.println("Rehearse is Selected\n");
                 Deadwood.startTurn(Deadwood.globalPlayer, "rehearse");
             }
             else if (e.getSource()== bMove){
-                System.out.println("Move is Selected\n");
                movetoAdjacentScene(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bTakeRole){
-                System.out.println(bTakeRole);
                 takeRoleButton(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bRankUp){
-                System.out.println("Rank Up is Selected\n");
                 rankButton(Deadwood.globalPlayer);
             }
             else if (e.getSource()== bEndTurn){
-                System.out.println("End\n");
                 endTurnButton(Deadwood.globalPlayer);
             }
         }
@@ -445,11 +454,18 @@ public class BoardLayersListener extends JFrame {
         }
 
     }
-    public void endTurnButton(Player currentPlayer) {
+    public void endTurnButton(Player currentPlayer){
         System.out.println("Ending Turn\n");
         System.out.println(currentPlayer.getPlayer());
-
+//        Deadwood dw = new Deadwood();
+//        int currentPlayerNum = dw.getA();
+//        ArrayList<Player> player = dw.getCurrentPlayer();
+//        Player players = player.get(currentPlayerNum);
         Deadwood.startTurn(currentPlayer, "end");
+        //Deadwood.startTurn(currentPlayer.get(currentPlayerNum), "end");
+
+
+
     }
 
 
@@ -515,6 +531,7 @@ public class BoardLayersListener extends JFrame {
                 JOptionPane.DEFAULT_OPTION, null, extraPartsArray, extraPartsArray[0]);
         if ( selected != null ){//null if the user cancels.
             String selectedString = selected.toString();
+            System.out.printf("selected: %s", selectedString);
             Deadwood.startTurn(Deadwood.globalPlayer, "work " + selectedString);
             }
     }
@@ -532,5 +549,8 @@ public class BoardLayersListener extends JFrame {
     // display information to be shown to the user as a pop up menu
     public static void displayGenericMessage(String message){
         JOptionPane.showMessageDialog(null, message);
+
+
+
     }
 }
