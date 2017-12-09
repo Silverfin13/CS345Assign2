@@ -1,6 +1,7 @@
 import java.util.*;
 import java.awt.Rectangle;
 
+/*partExtra is an object that is responsible for all extra roles in each scene*/
 public class partExtra {
 
   private String partName = "";
@@ -9,7 +10,8 @@ public class partExtra {
   private Rectangle area;
   private String line = "";
   private boolean taken = false;
-
+  
+/*createPartExtra is an constructor that includes all attributes of extra roles*/
   public void createPartExtra(String partName, String setName, int level, Rectangle area, String line) {
     this.partName = partName;
     this.setName = setName;
