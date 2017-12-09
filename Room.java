@@ -1,6 +1,7 @@
 import java.util.*;
 import java.awt.Rectangle;
 
+/*Room is an object that holds all that each room contains. */
 public class Room {
 
       public String name = "";
@@ -17,6 +18,7 @@ public class Room {
       public ArrayList<String> neighbors = new ArrayList<String>();
       public int playersOnCard = 0;
 
+      /*createRoom is an constructor that holds all attributes that each room is supposed to have.  It also has information for which neighbors it has.*/
       public void createRoom(String name, ArrayList<partExtra> parts, int numOfTakes, int currNumTakes, ArrayList<String> neighbors, Rectangle cardArea, ArrayList<take> takes) {
         this.name = name;
         this.parts = parts;
