@@ -1,6 +1,6 @@
 import java.util.*;
 
-
+/*GameSetup is a java file that sets basics before starting the game. It sets players associated with colors and puts them on trailers*/
 public class GameSetup {
 
     private int numberPlayers = 0;
@@ -12,6 +12,7 @@ public class GameSetup {
     public ArrayList<String> colors = new ArrayList<String>();
     public LinkedList<Player> playersList = new LinkedList<Player>();
 
+    /*GameSetup return an arraylist of all players in the game*/
     public ArrayList<Player> GameSetup() {
         setNumPlayers();
         setSceneCards();
@@ -40,6 +41,7 @@ public class GameSetup {
         return this.numDays;
     }
 
+    /*createPlayerList creates a list of players and each player is based on different colors*/
     public void createPlayerList(int numPlayers){
       addColors();
       // create an arraylist of players based on the number of players
